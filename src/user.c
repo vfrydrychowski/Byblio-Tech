@@ -19,5 +19,69 @@ typedef struct user_s {
     char** possession;  //list of all possesed books
 }user;
 
+int crea_user(char* forename, char* name, char* mail,  char** brw, int grade, char* cryptedPw, char** possession){
+	// TODO
+	return 0;
+}
+
+void suppr_us(char* id){
+	// TODO
+}
+
+void ban(char* id){
+	// TODO
+}
+
+int login(char* id, char* pwd, User util){
+	// TODO
+	return 0;
+}
+
+int logout(User util){
+	// TODO
+	return 0;
+}
+
+int borrowing(User util, char* idObject){
+	// TODO
+	return 0;
+}
+
+int return_back(User util, char* idObject){
+	// TODO
+	return 0;
+}
+
+int add_possession(User util, char* idObject){
+	// TODO
+	return 0;
+}
+
+int suppr_possession(User util, char* idObject){
+	// TODO
+	return 0;
+}
+
+int get_size(char** tableau){
+	// TODO
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
