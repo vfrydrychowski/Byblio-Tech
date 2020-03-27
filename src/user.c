@@ -73,7 +73,9 @@ int get_size(char** tableau){
 	return 0;
 }
 
+void encrypt(char* pwd){
 
+}
 
 
 
