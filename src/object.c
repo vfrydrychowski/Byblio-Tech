@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> 
-#include "user.h"
-#include "object.h"
-#include "Json.h"
+#include "../include/user.h"
+#include "../include/object.h"
+#include "../include/Json.h"
 
 
 int borrowing_object(char* idObject, char* idUser){

@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> 
-#include "user.h"
-#include "object.h"
-#include "SISO.h"
-#include "Json.h"
+#include "../include/user.h"
+#include "../include/object.h"
+#include "../include/SISO.h"
+#include "../include/Json.h"
 
 #define IDSIZE 64
 #define NAMESIZE 64
