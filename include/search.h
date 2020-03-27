@@ -1,3 +1,8 @@
+#ifndef __SEARCHH__
+     #define __SEARCHH__
+#endif // !__SEARCHH__
+
+
 void upd_index();
 	/*
 	update an index file were books are listed ready to be sort

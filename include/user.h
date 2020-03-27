@@ -1,3 +1,7 @@
+#ifndef __USERH__
+     #define __USERH__
+#endif // !__USERH__
+
 typedef struct user* User;
 
 int crea_user(char* forename, char* name, char* mail,  char** brw, int grade, char* cryptedPw, char** possession);

@@ -1,3 +1,6 @@
+#ifndef __SISOH__
+     #define __SISOH__
+#endif // !__SISOH__
 
 
 void read_int(int* nb);

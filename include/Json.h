@@ -1,3 +1,9 @@
+#ifndef __JSONH__
+     #define __JSONH__
+#endif // !__JSONH__
+
+#include "user.h"
+
 //getters for users
 char* get_pwd(char* idUser);
 char* get_name(char* idUser);
@@ -46,7 +52,7 @@ int suppr_json(char*ID);
          delete the json file name by the passed ID
     */
 
-int add blackList(char*mail);
+int add_blackList(char*mail);
 /*
          add the given mail to the black list
     */
