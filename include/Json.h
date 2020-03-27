@@ -1,8 +1,8 @@
-#ifndef __JSONH__
-     #define __JSONH__
-#endif // !__JSONH__
+#define __JSONH__
 
-#include "user.h"
+#ifndef __USERH__
+     #include "user.h"
+#endif
 
 //getters for users
 char* get_pwd(char* idUser);

@@ -1,6 +1,4 @@
-#ifndef __USERH__
-     #define __USERH__
-#endif // !__USERH__
+#define __USERH__
 
 typedef struct user* User;
 
