@@ -9,22 +9,23 @@
 #define IDSIZE 64
 #define NAMESIZE 64
 #define PWSIZE 64
+#define MAILSIZE 64
 
 typedef struct user_s {
 
-    char* id; //ID of a user 
+    char id[IDSIZE]; //ID of a user 
 
     //info user	
-    char* forename;
-    char* name;
-    char* mail;
-    char** brw; //list of current borrowings 	
+    char forename[NAMESIZE];
+    char name[NAMESIZE];
+    char mail[MAILSIZE];
+    char* brw[IDSIZE]; //list of current borrowings 	
     int grade; //define the amount of power of the user
-    char* cryptedPw; //crypted password
-    char** possession;  //list of all possesed books
+    char cryptedPw[PWSIZE]; //crypted password
+    char* possession[IDSIZE];  //list of all possesed books
 }user;
 
-int crea_user(char* forename, char* name, char* mail,  char** brw, int grade, char* cryptedPw, char** possession){
+int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
 	// TODO
 	return 0;
 }
@@ -42,7 +43,7 @@ int login(char* id, char* pwd, User util){
 	return 0;
 }
 
-int logout(User util){
+void logout(User util){
 	// TODO
 	return 0;
 }

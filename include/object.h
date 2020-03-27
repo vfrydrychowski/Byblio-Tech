@@ -10,7 +10,7 @@ int return_object(char* idObject, char* idUser);
 	/*
 	update borrower to NULL if idUser==Object borrower
 	*/
-int create_object(char*ID, char* name, int pagenb, char* author, int date, char* owner, int kind);
+int create_object(char* ID, char* name, int pagenb, char* author, int date, char* owner, int kind);
 	/*
 	create the JSON file and update the current user possessions
 	*/

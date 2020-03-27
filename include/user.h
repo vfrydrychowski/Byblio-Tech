@@ -2,7 +2,7 @@
 
 typedef struct user* User;
 
-int crea_user(char* forename, char* name, char* mail,  char** brw, int grade, char* cryptedPw, char** possession);
+int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
 
 	/*
 	check for existing usernames
