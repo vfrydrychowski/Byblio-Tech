@@ -73,8 +73,18 @@ int get_size(char** tableau){
 	return 0;
 }
 
-void encrypt(char* pwd){
-
+void encrypt(char* pwd,char* crypwd){
+    int p;
+    int cle = 0;
+    for(int i = 0; i < strlen(pwd); i++){
+        int p = pwd[i] - 32;
+        cle = cle + p;
+    } 
+    cle = cle%95;
+    for(int i = 0; i < strlen(pwd); i++){
+        int p = pwd[i] -32;
+        crypwd[i] = (char)((cle+p)%95+32);
+    } 
 }
 
 
