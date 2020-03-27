@@ -1,6 +1,5 @@
-#ifndef __SEARCHH__
-     #define __SEARCHH__
-#endif // !__SEARCHH__
+#define __SEARCHH__
+
 
 
 void upd_index();

@@ -1,6 +1,5 @@
-#ifndef __OBJECTH__
-     #define __OBJECTH__
-#endif // !__OBJECTH__
+#define __OBJECTH__
+
 
 int borrowing_object(char* idObject, char* idUser);
 	/*
