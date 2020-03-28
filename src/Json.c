@@ -223,3 +223,14 @@ char* jsontochar(char * file_path){
     fclose(jsptr);
     return c;
 }
+
+void chartojson(char * file_path, char * json_text){
+    FILE *jsptr;
+    if ((jsptr = fopen(file_path, "w")) == NULL){
+       printf("Error opening file!");
+       // Program exits if the file pointer returns NULL.
+       exit(1);
+    }
+    fprintf(jsptr, "%s", json_text);
+    fclose(jsptr);
+}

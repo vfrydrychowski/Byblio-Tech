@@ -68,3 +68,5 @@ int findSize(FILE *fp);
 
 
 char* jsontochar(char * file_path);
+
+void chartojson(char * file_path, char * json_text);
