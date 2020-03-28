@@ -1,4 +1,8 @@
 #include "../include/Json.h"
+#include "../include/jsmn.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 //getters for users
 char* get_pwd(char* idUser){
@@ -180,4 +184,42 @@ int suppr_json(char*ID){
 int add_blackList(char*mail){
     //TODO
     return 0;
+}
+
+static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
+  if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
+      strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
+    return 0;
+  }
+  return -1;
+}
+
+int findSize(FILE *fp) 
+{ 
+    fseek(fp, 0L, SEEK_END); 
+  
+    // calculating the size of the file 
+    int res = ftell(fp); 
+    fseek(fp, 0L, SEEK_SET);
+    return res; 
+} 
+
+char* jsontochar(char * file_path){
+    FILE *jsptr;
+    if ((jsptr = fopen(file_path, "r")) == NULL){
+       printf("Error opening file!");
+       // Program exits if the file pointer returns NULL.
+       exit(1);
+    }
+
+    int i;
+    char* c;
+    int size_file = findSize(jsptr);
+    c = malloc(sizeof(char)*size_file);
+    //fill c with the text in the json file
+    for (int j = 0;(i = getc(jsptr)) != EOF;j++){
+        c[j] = i;
+    }
+    fclose(jsptr);
+    return c;
 }

@@ -4,6 +4,8 @@
      #include "user.h"
 #endif
 
+#include "jsmn.h"
+
 //getters for users
 char* get_pwd(char* idUser);
 char* get_name(char* idUser);
@@ -57,3 +59,12 @@ int add_blackList(char*mail);
          add the given mail to the black list
     */
 
+
+
+//compare the given string with the name of the given token
+static int jsoneq(const char *json, jsmntok_t *tok, const char *s);
+
+int findSize(FILE *fp);
+
+
+char* jsontochar(char * file_path);
