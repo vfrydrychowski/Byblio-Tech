@@ -6,7 +6,27 @@
 
 //getters for users
 char* get_pwd(char* idUser){
-    //TODO
+    jsmn_parser p;
+    jsmntok_t t[128];
+    jsmn_init(&p);
+    char* JSON_STRING = jsontochar(idUser);
+    int r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t) / sizeof(t[0]));
+    if (r < 0) {
+    printf("Failed to parse JSON: %d\n", r);
+    exit(2);
+    }
+
+    /* Assume the top-level element is an object */
+    if (r < 1 || t[0].type != JSMN_OBJECT) {
+    printf("Object expected\n");
+    exit(2);
+    }
+    int i =0;
+    while (jsoneq(JSON_STRING, &t[i], "psw")!=0){
+        i++;
+    }
+
+    return strndup(JSON_STRING + t[i+1].start, t[i+1].end - t[i+1].start);
     return "";
 }
 
