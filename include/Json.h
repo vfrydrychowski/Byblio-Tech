@@ -9,11 +9,11 @@
 //getters for users
 char* get_pwd(char* idUser);
 char* get_name(char* idUser);
-char* get_surname(char* idUser);
+char* get_forename(char* idUser);
 char* get_mail(char* idUser);
 char** get_possession(char* idUser);
 char** get_borrowlist(char* idUser);
-char* get_grade(char* idUser);
+int get_grade(char* idUser);
 
 //getters for objects
 char* get_title(char* idObject);
