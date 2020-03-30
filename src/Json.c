@@ -37,7 +37,7 @@ char** get_borrowlist(char* idUser){
 }
 
 
-char* get_grade(char* idUser){
+int get_grade(char* idUser){
     //TODO
     return "";
 }
@@ -119,7 +119,7 @@ int set_borrowlist(char* idUser, char ** borrowlist){
     return 0;
 }
 
-int set_grade(char* idUser, char* status){
+int set_grade(char* idUser, int status){
     //TODO
     return 0;
 }

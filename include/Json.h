@@ -11,7 +11,7 @@ char* get_surname(char* idUser);
 char* get_mail(char* idUser);
 char** get_possession(char* idUser);
 char** get_borrowlist(char* idUser);
-char* get_grade(char* idUser);
+int get_grade(char* idUser);
 
 //getters for objects
 char* get_title(char* idObject);
@@ -29,7 +29,7 @@ int set_surname(char* idUser, char* surname);
 int set_mail(char* idUser, char* mail);
 int set_possesion(char* idUser, char** possesion);
 int set_borrowlist(char* idUser, char ** borrowlist);
-int set_grade(char* idUser, char* status);
+int set_grade(char* idUser, int status);
 
 //setters for users
 int set_title(char* idObject, char* title);
