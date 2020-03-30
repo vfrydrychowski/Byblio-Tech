@@ -1,0 +1,9 @@
+{
+    "title" : "blague pour les nulls",
+    "author" : "les nulls",
+    "date" : 2000,
+    "borrower" : ["j"],
+    "owner" : "j",
+    "type" : "education"
+
+}
