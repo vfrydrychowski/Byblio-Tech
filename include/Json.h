@@ -6,6 +6,13 @@
 
 #include "jsmn.h"
 
+//build the path to the user folder
+char* user_path(char* iduser);
+//build the path to the object folder
+char* object_path(char* idObject);
+//generic getters for json file
+char *get_gen(char* ID, char* arg);
+
 //getters for users
 char* get_pwd(char* idUser);
 char* get_name(char* idUser);

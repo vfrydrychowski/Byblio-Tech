@@ -4,6 +4,23 @@
 #include <stdio.h>
 #include <string.h>
 
+
+char* user_path(char* iduser){
+    char*path = malloc(sizeof("data/user/")+strlen(iduser)*sizeof(char)+sizeof(".json"));
+    strcat(path,"data/user/");
+    strcat(path, iduser);
+    strcat(path, ".json");
+    return path;
+}
+
+char* object_path(char* idObject){
+    char*path = malloc(sizeof("data/object/")+strlen(idObject)*sizeof(char)+sizeof(".json"));
+    strcat(path,"data/object/");
+    strcat(path, idObject);
+    strcat(path, ".json");
+    return path;
+}
+
 //generic getters for json file
 char *get_gen(char* ID, char* arg){
     jsmn_parser p;
@@ -37,38 +54,45 @@ char *get_gen(char* ID, char* arg){
 
 //getters for users
 char* get_pwd(char* idUser){
+    idUser = user_path(idUser);
     return get_gen(idUser, "pwd");
 }
 
 
 char* get_name(char* idUser){
+    idUser = user_path(idUser);
     return get_gen(idUser, "name");
 }
 
 
 char* get_forename(char* idUser){
+    idUser = user_path(idUser);
     return get_gen(idUser, "forename");
 }
 
 
 char* get_mail(char* idUser){
+    idUser = user_path(idUser);
     return get_gen(idUser, "mail");
 }
 
 
 char** get_possession(char* idUser){
+    idUser = user_path(idUser);
     //TODO
     return "";
 }
 
 
 char** get_borrowlist(char* idUser){
+    idUser = user_path(idUser);
     //TODO
     return "";
 }
 
 
 int get_grade(char* idUser){
+    idUser = user_path(idUser);
     char*cpy = get_gen(idUser, "pwd");
     return atoi(cpy);
 }
@@ -77,32 +101,38 @@ int get_grade(char* idUser){
 
 //getters for objects
 char* get_title(char* idObject){
+    idObject = object_path(idObject);
     return get_gen(idObject, "title");
 }
 
 
 char* get_author(char* idObject){
+    idObject = object_path(idObject);
     return get_gen(idObject, "author");
 }
 
 
 char* get_date(char* idObject){
+    idObject = object_path(idObject);
     return get_gen(idObject, "date");
 }
 
 
 char* get_borrower(char* idObject){
+    idObject = object_path(idObject);
     //TODO
     return "";
 }
 
 
 char* get_owner(char* idObject){
+    idObject = object_path(idObject);
     return get_gen(idObject, "owner");
 }
 
 
 char* get_type(char* idObject){
+    idObject = object_path(idObject);
     return get_gen(idObject, "type");
 }
 

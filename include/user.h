@@ -1,4 +1,8 @@
 #define __USERH__
+#define IDSIZE 64
+#define NAMESIZE 64
+#define PWSIZE 64
+#define MAILSIZE 64
 
 typedef struct user* User;
 

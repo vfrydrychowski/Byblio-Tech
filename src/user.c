@@ -6,10 +6,7 @@
 #include "../include/SISO.h"
 #include "../include/Json.h"
 
-#define IDSIZE 64
-#define NAMESIZE 64
-#define PWSIZE 64
-#define MAILSIZE 64
+
 
 typedef struct user_s {
 
