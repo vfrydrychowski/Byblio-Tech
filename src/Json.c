@@ -48,17 +48,53 @@ char *get_gen(char* ID, char* arg){
     while (jsoneq(JSON_STRING, &t[i], arg)!=0 && i<=r){
         i++;
     }
-    char* dup = strndup(JSON_STRING + t[i+1].start, t[i+1].end - t[i+1].start);
-    if(strcoll(dup,"")==0){
+    if(i>r){
         printf("no keys found\n");
         exit(3);
-    };
+    }
+    char* dup = strndup(JSON_STRING + t[i+1].start, t[i+1].end - t[i+1].start);
     return dup;
 }
 
 int get_table_size(char** table){
 	return atoi(*table);
 }
+
+char** get_gen_table(char* ID, char* arg){
+    jsmn_parser p;
+    jsmntok_t t[128];
+    jsmn_init(&p);
+    char* JSON_STRING = jsontochar(ID);
+    int r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t) / sizeof(t[0]));
+    if (r < 0) {
+    printf("Failed to parse JSON: %d\n", r);
+    exit(2);
+    }
+
+    /* Assume the top-level element is an object */
+    if (r < 1 || t[0].type != JSMN_OBJECT) {
+    printf("Object expected\n");
+    exit(2);
+    }
+
+    
+    int i =1;
+    while ((jsoneq(JSON_STRING, &t[i-1], arg) !=0 ) && (i<=r)){
+        i++;
+    }
+    if(i>r){
+        printf("no keys found\n");
+        exit(3);
+    }
+    char ** tab=malloc(sizeof(char*)*(t[i].size+1));
+    sprintf(tab[0], "%d", t[i].size);
+    for(int j = 1; j<= t[i].size; j++){
+        tab[j]=malloc(sizeof(char)*(IDSIZE));
+        tab[j]=strndup(JSON_STRING + t[i + j].start, t[i+ j].end - t[i+ j].start);
+    }
+    return tab;
+}
+
 
 //getters for users
 char* get_pwd(char* idUser){
@@ -87,15 +123,13 @@ char* get_mail(char* idUser){
 
 char** get_possession(char* idUser){
     idUser = user_path(idUser);
-    //TODO
-    return "";
+    return get_gen_table(idUser, "possession");
 }
 
 
 char** get_borrowlist(char* idUser){
     idUser = user_path(idUser);
-    //TODO
-    return "";
+    return get_gen_table(idUser, "borrowlist");
 }
 
 

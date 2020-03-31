@@ -5,5 +5,5 @@
   "borrowings": ["111111111", "222222222", "333333333", "444444444"],
   "possession" : ["111111111", "222222222"],
   "grade" : 1,
-  "psw" : "azertyuiop"
+  "pwd" : "azertyuiop"
 }
