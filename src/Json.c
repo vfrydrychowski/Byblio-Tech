@@ -162,8 +162,7 @@ char* get_date(char* idObject){
 
 char* get_borrower(char* idObject){
     idObject = object_path(idObject);
-    //TODO
-    return "";
+    return get_gen(idObject, "borrower");
 }
 
 
