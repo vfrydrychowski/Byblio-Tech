@@ -51,3 +51,5 @@ int get_size(char** tableau);
 	/*
 	return the number of element in the tableau
 	*/
+
+void encrypt(char* pwd, char* crypwd);

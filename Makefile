@@ -10,8 +10,7 @@ all: $(EXEC)
 	mkdir -p lib
 
 $(EXEC): $(OBJ) $(INCLUDE)/*.h
-	$(GCC) $(CFLAGS) -o $(OBJ) -I$(INCLUDE)
-	mv src/*.o lib
+	$(GCC) $(CFLAGS) -o $(EXEC) $(OBJ) -I$(INCLUDE)
 
 src/main.o: src/main.c 
 	$(GCC) $(CFLAGS) -o ./src/main.o -c ./src/main.c
