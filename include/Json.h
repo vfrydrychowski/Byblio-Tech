@@ -18,6 +18,8 @@ char* user_path(char* iduser);
 char* object_path(char* idObject);
 //generic getters for json file
 char *get_gen(char* ID, char* arg);
+//return the number of elements in an array of char 
+int get_array_size(char** array);
 
 //getters for users
 char* get_pwd(char* idUser);
@@ -36,6 +38,7 @@ char* get_date(char* idObject);
 char* get_borrower(char* idObject);
 char* get_owner(char* idObject);
 char* get_type(char* idObject);
+
 
 //setters for users
 int set_pwd(char* idUser, char* pwd);

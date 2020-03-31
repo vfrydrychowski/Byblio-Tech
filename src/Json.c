@@ -56,6 +56,10 @@ char *get_gen(char* ID, char* arg){
     return dup;
 }
 
+int get_table_size(char** table){
+	return atoi(*table);
+}
+
 //getters for users
 char* get_pwd(char* idUser){
     idUser = user_path(idUser);

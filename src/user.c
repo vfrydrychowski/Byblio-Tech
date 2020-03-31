@@ -66,11 +66,6 @@ int suppr_possession(User util, char* idObject){
 	return 0;
 }
 
-int get_size(char** tableau){
-	// TODO
-	return 0;
-}
-
 void encrypt(char* pwd,char* crypwd){
     int p;
     int cle = 0;

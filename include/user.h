@@ -49,10 +49,6 @@ int suppr_possession(User util, char* idObject);
 	/*
 	remove idObject of the user’s possesion list 
 	*/
-int get_size(char** tableau);
-	/*
-	return the number of element in the tableau
-	*/
 
 void encrypt(char* pwd, char* crypwd);
 #endif
