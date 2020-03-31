@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h> 
+#include <string.h>
+ 
 #include "../include/user.h"
 #include "../include/object.h"
 #include "../include/SISO.h"
+#define JSMN_HEADER
 #include "../include/Json.h"
 
 
@@ -42,7 +44,6 @@ int login(char* id, char* pwd, User util){
 
 void logout(User util){
 	// TODO
-	return 0;
 }
 
 int borrowing(User util, char* idObject){

@@ -1,8 +1,12 @@
-#include "../include/Json.h"
-#include "../include/jsmn.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+
+#include "../include/Json.h"
+#define JSMN_HEADER
+#include "../include/jsmn.h"
+
 
 
 char* user_path(char* iduser){
@@ -232,7 +236,7 @@ int add_blackList(char*mail){
     return 0;
 }
 
-static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
+int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
   if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
       strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
     return 0;

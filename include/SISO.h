@@ -1,6 +1,6 @@
 #ifndef __SISOH__
-#define __SISOH__
-#endif
+    #define __SISOH__
+
 
 void read_int(int* nb);
     /*
@@ -12,3 +12,4 @@ void read_string(char* string);
     get safely a string
     */
 
+#endif

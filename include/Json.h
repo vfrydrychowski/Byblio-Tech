@@ -1,10 +1,16 @@
-#define __JSONH__
+#ifndef __JSONH__
+     #define __JSONH__
+     #include <stdio.h>
+     #ifndef __USERH__
+          #include "user.h"
+     #endif
+     
+     #ifndef JSMN_H
+          #include "jsmn.h"
+          #define JSMN_HEADER
+     #endif
 
-#ifndef __USERH__
-     #include "user.h"
-#endif
 
-#include "jsmn.h"
 
 //build the path to the user folder
 char* user_path(char* iduser);
@@ -69,7 +75,7 @@ int add_blackList(char*mail);
 
 
 //compare the given string with the name of the given token
-static int jsoneq(const char *json, jsmntok_t *tok, const char *s);
+int jsoneq(const char *json, jsmntok_t *tok, const char *s);
 
 int findSize(FILE *fp);
 
@@ -77,3 +83,4 @@ int findSize(FILE *fp);
 char* jsontochar(char * file_path);
 
 void chartojson(char * file_path, char * json_text);
+#endif

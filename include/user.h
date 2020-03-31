@@ -1,8 +1,10 @@
-#define __USERH__
-#define IDSIZE 64
-#define NAMESIZE 64
-#define PWSIZE 64
-#define MAILSIZE 64
+#ifndef __USERH__
+	#define __USERH__
+	#define IDSIZE 64
+	#define NAMESIZE 64
+	#define PWSIZE 64
+	#define MAILSIZE 64
+
 
 typedef struct user* User;
 
@@ -53,3 +55,4 @@ int get_size(char** tableau);
 	*/
 
 void encrypt(char* pwd, char* crypwd);
+#endif

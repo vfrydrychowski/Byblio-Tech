@@ -1,9 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define JSMN_HEADER
 #include "../include/Json.h"
 #include "../include/object.h"
 #include "../include/search.h"
 #include "../include/SISO.h"
 #include "../include/user.h"
-#include <stdio.h>
+
 
 int main(int argc, char const *argv[])
 {
