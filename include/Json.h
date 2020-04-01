@@ -47,22 +47,24 @@ char* get_type(char* idObject);
 void set_gen_string(char*ID, char* arg, char* str);
 
 //setters for users
-int set_pwd(char* idUser, char* pwd);
-int set_name(char* idUser, char* name);
-int set_surname(char* idUser, char* surname);
-int set_mail(char* idUser, char* mail);
-int set_possesion(char* idUser, char** possesion);
-int set_borrowlist(char* idUser, char ** borrowlist);
-int set_grade(char* idUser, char* status);
+void set_pwd(char* idUser, char* pwd);
+void set_name(char* idUser, char* name);
+void set_forename(char* idUser, char* surname);
+void set_mail(char* idUser, char* mail);
+void set_possesion(char* idUser, char** possesion);
+void set_borrowlist(char* idUser, char ** borrowlist);
+void set_grade(char* idUser, char* grade);
 
 //setters for objects
 void set_title(char* idObject, char* title);
-int set_pagenb(char* idObject, char* pagenb);
-int set_author(char* idObject, char* author);
-int set_date(char* idObject, char* date);
-int set_owner(char* idObject, char* owner);
-int set_borrower(char* idObject, char* borrower);
-int set_type(char* idObject, char* type);
+void set_pagenb(char* idObject, char* pagenb);
+void set_author(char* idObject, char* author);
+void set_date(char* idObject, char* date);
+void set_owner(char* idObject, char* owner);
+void set_borrower(char* idObject, char* borrower);
+void set_type(char* idObject, char* type);
+
+
 int add_us(User us);
 
 

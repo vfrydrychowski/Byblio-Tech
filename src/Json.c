@@ -229,76 +229,86 @@ void set_gen_string(char*ID, char* arg, char* str){
 }
 
 //setters for users
-int set_pwd(char* idUser, char* pwd){
+void set_pwd(char* idUser, char* pwd){
+    idUser = user_path(idUser);
+    set_gen_string(idUser, "pwd", pwd);
+    free(idUser);
+}
+
+void set_name(char* idUser, char* name){
+    idUser = user_path(idUser);
+    set_gen_string(idUser, "name", name);
+    free(idUser);
+}
+
+void set_forename(char* idUser, char* forename){
+    idUser = user_path(idUser);
+    set_gen_string(idUser, "forename", forename);
+    free(idUser);
+}
+
+void set_mail(char* idUser, char* mail){
+    idUser = user_path(idUser);
+    set_gen_string(idUser, "mail", mail);
+    free(idUser);
+}
+
+void set_possesion(char* idUser, char** possesion){
+    //TODO
+}
+void set_borrowlist(char* idUser, char ** borrowlist){
     //TODO
     return 0;
 }
 
-int set_name(char* idUser, char* name){
-    //TODO
-    return 0;
-}
-
-int set_surname(char* idUser, char* surname){
-    //TODO
-    return 0;
-}
-
-int set_mail(char* idUser, char* mail){
-    //TODO
-    return 0;
-}
-
-int set_possesion(char* idUser, char** possesion){
-    //TODO
-    return 0;
-}
-
-int set_borrowlist(char* idUser, char ** borrowlist){
-    //TODO
-    return 0;
-}
-
-int set_grade(char* idUser, char* status){
-    //TODO
-    return 0;
+void set_grade(char* idUser, char* grade){
+    idUser = user_path(idUser);
+    set_gen_string(idUser, "grade", grade);
+    free(idUser);
 }
 
 
-//setters for users
+//setters for object
 void set_title(char* idObject, char* title){
     idObject = object_path(idObject);
     set_gen_string(idObject, "title", title);
+    free(idObject);
 }
 
-int set_pagenb(char* idObject, char* pagenb){
-    //TODO
-    return 0;
+void set_pagenb(char* idObject, char* pagenb){
+    idObject = user_path(idObject);
+    set_gen_string(idObject, "pagenb", pagenb);
+    free(idObject);
 }
 
-int set_author(char* idObject, char* author){
-    //TODO
-    return 0;
+void set_author(char* idObject, char* author){
+    idObject = user_path(idObject);
+    set_gen_string(idObject, "author", author);
+    free(idObject);
 }
 
-int set_date(char* idObject, char* date){
-    //TODO
-    return 0;
+void set_date(char* idObject, char* date){
+    idObject = user_path(idObject);
+    set_gen_string(idObject, "date", date);
+    free(idObject);
 }
 
-int set_owner(char* idObject, char* owner){
-    //TODO
-    return 0;
+void set_owner(char* idObject, char* owner){
+    idObject = user_path(idObject);
+    set_gen_string(idObject, "owner", owner);
+    free(idObject);
 }
 
-int set_borrower(char* idObject, char* borrower){
-    //TODO
-    return 0;
+void set_borrower(char* idObject, char* borrower){
+    idObject = user_path(idObject);
+    set_gen_string(idObject, "borrower", borrower);
+    free(idObject);
 }
 
-int set_type(char* idObject, char* type){
-    //TODO
-    return 0;
+void set_type(char* idObject, char* type){
+    idObject = user_path(idObject);
+    set_gen_string(idObject, "type", type);
+    free(idObject);
 }
 
 int add_us(User us){
