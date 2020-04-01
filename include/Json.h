@@ -42,6 +42,8 @@ char* get_borrower(char* idObject);
 char* get_owner(char* idObject);
 char* get_type(char* idObject);
 
+//generic setter of strings for json
+void set_gen_string(char*ID, char* arg, char* str);
 
 //setters for users
 int set_pwd(char* idUser, char* pwd);
@@ -52,8 +54,8 @@ int set_possesion(char* idUser, char** possesion);
 int set_borrowlist(char* idUser, char ** borrowlist);
 int set_grade(char* idUser, char* status);
 
-//setters for users
-int set_title(char* idObject, char* title);
+//setters for objects
+void set_title(char* idObject, char* title);
 int set_pagenb(char* idObject, char* pagenb);
 int set_author(char* idObject, char* author);
 int set_date(char* idObject, char* date);

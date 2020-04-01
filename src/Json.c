@@ -178,6 +178,43 @@ char* get_type(char* idObject){
 }
 
 
+void set_gen_string(char*ID, char* arg, char* str){
+    jsmn_parser p;
+    jsmntok_t t[128];
+    jsmn_init(&p);
+    char* JSON_STRING = jsontochar(ID);//TOFREE
+    int r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t) / sizeof(t[0]));
+    if (r < 0) {
+    printf("Failed to parse JSON: %d\n", r);
+    exit(2);
+    }
+
+    /* Assume the top-level element is an object */
+    if (r < 1 || t[0].type != JSMN_OBJECT) {
+    printf("Object expected\n");
+    exit(2);
+    }
+
+    
+    int i =1;
+    while ((jsoneq(JSON_STRING, &t[i], arg) !=0 ) && (i<=r)){
+        i++;
+    }
+    if(i>r){
+        printf("no keys found\n");
+        exit(3);
+    }
+
+    
+    char* new_string = strndup(JSON_STRING, t[i+ 1].start);//TOFREE
+    new_string = realloc(new_string, sizeof(char)*strlen(JSON_STRING) + sizeof(char)+strlen(str));
+    strcat(new_string, str);
+    strcat(new_string, JSON_STRING + t[i+1].end);
+    printf("%s\n", new_string);
+    chartojson(ID, new_string);
+    free(new_string);
+    free(JSON_STRING);
+}
 
 //setters for users
 int set_pwd(char* idUser, char* pwd){
@@ -217,9 +254,9 @@ int set_grade(char* idUser, char* status){
 
 
 //setters for users
-int set_title(char* idObject, char* title){
-    //TODO
-    return 0;
+void set_title(char* idObject, char* title){
+    idObject = object_path(idObject);
+    set_gen_string(idObject, "title", title);
 }
 
 int set_pagenb(char* idObject, char* pagenb){
