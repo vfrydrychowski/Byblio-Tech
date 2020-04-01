@@ -91,6 +91,7 @@ char** get_gen_table(char* ID, char* arg){
         exit(3);
     }
     char ** tab=(char**)malloc(sizeof(char*)*(t[i].size+1));//TOFREE
+    *tab = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(tab[0], "%d", t[i].size);
     for(int j = 1; j<= t[i].size; j++){
         tab[j]=(char*)malloc(sizeof(char)*(IDSIZE));
@@ -98,6 +99,21 @@ char** get_gen_table(char* ID, char* arg){
     }
     free(JSON_STRING);
     return tab;
+}
+
+char *tab_to_string(char** tab){
+    char* str = malloc((sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
+    strcpy(str,"[\"");
+    int sizetab = atoi(tab[0]);
+    for (int i =1; i <= sizetab; i++){
+        strcat(str, tab[i]);
+        strcat(str, "\", \"");
+    }
+    char*temp = strndup(str, strlen(str)-3);
+    free(str);
+    str = realloc(temp, (sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
+    strcat(str, "]");
+    return str;
 }
 
 void free_table(char** tab){
@@ -222,35 +238,67 @@ void set_gen_string(char*ID, char* arg, char* str){
     new_string = realloc(new_string, sizeof(char)*strlen(JSON_STRING) + sizeof(char)+strlen(str));
     strcat(new_string, str);
     strcat(new_string, JSON_STRING + t[i+1].end);
-    printf("%s\n", new_string);
     chartojson(ID, new_string);
     free(new_string);
     free(JSON_STRING);
+}
+
+void set_gen_table(char* ID, char* arg, char ** tab){
+    jsmn_parser p;
+    jsmntok_t t[128];
+    jsmn_init(&p);
+    char* JSON_STRING = jsontochar(ID);//TOFREE
+    int r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t) / sizeof(t[0]));
+    if (r < 0) {
+    printf("Failed to parse JSON: %d\n", r);
+    exit(2);
+    }
+
+    /* Assume the top-level element is an object */
+    if (r < 1 || t[0].type != JSMN_OBJECT) {
+    printf("Object expected\n");
+    exit(2);
+    }
+
+    
+    int i =1;
+    while ((jsoneq(JSON_STRING, &t[i], arg) !=0 ) && (i<=r)){
+        i++;
+    }
+    if(i>r){
+        printf("no keys found\n");
+        exit(3);
+    }
+    i++;
+    char* strtab = tab_to_string(tab);
+    char* pos = strndup(JSON_STRING, t[i].start);
+    pos = realloc(pos, sizeof(char)*strlen(strtab)+sizeof(char)*strlen(JSON_STRING));
+    strcat(pos, strtab);
+    strcat(pos, JSON_STRING + t[i].end);
+    chartojson(ID, pos);
+    free(JSON_STRING);
+    free(pos);
 }
 
 //setters for users
 void set_pwd(char* idUser, char* pwd){
     idUser = user_path(idUser);
     set_gen_string(idUser, "pwd", pwd);
-    free(idUser);
 }
 
 void set_name(char* idUser, char* name){
     idUser = user_path(idUser);
     set_gen_string(idUser, "name", name);
-    free(idUser);
 }
 
 void set_forename(char* idUser, char* forename){
     idUser = user_path(idUser);
     set_gen_string(idUser, "forename", forename);
-    free(idUser);
 }
 
 void set_mail(char* idUser, char* mail){
     idUser = user_path(idUser);
     set_gen_string(idUser, "mail", mail);
-    free(idUser);
 }
 
 void set_possesion(char* idUser, char** possesion){
@@ -258,13 +306,11 @@ void set_possesion(char* idUser, char** possesion){
 }
 void set_borrowlist(char* idUser, char ** borrowlist){
     //TODO
-    return 0;
 }
 
 void set_grade(char* idUser, char* grade){
     idUser = user_path(idUser);
     set_gen_string(idUser, "grade", grade);
-    free(idUser);
 }
 
 
@@ -272,43 +318,36 @@ void set_grade(char* idUser, char* grade){
 void set_title(char* idObject, char* title){
     idObject = object_path(idObject);
     set_gen_string(idObject, "title", title);
-    free(idObject);
 }
 
 void set_pagenb(char* idObject, char* pagenb){
     idObject = user_path(idObject);
     set_gen_string(idObject, "pagenb", pagenb);
-    free(idObject);
 }
 
 void set_author(char* idObject, char* author){
     idObject = user_path(idObject);
     set_gen_string(idObject, "author", author);
-    free(idObject);
 }
 
 void set_date(char* idObject, char* date){
     idObject = user_path(idObject);
     set_gen_string(idObject, "date", date);
-    free(idObject);
 }
 
 void set_owner(char* idObject, char* owner){
     idObject = user_path(idObject);
     set_gen_string(idObject, "owner", owner);
-    free(idObject);
 }
 
 void set_borrower(char* idObject, char* borrower){
     idObject = user_path(idObject);
     set_gen_string(idObject, "borrower", borrower);
-    free(idObject);
 }
 
 void set_type(char* idObject, char* type){
     idObject = user_path(idObject);
     set_gen_string(idObject, "type", type);
-    free(idObject);
 }
 
 int add_us(User us){

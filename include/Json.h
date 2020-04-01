@@ -25,6 +25,10 @@ int get_array_size(char** table);
 char** get_gen_table(char* ID, char* arg);
 //function to properly free a table of our design
 void free_table(char** tab);
+//transform a tab into a string of a json array type
+char *tab_to_string(char** tab);
+
+
 //getters for users
 char* get_pwd(char* idUser);
 char* get_name(char* idUser);
@@ -45,6 +49,8 @@ char* get_type(char* idObject);
 
 //generic setter of strings for json
 void set_gen_string(char*ID, char* arg, char* str);
+//generic setter of table for json
+void set_gen_table(char* ID, char* arg, char ** tab);
 
 //setters for users
 void set_pwd(char* idUser, char* pwd);
