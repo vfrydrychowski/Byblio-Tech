@@ -23,7 +23,8 @@ whom the first element is the number of elements exept himself  */
 int get_array_size(char** table);
 //genneric getters of array for json files
 char** get_gen_table(char* ID, char* arg);
-
+//function to properly free a table of our design
+void free_table(char** tab);
 //getters for users
 char* get_pwd(char* idUser);
 char* get_name(char* idUser);

@@ -8,17 +8,18 @@
 #include "../include/jsmn.h"
 
 
-
+//TOFREE
 char* user_path(char* iduser){
-    char*path = malloc(sizeof("data/user/")+strlen(iduser)*sizeof(char)+sizeof(".json"));
+    char*path = (char*)malloc(sizeof("data/user/")+strlen(iduser)*sizeof(char)+sizeof(".json"));//TOFREE
     strcat(path,"data/user/");
     strcat(path, iduser);
     strcat(path, ".json");
     return path;
 }
 
+//TOFREE
 char* object_path(char* idObject){
-    char*path = malloc(sizeof("data/object/")+strlen(idObject)*sizeof(char)+sizeof(".json"));
+    char*path = (char*)malloc(sizeof("data/object/")+strlen(idObject)*sizeof(char)+sizeof(".json"));//TOFREE
     strcat(path,"data/object/");
     strcat(path, idObject);
     strcat(path, ".json");
@@ -26,11 +27,12 @@ char* object_path(char* idObject){
 }
 
 //generic getters for json file
+//TOFREE
 char *get_gen(char* ID, char* arg){
     jsmn_parser p;
     jsmntok_t t[128];
     jsmn_init(&p);
-    char* JSON_STRING = jsontochar(ID);
+    char* JSON_STRING = jsontochar(ID);//TOFREE
     int r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t) / sizeof(t[0]));
     if (r < 0) {
     printf("Failed to parse JSON: %d\n", r);
@@ -52,7 +54,8 @@ char *get_gen(char* ID, char* arg){
         printf("no keys found\n");
         exit(3);
     }
-    char* dup = strndup(JSON_STRING + t[i+1].start, t[i+1].end - t[i+1].start);
+    char* dup = strndup(JSON_STRING + t[i+1].start, t[i+1].end - t[i+1].start);//TOFREE
+    free(JSON_STRING);
     return dup;
 }
 
@@ -60,11 +63,12 @@ int get_table_size(char** table){
 	return atoi(*table);
 }
 
+//TOFREE_TAB
 char** get_gen_table(char* ID, char* arg){
     jsmn_parser p;
     jsmntok_t t[128];
     jsmn_init(&p);
-    char* JSON_STRING = jsontochar(ID);
+    char* JSON_STRING = jsontochar(ID);//TOFREE
     int r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t) / sizeof(t[0]));
     if (r < 0) {
     printf("Failed to parse JSON: %d\n", r);
@@ -86,15 +90,23 @@ char** get_gen_table(char* ID, char* arg){
         printf("no keys found\n");
         exit(3);
     }
-    char ** tab=malloc(sizeof(char*)*(t[i].size+1));
+    char ** tab=(char**)malloc(sizeof(char*)*(t[i].size+1));//TOFREE
     sprintf(tab[0], "%d", t[i].size);
     for(int j = 1; j<= t[i].size; j++){
-        tab[j]=malloc(sizeof(char)*(IDSIZE));
-        tab[j]=strndup(JSON_STRING + t[i + j].start, t[i+ j].end - t[i+ j].start);
+        tab[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+        tab[j]=strndup(JSON_STRING + t[i + j].start, t[i+ j].end - t[i+ j].start);//TOFREE
     }
+    free(JSON_STRING);
     return tab;
 }
 
+void free_table(char** tab){
+    int size = atoi(*tab);
+    for(int j = 1; j<= size; j++){
+        free(tab[j]);
+    }
+    free(tab);
+}
 
 //getters for users
 char* get_pwd(char* idUser){
@@ -328,6 +340,7 @@ int findSize(FILE *fp)
     return res; 
 } 
 
+//TOFREE
 char* jsontochar(char * file_path){
     FILE *jsptr;
     if ((jsptr = fopen(file_path, "r")) == NULL){
@@ -339,7 +352,7 @@ char* jsontochar(char * file_path){
     int i;
     char* c;
     int size_file = findSize(jsptr);
-    c = malloc(sizeof(char)*size_file);
+    c = (void*)malloc(sizeof(char)*size_file);//TOFREE
     //fill c with the text in the json file
     for (int j = 0;(i = getc(jsptr)) != EOF;j++){
         c[j] = i;
