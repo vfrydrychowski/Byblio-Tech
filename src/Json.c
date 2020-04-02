@@ -305,10 +305,10 @@ void set_gen_table(char* ID, char* arg, char ** tab){
     char* strtab = tab_to_string(tab);
     char* pos = strndup(JSON_STRING, t[i].start);
     pos = (char*)realloc(pos, sizeof(char)*strlen(strtab)+sizeof(char)*strlen(JSON_STRING));
-     if (pos == NULL){
-            perror("set_gen_table pos MALLOC ERROR");
-            exit(1);
-        }
+    if (pos == NULL){
+        perror("set_gen_table pos MALLOC ERROR");
+        exit(1);
+    }
     strcat(pos, strtab);
     strcat(pos, JSON_STRING + t[i].end);
     chartojson(ID, pos);
@@ -423,7 +423,19 @@ int suppr_json(char*path){
 
 
 int add_blackList(char*mail){
-    //TODO
+    char* blacklist=jsontochar("data/user/blacklist.json");
+    if (strstr(blacklist, mail) != NULL) return 1;
+    char* n_blacklist = strndup(blacklist, strlen(blacklist) - 3);
+    n_blacklist = realloc(n_blacklist, sizeof(char)*(strlen(blacklist)+strlen(mail)+5));
+    if (n_blacklist == NULL){
+        perror("add_blackList n_blacklist MALLOC ERROR");
+        exit(1);
+    }
+    strcat(strcat(strcat(n_blacklist, ", \""), mail), "\"]\n}");
+    printf("%s\n", n_blacklist);
+    chartojson("data/user/blacklist.json", n_blacklist);
+    free(n_blacklist);
+    free(blacklist);
     return 0;
 }
 
