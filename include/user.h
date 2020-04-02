@@ -23,10 +23,7 @@ int login(char* id, char* pwd, User util);
 	/*
 	check the user identity and fill util with infos in user’s json
 	*/
-void logout(User util);
-	/*
-	free util
-	*/
+
 int borrowing(User util, char* idObject);
 	/*
 	update status of the object and add it of the current user’s borrowing list  

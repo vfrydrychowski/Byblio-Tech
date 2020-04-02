@@ -19,10 +19,10 @@ typedef struct user_s {
     char forename[NAMESIZE];
     char name[NAMESIZE];
     char mail[MAILSIZE];
-    char* brw[IDSIZE]; //list of current borrowings 	
+    char** brw; //list of current borrowings 	
     int grade; //define the amount of power of the user
     char cryptedPw[PWSIZE]; //crypted password
-    char* possession[IDSIZE];  //list of all possesed books
+    char** possession;  //list of all possesed books
 }User;
 
 int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
