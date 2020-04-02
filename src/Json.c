@@ -102,7 +102,7 @@ char** get_gen_table(char* ID, char* arg){
 }
 
 char *tab_to_string(char** tab){
-    char* str = malloc((sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
+    char* str = (char*)malloc((sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
     strcpy(str,"[\"");
     int sizetab = atoi(tab[0]);
     for (int i =1; i <= sizetab; i++){
@@ -111,7 +111,7 @@ char *tab_to_string(char** tab){
     }
     char*temp = strndup(str, strlen(str)-3);
     free(str);
-    str = realloc(temp, (sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
+    str = (char*)realloc(temp, (sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
     strcat(str, "]");
     return str;
 }
@@ -235,7 +235,7 @@ void set_gen_string(char*ID, char* arg, char* str){
 
     
     char* new_string = strndup(JSON_STRING, t[i+ 1].start);//TOFREE
-    new_string = realloc(new_string, sizeof(char)*strlen(JSON_STRING) + sizeof(char)+strlen(str));
+    new_string = (char*)realloc(new_string, sizeof(char)*strlen(JSON_STRING) + sizeof(char)+strlen(str));
     strcat(new_string, str);
     strcat(new_string, JSON_STRING + t[i+1].end);
     chartojson(ID, new_string);
@@ -272,7 +272,7 @@ void set_gen_table(char* ID, char* arg, char ** tab){
     i++;
     char* strtab = tab_to_string(tab);
     char* pos = strndup(JSON_STRING, t[i].start);
-    pos = realloc(pos, sizeof(char)*strlen(strtab)+sizeof(char)*strlen(JSON_STRING));
+    pos = (char*)realloc(pos, sizeof(char)*strlen(strtab)+sizeof(char)*strlen(JSON_STRING));
     strcat(pos, strtab);
     strcat(pos, JSON_STRING + t[i].end);
     chartojson(ID, pos);
@@ -302,10 +302,13 @@ void set_mail(char* idUser, char* mail){
 }
 
 void set_possesion(char* idUser, char** possesion){
-    //TODO
+    idUser = user_path(idUser);
+    set_gen_table(idUser, "possesion", possesion);
 }
+
 void set_borrowlist(char* idUser, char ** borrowlist){
-    //TODO
+    idUser = user_path(idUser);
+    set_gen_table(idUser, "borrowlist", borrowlist);
 }
 
 void set_grade(char* idUser, char* grade){
@@ -401,7 +404,7 @@ char* jsontochar(char * file_path){
     int i;
     char* c;
     int size_file = findSize(jsptr);
-    c = (void*)malloc(sizeof(char)*size_file);//TOFREE
+    c = (char*)malloc(sizeof(char)*size_file);//TOFREE
     //fill c with the text in the json file
     for (int j = 0;(i = getc(jsptr)) != EOF;j++){
         c[j] = i;
