@@ -4,6 +4,12 @@
 
 #include "../include/SISO.h"
 
+void cleanbuff(){
+    int c = 0;
+    while (c != 0 && c != EOF){
+        c = getchar();
+    }
+}
 void read_int(int* nb){
     //set the maximu size to write an integer + '\n'
     char* temp = malloc(sizeof(char)*9);
@@ -17,7 +23,7 @@ void read_int(int* nb){
         perror("ERR fgets()\n");
         exit(1);
     }
-
+    cleanbuff();
     //replace enter char by end of string char
     char* enter = NULL;
     enter = strchr(temp, '\n');
@@ -34,7 +40,8 @@ void read_string(char* string){
         perror("ERR fgets()\n");
         exit(1);
     }
-     //replace enter char by end of string char
+    cleanbuff();
+    //replace enter char by end of string char
     char* enter = NULL;
     enter = strchr(string, '\n');
     if (enter != NULL) *enter = '\0';
