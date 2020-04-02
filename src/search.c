@@ -3,17 +3,25 @@
 #include <string.h>
 
 #include "../include/search.h"
-#ifndef __JSONH__
-    #include "../include/Json.h"
-#endif
-#ifndef __SISOH__
-    #include "../include/SISO.h"
-#endif
+#include "../include/Json.h"
+#include "../include/SISO.h"
 
-void read_int(int* nb){
+
+void upd_index(){
     //TODO
 }
-
-void read_string(char* string){
+char* search_name(char* name){
+    //TODO
+    return "";
+}
+char* search_author(char* author){
+    //TODO
+    return "";
+}
+char* search_date(int date){
+    //TODO
+    return "";
+}
+void search(){
     //TODO
 }
