@@ -355,12 +355,12 @@ void set_type(char* idObject, char* type){
 
 int add_us(char* nickname, char* forename, char* name, char* mail, char* borrowings, char* possession, char* grade, char* pwd){
     //existence check of user
-    FILE*ptf = fopen("data/user/j.json","r");
+    nickname = user_path(nickname);
+    FILE*ptf = fopen(nickname,"r");
     if (ptf== NULL) return 1;
     fclose(ptf);
 
     char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
-    nickname = user_path(nickname);
     chartojson(nickname, JSON_user);
     set_forename(nickname, forename);
     set_name(nickname, name);
@@ -378,7 +378,10 @@ int add_livre(char*ID, char* name, int pagenb, char* author, int date, char* own
 }
 
 int suppr_json(char*ID){
-    //TODO
+    FILE*ptf = fopen(ID,"r");
+    if (ptf== NULL) return 1;
+    remove(ptf);
+    fclose(ptf);
     return 0;
 }
 
