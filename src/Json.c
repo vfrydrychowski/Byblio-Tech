@@ -11,6 +11,10 @@
 //TOFREE
 char* user_path(char* iduser){
     char*path = (char*)malloc(sizeof("data/user/")+strlen(iduser)*sizeof(char)+sizeof(".json"));//TOFREE
+    if (path == NULL){
+        perror("user_path MALLOC ERROR");
+        exit(1);
+    }
     strcat(path,"data/user/");
     strcat(path, iduser);
     strcat(path, ".json");
@@ -20,6 +24,10 @@ char* user_path(char* iduser){
 //TOFREE
 char* object_path(char* idObject){
     char*path = (char*)malloc(sizeof("data/object/")+strlen(idObject)*sizeof(char)+sizeof(".json"));//TOFREE
+    if (path == NULL){
+        perror("object_path MALLOC ERROR");
+        exit(1);
+    }
     strcat(path,"data/object/");
     strcat(path, idObject);
     strcat(path, ".json");
@@ -91,10 +99,22 @@ char** get_gen_table(char* ID, char* arg){
         exit(3);
     }
     char ** tab=(char**)malloc(sizeof(char*)*(t[i].size+1));//TOFREE
+     if (tab == NULL){
+        perror("get_gen_table tab MALLOC ERROR");
+        exit(1);
+    }
     *tab = (char*)malloc(sizeof(char)*(IDSIZE));
+     if (*tab == NULL){
+        perror("get_gen_table *tab MALLOC ERROR");
+        exit(1);
+    }
     sprintf(tab[0], "%d", t[i].size);
     for(int j = 1; j<= t[i].size; j++){
         tab[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+        if (tab[j] == NULL){
+            perror("get_gen_table tab[j] MALLOC ERROR");
+            exit(1);
+        }
         tab[j]=strndup(JSON_STRING + t[i + j].start, t[i+ j].end - t[i+ j].start);//TOFREE
     }
     free(JSON_STRING);
@@ -103,6 +123,10 @@ char** get_gen_table(char* ID, char* arg){
 
 char *tab_to_string(char** tab){
     char* str = (char*)malloc((sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
+    if (str == NULL){
+            perror("tab_to_string str MALLOC ERROR");
+            exit(1);
+        }
     strcpy(str,"[\"");
     int sizetab = atoi(tab[0]);
     for (int i =1; i <= sizetab; i++){
@@ -112,6 +136,10 @@ char *tab_to_string(char** tab){
     char*temp = strndup(str, strlen(str)-3);
     free(str);
     str = (char*)realloc(temp, (sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
+    if (str == NULL){
+            perror("tab_to_string str MALLOC ERROR");
+            exit(1);
+        }
     strcat(str, "]");
     return str;
 }
@@ -236,6 +264,10 @@ void set_gen_string(char*ID, char* arg, char* str){
     
     char* new_string = strndup(JSON_STRING, t[i+ 1].start);//TOFREE
     new_string = (char*)realloc(new_string, sizeof(char)*strlen(JSON_STRING) + sizeof(char)+strlen(str));
+    if (new_string == NULL){
+            perror("set_gen_string new_string MALLOC ERROR");
+            exit(1);
+        }
     strcat(new_string, str);
     strcat(new_string, JSON_STRING + t[i+1].end);
     chartojson(ID, new_string);
@@ -273,6 +305,10 @@ void set_gen_table(char* ID, char* arg, char ** tab){
     char* strtab = tab_to_string(tab);
     char* pos = strndup(JSON_STRING, t[i].start);
     pos = (char*)realloc(pos, sizeof(char)*strlen(strtab)+sizeof(char)*strlen(JSON_STRING));
+     if (pos == NULL){
+            perror("set_gen_table pos MALLOC ERROR");
+            exit(1);
+        }
     strcat(pos, strtab);
     strcat(pos, JSON_STRING + t[i].end);
     chartojson(ID, pos);
@@ -422,6 +458,10 @@ char* jsontochar(char * file_path){
     char* c;
     int size_file = findSize(jsptr);
     c = (char*)malloc(sizeof(char)*size_file);//TOFREE
+    if (c == NULL){
+            perror("jsontochar c MALLOC ERROR");
+            exit(1);
+        }
     //fill c with the text in the json file
     for (int j = 0;(i = getc(jsptr)) != EOF;j++){
         c[j] = i;
