@@ -66,19 +66,19 @@ void uset_cryptedPwd(char* cryptedPwd, User util){
 }
 
 int uget_grade(User util){
-    return util->grade;
+    return (int) util->grade;
 }
 
-void uset_grade(char* grade, User util){
-    strcpy(util->grade,grade);
+void uset_grade(int grade, User util){
+    util->grade = grade;
 }
 
-char* uget_brw(User util){
-    char** brw = util->brw);
+char** uget_brw(User util){
+    char** brw = util->brw;
 	int size = get_size(brw);
 
-    char * nv_brw=(char*)malloc(sizeof(char*)*(size));//TOFREE
-    nv_brw = (char)malloc(sizeof(char)*(IDSIZE));
+    char** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size);
 
     for(int j = 1; j<= size; j++){
@@ -92,8 +92,8 @@ char* uget_brw(User util){
 void uset_brw(char** brw, User util){
 	int size = get_size(brw);
 
-    char * nv_brw=(char*)malloc(sizeof(char*)*(size));//TOFREE
-    nv_brw = (char)malloc(sizeof(char)*(IDSIZE));
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size);
 
     for(int j = 1; j<= size; j++){
@@ -104,41 +104,39 @@ void uset_brw(char** brw, User util){
     util->brw = nv_brw;
 
     free_table(brw);
-	return 0;
 }
 
-char* uget_brw(User util){
-    char** brw = util->brw);
-	int size = get_size(brw);
+char** uget_possession(User util){
+    char** possession = util->possession;
+	int size = get_size(possession);
 
-    char * nv_brw=(char*)malloc(sizeof(char*)*(size));//TOFREE
-    nv_brw = (char)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_brw[0], "%d", size);
+    char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(nv_pos[0], "%d", size);
 
     for(int j = 1; j<= size; j++){
-        nv_brw[j]=(char*)malloc(sizeof(char)*(IDSIZE));
-        strcpy(nv_brw[j],brw[j]);
+        nv_pos[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+        strcpy(nv_pos[j],possession[j]);
     }
 
-	return nv_brw;
+	return nv_pos;
 }
 
-void uset_id(char** brw, User util){
-	int size = get_size(brw);
+void uset_possession(char** possession, User util){
+	int size = get_size(possession);
 
-    char * nv_brw=(char*)malloc(sizeof(char*)*(size));//TOFREE
-    nv_brw = (char)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_brw[0], "%d", size);
+    char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(nv_pos[0], "%d", size);
 
     for(int j = 1; j<= size; j++){
-        nv_brw[j]=(char*)malloc(sizeof(char)*(IDSIZE));
-        strcpy(nv_brw[j],brw[j]);
+        nv_pos[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+        strcpy(nv_pos[j],possession[j]);
     }
 
-    util->brw = nv_brw;
+    util->possession = nv_pos;
 
-    free_table(brw);
-	return 0;
+    free_table(possession);
 }
 
 int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
@@ -147,7 +145,7 @@ int crea_user(char* forename, char* name, char* mail, char** brw, int grade, cha
 }
 
 void suppr_us(char* id,User user){
-	if (!(strcmp(user.id, id))){
+	if (!(strcmp(user->id, id))){
         if(suppr_all_possession(id)== 0){
             return_back_all(id);
             suppr_json(id);
@@ -156,7 +154,7 @@ void suppr_us(char* id,User user){
 }
 
 void ban(char* id,User user){
-    if(user.grade>get_grade(id)){
+    if(uget_grade(user)>get_grade(id)){
         if(suppr_all_possession(id)== 0){
             return_back_all(id);
             add_blackList(get_mail(id));
@@ -173,14 +171,14 @@ int login(char* id, char* pwd, User util){
     }
     else
     {
-        strcpy(util.id, id);
-        strcpy(util.forename, get_name(id));
-        strcpy(util.name, get_surname(id));
-        strcpy(util.mail, get_mail(id));
-        strcpy(util.brw, get_borrowlist(id));
-        util.grade = get_grade(id);
-        strcpy(util.cryptedPw, crypwd);
-        strcpy(util.possession, get_possession(id));
+        uset_id(id,util);
+        uset_forename(get_surname(id),util);
+        uset_name(get_name(id),util);
+        uset_mail(get_mail(id),util);
+        uset_brw(get_borrowlist(id),util);
+        uset_grade(get_grade(id),util);
+        uset_cryptedPwd(get_pwd(id),util);
+        uset_possession(get_possession(id),util);
         return 0;
     }
 }
@@ -189,8 +187,8 @@ int borrowing(User util, char* idObject){
     char** brw = get_borrowlist(util->id);
 	int size = get_size(brw);
 
-    char * nv_brw=(char*)malloc(sizeof(char*)*(size+2));//TOFREE
-    nv_brw = (char)malloc(sizeof(char)*(IDSIZE));
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size+2));//TOFREE
+    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size+1);
 
     for(int j = 1; j<= size; j++){
@@ -241,7 +239,7 @@ void encrypt(char* pwd,char* crypwd){
     int p;
     int cle = 0;
     for(int i = 0; i < strlen(pwd); i++){
-        int p = pwd[i] - 32;
+        p = pwd[i] - 32;
         cle = cle + p;
     } 
     cle = cle%95;
