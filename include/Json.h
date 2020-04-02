@@ -71,7 +71,7 @@ void set_borrower(char* idObject, char* borrower);
 void set_type(char* idObject, char* type);
 
 //add user file, return 1 if user already exist 
-int add_us(char* nickname, char* forename, char* name, char* mail, char* borrowings, char* possession, char* grade, char* pwd);
+int add_us(char* nickname, char* forename, char* name, char* mail, char** borrowings, char** possession, char* grade, char* pwd);
 
 
 int add_livre(char*ID, char* name, int pagenb, char* author, int date, char* owner, int kind);
@@ -79,7 +79,7 @@ int add_livre(char*ID, char* name, int pagenb, char* author, int date, char* own
          create the json file with the infos passed
     */
 
-int suppr_json(char*ID);
+int suppr_json(char*path);
 /*
          delete the json file name by the passed ID
     */

@@ -389,7 +389,7 @@ void set_type(char* idObject, char* type){
     set_gen_string(idObject, "type", type);
 }
 
-int add_us(char* nickname, char* forename, char* name, char* mail, char* borrowings, char* possession, char* grade, char* pwd){
+int add_us(char* nickname, char* forename, char* name, char* mail, char** borrowings, char** possession, char* grade, char* pwd){
     //existence check of user
     nickname = user_path(nickname);
     FILE*ptf = fopen(nickname,"r");
@@ -413,11 +413,11 @@ int add_livre(char*ID, char* name, int pagenb, char* author, int date, char* own
     return 0;
 }
 
-int suppr_json(char*ID){
-    FILE*ptf = fopen(ID,"r");
+int suppr_json(char*path){
+    FILE*ptf = fopen(path,"r");
     if (ptf== NULL) return 1;
-    remove(ptf);
     fclose(ptf);
+    remove(path);
     return 0;
 }
 
