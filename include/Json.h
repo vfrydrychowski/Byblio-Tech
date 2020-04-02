@@ -20,7 +20,7 @@ char* object_path(char* idObject);
 char *get_gen(char* ID, char* arg);
 /* return the number of elements in an table of char 
 whom the first element is the number of elements exept himself  */
-int get_array_size(char** table);
+int get_table_size(char** table);
 //genneric getters of array for json files
 char** get_gen_table(char* ID, char* arg);
 //function to properly free a table of our design

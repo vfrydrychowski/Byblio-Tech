@@ -74,7 +74,7 @@ void uset_grade(int grade, User util){
 
 char** uget_brw(User util){
     char** brw = util->brw;
-	int size = get_array_size(brw);
+	int size = get_table_size(brw);
 
     char** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -89,7 +89,7 @@ char** uget_brw(User util){
 }
 
 void uset_brw(char** brw, User util){
-	int size = get_array_size(brw);
+	int size = get_table_size(brw);
 
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -107,7 +107,7 @@ void uset_brw(char** brw, User util){
 
 char** uget_possession(User util){
     char** possession = util->possession;
-	int size = get_array_size(possession);
+	int size = get_table_size(possession);
 
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -122,7 +122,7 @@ char** uget_possession(User util){
 }
 
 void uset_possession(char** possession, User util){
-	int size = get_array_size(possession);
+	int size = get_table_size(possession);
 
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -184,7 +184,7 @@ int login(char* id, char* pwd, User util){
 
 int borrowing(User util, char* idObject){
     char** brw = get_borrowlist(util->id);
-	int size = get_array_size(brw);
+	int size = get_table_size(brw);
 
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size+2));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
