@@ -118,6 +118,7 @@ char *tab_to_string(char** tab){
 
 void free_table(char** tab){
     int size = atoi(*tab);
+    free(*tab);
     for(int j = 1; j<= size; j++){
         free(tab[j]);
     }
