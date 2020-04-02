@@ -51,6 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-
-test.c
+#test
 test
+test.c
+testmalloc.c

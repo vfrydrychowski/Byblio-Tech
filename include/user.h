@@ -1,6 +1,6 @@
 #define __USERH__
 
-typedef struct user* User;
+typedef struct user_s* User;
 
 int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
 
@@ -23,7 +23,6 @@ int login(char* id, char* pwd, User util);
 	/*
 	check the user identity and fill util with infos in user’s json
 	*/
-
 int borrowing(User util, char* idObject);
 	/*
 	update status of the object and add it of the current user’s borrowing list  
@@ -56,4 +55,9 @@ int get_size(char** tableau);
 void encrypt(char* pwd, char* crypwd);
 	/*
 	encrypt pwd and put it in crywd
+	*/
+
+void free_table(char** tab);
+	/*
+	free le tableau
 	*/
