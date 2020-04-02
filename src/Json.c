@@ -353,8 +353,22 @@ void set_type(char* idObject, char* type){
     set_gen_string(idObject, "type", type);
 }
 
-int add_us(User us){
-    //TODO
+int add_us(char* nickname, char* forename, char* name, char* mail, char* borrowings, char* possession, char* grade, char* pwd){
+    //existence check of user
+    FILE*ptf = fopen("data/user/j.json","r");
+    if (ptf== NULL) return 1;
+    fclose(ptf);
+
+    char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
+    nickname = user_path(nickname);
+    chartojson(nickname, JSON_user);
+    set_forename(nickname, forename);
+    set_name(nickname, name);
+    set_mail(nickname, mail);
+    set_borrowlist(nickname, borrowings);
+    set_possesion(nickname, possession);
+    set_grade(nickname, grade);
+    set_grade(nickname, pwd);
     return 0;
 }
 
@@ -415,7 +429,7 @@ char* jsontochar(char * file_path){
 
 void chartojson(char * file_path, char * json_text){
     FILE *jsptr;
-    if ((jsptr = fopen(file_path, "w")) == NULL){
+    if ((jsptr = fopen(file_path, "w+")) == NULL){
        printf("Error opening file!\n");
        // Program exits if the file pointer returns NULL.
        exit(1);
