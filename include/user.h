@@ -35,15 +35,15 @@ int return_back_all(char* id, User util);
 	/*
 	update status of all objects and remove it of the current user’s borrowing list  
 	*/
-int suppr_all_possession(char* id);
+int suppr_all_possession(char* id,User user);
 	/*
 	update status of the object and remove it of the current user’s borrowing list
 	*/
-int add_possession(User util, char* idObject);
+int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, int kind);
 	/*
 	add idObject to the user’s possesion list 
 	*/
-int suppr_possession(char* id, char* idObject);
+int suppr_possession(char* id, char* idObject, User user);
 	/*
 	remove idObject of the user’s possesion list 
 	*/
@@ -60,4 +60,8 @@ void encrypt(char* pwd, char* crypwd);
 void free_table(char** tab);
 	/*
 	free le tableau
+	*/
+void dupilcate_table(char** tab);
+	/*
+	dupilcate tab of ID using a malloc
 	*/
