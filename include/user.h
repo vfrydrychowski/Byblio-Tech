@@ -61,7 +61,7 @@ void free_table(char** tab);
 	/*
 	free le tableau
 	*/
-void dupilcate_table(char** tab);
+char** dupilcate_table(char** tab);
 	/*
 	dupilcate tab of ID using a malloc
 	*/
