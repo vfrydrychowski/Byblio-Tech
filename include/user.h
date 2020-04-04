@@ -27,11 +27,11 @@ int borrowing(User util, char* idObject);
 	/*
 	update status of the object and add it of the current user’s borrowing list  
 	*/
-int return_back(char* id, char* idObject);
+int return_back(char* id, char* idObject, User util);
 	/*
 	update status of the object and remove it of the current user’s borrowing list  
 	*/
-int return_back_all(char* id);
+int return_back_all(char* id, User util);
 	/*
 	update status of all objects and remove it of the current user’s borrowing list  
 	*/

@@ -20,7 +20,7 @@ typedef struct user_s {
     char name[NAMESIZE];
     char mail[MAILSIZE];
     char** brw; //list of current borrowings 	
-    int grade; //define the amounfree_table(nv_brw);t of power of the user
+    int grade; //define the amount of power of the user
     char cryptedPw[PWSIZE]; //crypted password
     char** possession;  //list of all possesed books
 }user;
@@ -102,8 +102,6 @@ void uset_brw(char** brw, User util){
     }
 
     util->brw = nv_brw;
-
-    free_table(brw);
 }
 
 char** uget_possession(User util){
@@ -135,8 +133,6 @@ void uset_possession(char** possession, User util){
     }
 
     util->possession = nv_pos;
-
-    free_table(possession);
 }
 
 int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
@@ -147,7 +143,7 @@ int crea_user(char* forename, char* name, char* mail, char** brw, int grade, cha
 void suppr_us(char* id,User user){
 	if (!(strcmp(user->id, id))){
         if(suppr_all_possession(id)== 0){
-            return_back_all(id);
+            return_back_all(id,user);
             suppr_json(id);
         }
     }
@@ -156,7 +152,7 @@ void suppr_us(char* id,User user){
 void ban(char* id,User user){
     if(uget_grade(user)>get_grade(id)){
         if(suppr_all_possession(id)== 0){
-            return_back_all(id);
+            return_back_all(id,user);
             add_blackList(get_mail(id));
             suppr_json(id);
         }
@@ -172,22 +168,34 @@ int login(char* id, char* pwd, User util){
     else
     {
         uset_id(id,util);
-        uset_forename(get_surname(id),util);
-        uset_name(get_name(id),util);
-        uset_mail(get_mail(id),util);
+        char* pointer = get_name(id);
+        uset_forename(pointer,util);
+        free(pointer);
+        pointer = get_surname(id);
+        uset_name(pointer,util);
+        free(pointer);
+        pointer = get_mail(id);
+        uset_mail(pointer,util);
+        free(pointer);
+        char**pointer_tab = get_borrowlist(id);     
         uset_brw(get_borrowlist(id),util);
+        free(pointer_tab);
         uset_grade(get_grade(id),util);
-        uset_cryptedPwd(get_pwd(id),util);
+        pointer = get_pwd(id);
+        uset_cryptedPwd(pointer,util);
+        free(pointer);
+        pointer_tab = get_possession(id);
         uset_possession(get_possession(id),util);
+        free(pointer_tab);
         return 0;
     }
 }
 
 int borrowing(User util, char* idObject){
-    char** brw = get_borrowlist(util->id);
+    char** brw = uget_borrowlist(util);
 	int size = get_size(brw);
 
-    char ** nv_brw=(char**)malloc(sizeof(char*)*(size+2));//TOFREE
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size+1);
 
@@ -199,19 +207,62 @@ int borrowing(User util, char* idObject){
     strcpy(nv_brw[size+1],idObject);
 
     set_borrowlist(util->id, nv_brw);
-
-    free_table(nv_brw);
+    uset_brw(nv_brw,util);
     free_table(brw);
 	return 0;
 }
 
-int return_back(char* id, char* idObject){
-	// TODO
+int return_back(char* id, char* idObject, User util){
+    char** brw = uget_borrowlist(util);
+	int size = get_size(brw);
+    int p = -1;
+    int i = 0;
+
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size-1));//TOFREE
+    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(nv_brw[0], "%d", size-1);
+
+    for(int j = 1; j<= size; j++){
+        if (!(strcmp(brw[j],idObject))){
+            p = j;
+        }
+    }
+
+    if (p==-1){
+        return 1;
+    }
+
+    for(int j = 1; j<= size; j++){
+        if (p!=j){
+            nv_brw[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+            strcpy(nv_brw[i],brw[j]);
+            i++;
+        }        
+    } 
+
+    uset_brw(nv_brw, util);
+    set_borrower(idObject,id);    
+    set_borrowlist(util->id, nv_brw);
+
+    free_table(brw);
 	return 0;
 }
 
-int return_back_all(char* id){
-    // TODO
+int return_back_all(char* id, User util){
+	int size = 0;
+    char** brw = uget_brw(util);
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(nv_brw[0], "%d", size);
+
+    for(int j = 1; j<= size; j++){
+        set_borrower(brw[j],NULL);
+    }
+
+    uset_brw(nv_brw, util);
+    set_borrowlist(id, nv_brw);
+    free_table(brw);
+
     return 0;
 }
 
