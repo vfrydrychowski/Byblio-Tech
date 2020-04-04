@@ -209,7 +209,7 @@ int borrowing(User util, char* idObject){
     strcpy(nv_brw[size+1],idObject);
 
     set_borrower(idObject,uget_id(util));
-    set_borrowlist(util->id, dupilcate(nv_brw));
+    set_borrowlist(util->id, duplicate_table(nv_brw));
     uset_brw(nv_brw,util);
 
     free_table(brw);
@@ -244,7 +244,7 @@ int return_back(char* id, char* idObject, User util){
         }        
     } 
 
-    uset_brw(duplicate(nv_brw), util);
+    uset_brw(duplicate_table(nv_brw), util);
     set_borrower(idObject,id);    
     set_borrowlist(util->id, nv_brw);
 
@@ -263,7 +263,7 @@ int return_back_all(char* id, User util){
         set_borrower(brw[j],NULL);
     }
 
-    uset_brw(duplicate(nv_brw), util);
+    uset_brw(duplicate_table(nv_brw), util);
     set_borrowlist(id, nv_brw);
     free_table(brw);
 
@@ -286,7 +286,7 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
     strcpy(nv_pos[size+1],idObject);
 
     add_livre(idObject, name, pagenb, author, date, owner,kind);
-    set_possesion(user->id, duplicate(nv_pos));
+    set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
 	return 0;
@@ -320,7 +320,7 @@ int suppr_possession(char* id, char* idObject, User user){
         }        
     } 
 
-    uset_possession(duplicate(nv_pos), user);
+    uset_possession(duplicate_table(nv_pos), user);
     suppr_object(idObject,id);   
     set_possesion(user->id, nv_pos);
 
@@ -339,7 +339,7 @@ int suppr_all_possession(char* id, User user){
         suppr_object(pos[j],id);
     }
 
-    uset_brw(duplicate(nv_pos), user);
+    uset_brw(duplicate_table(nv_pos), user);
     set_borrowlist(id, nv_pos);
     free_table(pos);
 
@@ -374,7 +374,7 @@ void free_table(char** tab){
     free(tab);
 }
 
-char** dupilcate_table(char** tab){
+char** duplicate_table(char** tab){
 	int size = get_size(tab);
 
     char ** nv_tab=(char**)malloc(sizeof(char*)*(size));//TOFREE
@@ -388,8 +388,6 @@ char** dupilcate_table(char** tab){
 
 	return nv_tab;
 }
-
-
 
 
 
