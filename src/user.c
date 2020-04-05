@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> 
+#include <time.h>
 #include "../include/user.h"
 #include "../include/object.h"
 #include "../include/SISO.h"
@@ -137,8 +138,18 @@ void uset_possession(char** possession, User util){
     util->possession = nv_pos;
 }
 
-int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
-	// TODO
+int crea_user(User user, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
+    time_t t = time(NULL);
+    uset_id(ctime(&t),user);
+    uset_forename(forename,user);
+    uset_name(name,user);
+    uset_mail(mail, user);
+    uset_grade(grade,user);
+    uset_cryptedPwd(cryptedPw,user);
+    uset_brw(brw,user);
+    uset_possession(possession,user);
+
+    add_us(user);
 	return 0;
 }
 

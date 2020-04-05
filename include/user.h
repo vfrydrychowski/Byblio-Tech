@@ -22,7 +22,7 @@ void uset_grade(int grade, User util);
 void uset_brw(char** brw, User util);
 void uset_possession(char** possession, User util);
 
-int crea_user(char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
+int crea_user(User user, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
 
 	/*
 	check for existing usernames
