@@ -71,7 +71,7 @@ void set_borrower(char* idObject, char* borrower);
 void set_type(char* idObject, char* type);
 
 //add user file, return 1 if user already exist 
-int add_us(char* nickname, char* forename, char* name, char* mail, char** borrowings, char** possession, char* grade, char* pwd);
+int add_us(User user);
 
 
 int add_livre(char*ID, char* name, int pagenb, char* author, int date, char* owner, int kind);

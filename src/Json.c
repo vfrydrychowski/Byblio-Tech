@@ -389,22 +389,41 @@ void set_type(char* idObject, char* type){
     set_gen_string(idObject, "type", type);
 }
 
-int add_us(char* nickname, char* forename, char* name, char* mail, char** borrowings, char** possession, char* grade, char* pwd){
+int add_us(User user){
     //existence check of user
-    nickname = user_path(nickname);
-    FILE*ptf = fopen(nickname,"r");
-    if (ptf== NULL) return 1;
-    fclose(ptf);
+    char*id = uget_id(user);
+    id = user_path(id);
+    FILE*ptf = fopen(id,"r");
+    if (ptf== NULL) {
+        fclose(ptf);
+        return 1;
+    }
 
     char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
-    chartojson(nickname, JSON_user);
-    set_forename(nickname, forename);
-    set_name(nickname, name);
-    set_mail(nickname, mail);
-    set_borrowlist(nickname, borrowings);
-    set_possesion(nickname, possession);
-    set_grade(nickname, grade);
-    set_grade(nickname, pwd);
+    chartojson(id, JSON_user);
+    char* forename = uget_forename(user);
+    set_forename(id, forename);
+    free(forename);
+    char* name = uget_forename(user);
+    set_name(id, name);
+    free(name);
+    char* mail = uget_mail(user);
+    set_mail(id, mail);
+    free(mail);
+    char** borrowings = uget_brw(user);
+    set_borrowlist(id, borrowings);
+    free_table(borrowings);
+    char** possession = uget_possession(user);
+    set_possesion(id, possession);
+    free_table(possession);
+    char* grade = malloc(sizeof(char)*2);
+    sprintf(grade,"%d",uget_grade(user));
+    set_grade(id, grade);
+    free(grade);
+    char* pwd = uget_cryptedPwd(user);
+    set_pwd(id, pwd);
+    free(pwd);
+    free(id);
     return 0;
 }
 
