@@ -397,7 +397,7 @@ int add_us(User user){
     if (ptf== NULL) {
         fclose(ptf);
         return 1;
-    }
+    }else fclose(ptf);
 
     char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
     chartojson(id, JSON_user);
@@ -427,9 +427,17 @@ int add_us(User user){
     return 0;
 }
 
-int add_livre(char*ID, char* name, int pagenb, char* author, int date, char* owner, int kind){
-    //TODO
-    return 0;
+void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, int type){
+    ID = object_path(ID);
+    char*JSON_obj = "{\n    \"title\" : \"\",\n    \"author\" : \"\",\n    \"date\" : 0,\n    \"pagenb\" : 0,\n    \"borrower\" : \"\",\n    \"owner\": \"\",\n    \"type\" : \"\"\n}";
+    chartojson(ID, JSON_obj);
+    set_title(ID, title);
+    set_author(ID, author);
+    set_date(ID, date);
+    set_pagenb(ID, pagenb);
+    set_borrower(ID, "NULL");
+    set_owner(ID, owner);
+    set_type(ID, type);
 }
 
 int suppr_json(char*path){
