@@ -12,6 +12,5 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    add_userlist("maileuuuxx");
     return 0;
 }

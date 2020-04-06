@@ -101,6 +101,8 @@ void add_usermail(char*id);
 //add an argument to a list in a json file
 int add_List(char* path, char* arg);
 
+int supr_List(char* path, char* arg);
+
 //compare the given string with the name of the given token
 int jsoneq(const char *json, jsmntok_t *tok, const char *s);
 

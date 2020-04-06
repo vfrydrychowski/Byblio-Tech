@@ -486,6 +486,38 @@ int add_List(char* path, char* arg){
     return 0;
 }
 
+int supr_List(char* path, char* arg){
+    
+    char* list = jsontochar(path);
+    char* n_list;
+    char* argpt = strstr(list, arg);
+    if (argpt == NULL) return 1;
+    if (argpt[-2] == '[' && argpt[1 + strlen(arg)] == ']') {
+        n_list = "{\n    \"user\" : []\n}";
+        chartojson(path, n_list);
+        free(list);
+        return 0;
+    }
+    else {
+        int i = 0;
+        while (list + i != argpt) i++;
+        int j = 3;
+        int g = 1;
+        if (argpt[-2] == '['){
+            j = 1;
+            g = 3;
+        }
+        n_list = strndup(list, i-j);
+        n_list = realloc(n_list, sizeof(char)*strlen(list));
+        strcat(n_list, argpt + strlen(arg)+g);
+        chartojson(path, n_list);
+        free(n_list);
+        free(list);
+    }
+    
+    return 0; 
+}
+
 int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
   if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
       strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
