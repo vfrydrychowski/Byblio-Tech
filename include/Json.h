@@ -99,21 +99,7 @@ void add_userlist(char*id);
 void add_usermail(char*id);
 
 //add an argument to a list in a json file
-int add_List(char* path, char* arg){
-    char* list=jsontochar(path);
-    if (strstr(list, arg) != NULL) return 1;
-    char* n_list = strndup(list, strlen(list) - 3);
-    n_list = realloc(n_list, sizeof(char)*(strlen(list)+strlen(arg)+5));
-    if (n_list == NULL){
-        perror("add_List n_list MALLOC ERROR");
-        exit(1);
-    }
-    strcat(strcat(strcat(n_list, ", \""), arg), "\"]\n}");
-    chartojson(path, n_list);
-    free(n_list);
-    free(list);
-    return 0;
-}
+int add_List(char* path, char* arg);
 
 //compare the given string with the name of the given token
 int jsoneq(const char *json, jsmntok_t *tok, const char *s);

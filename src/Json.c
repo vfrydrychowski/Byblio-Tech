@@ -433,11 +433,16 @@ void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* o
     chartojson(ID, JSON_obj);
     set_title(ID, title);
     set_author(ID, author);
-    set_date(ID, date);
-    set_pagenb(ID, pagenb);
+    char* d = malloc(sizeof(char)*5);
+    sprintf(d, "%d", date);
+    set_date(ID, d);
+    sprintf(d, "%d", pagenb);
+    set_pagenb(ID, d);
     set_borrower(ID, "NULL");
     set_owner(ID, owner);
-    set_type(ID, type);
+    sprintf(d, "%d", type);
+    set_type(ID, d);
+    free(d);
 }
 
 int suppr_json(char*path){
