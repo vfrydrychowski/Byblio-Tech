@@ -391,13 +391,16 @@ void set_type(char* idObject, char* type){
 
 int add_us(User user){
     //existence check of user
-    char*id = uget_id(user);
-    id = user_path(id);
+    char*i = uget_id(user);
+    char* id = user_path(i);
     FILE*ptf = fopen(id,"r");
     if (ptf== NULL) {
         fclose(ptf);
         return 1;
     }else fclose(ptf);
+
+    add_userlist(i);
+    free(i);
 
     char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
     chartojson(id, JSON_user);
@@ -408,6 +411,7 @@ int add_us(User user){
     set_name(id, name);
     free(name);
     char* mail = uget_mail(user);
+    add_usermail(mail);
     set_mail(id, mail);
     free(mail);
     char** borrowings = uget_brw(user);
@@ -428,6 +432,7 @@ int add_us(User user){
 }
 
 void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, int type){
+    add_objlist(ID);
     ID = object_path(ID);
     char*JSON_obj = "{\n    \"title\" : \"\",\n    \"author\" : \"\",\n    \"date\" : 0,\n    \"pagenb\" : 0,\n    \"borrower\" : \"\",\n    \"owner\": \"\",\n    \"type\" : \"\"\n}";
     chartojson(ID, JSON_obj);
@@ -466,8 +471,8 @@ void add_userlist(char*id){
     add_List("data/user/u.json", id);
 }
 
-void add_usermail(char*id){
-    add_List("data/user/m.json", id);
+void add_usermail(char*mail){
+    add_List("data/user/m.json", mail);
 }
 
 int add_List(char* path, char* arg){
@@ -484,6 +489,22 @@ int add_List(char* path, char* arg){
     free(n_list);
     free(list);
     return 0;
+}
+
+void supr_blackList(char*mail){
+    supr_List("data/user/blacklist.json", mail);
+}
+
+void supr_objlist(char*id){
+    supr_List("data/object/obj.json", id);
+}
+
+void supr_userlist(char*id){
+    supr_List("data/user/u.json", id);
+}
+
+void supr_usermail(char*id){
+    supr_List("data/user/m.json", id);
 }
 
 int supr_List(char* path, char* arg){

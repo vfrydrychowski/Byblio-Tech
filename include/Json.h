@@ -96,10 +96,22 @@ void add_objlist(char*id);
 void add_userlist(char*id);
 
 //add the mail to the list
-void add_usermail(char*id);
+void add_usermail(char*mail);
 
 //add an argument to a list in a json file
 int add_List(char* path, char* arg);
+
+//remove email of the blacklist
+void supr_blackList(char*mail);
+
+//remove an object of the list
+void supr_objlist(char*id);
+
+//remove a user of the list
+void supr_userlist(char*id);
+
+//remove a mail of the list
+void supr_usermail(char*id);
 
 int supr_List(char* path, char* arg);
 
