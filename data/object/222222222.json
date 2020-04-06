@@ -2,6 +2,7 @@
     "title" : "La legende de Drizzt livre I, Terre Natale",
     "author" : "R.A. Salvatore",
     "date" : 2018,
+    "pagenb" : 427,
     "borrower" : "j",
     "owner" : "j",
     "type" : "fiction novel"

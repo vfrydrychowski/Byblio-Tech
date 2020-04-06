@@ -449,20 +449,35 @@ int suppr_json(char*path){
 }
 
 
-int add_blackList(char*mail){
-    char* blacklist=jsontochar("data/user/blacklist.json");
-    if (strstr(blacklist, mail) != NULL) return 1;
-    char* n_blacklist = strndup(blacklist, strlen(blacklist) - 3);
-    n_blacklist = realloc(n_blacklist, sizeof(char)*(strlen(blacklist)+strlen(mail)+5));
-    if (n_blacklist == NULL){
-        perror("add_blackList n_blacklist MALLOC ERROR");
+void add_blackList(char*mail){
+    add_List("data/user/blacklist.json", mail);
+}
+
+void add_objlist(char*id){
+    add_List("data/object/obj.json", id);
+}
+
+void add_userlist(char*id){
+    add_List("data/user/u.json", id);
+}
+
+void add_usermail(char*id){
+    add_List("data/user/m.json", id);
+}
+
+int add_List(char* path, char* arg){
+    char* list=jsontochar(path);
+    if (strstr(list, arg) != NULL) return 1;
+    char* n_list = strndup(list, strlen(list) - 3);
+    n_list = realloc(n_list, sizeof(char)*(strlen(list)+strlen(arg)+5));
+    if (n_list == NULL){
+        perror("add_List n_list MALLOC ERROR");
         exit(1);
     }
-    strcat(strcat(strcat(n_blacklist, ", \""), mail), "\"]\n}");
-    printf("%s\n", n_blacklist);
-    chartojson("data/user/blacklist.json", n_blacklist);
-    free(n_blacklist);
-    free(blacklist);
+    strcat(strcat(strcat(n_list, ", \""), arg), "\"]\n}");
+    chartojson(path, n_list);
+    free(n_list);
+    free(list);
     return 0;
 }
 
