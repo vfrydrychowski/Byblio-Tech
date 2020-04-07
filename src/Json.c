@@ -399,7 +399,7 @@ int add_us(User user){
         return 1;
     }else fclose(ptf);
 
-    add_userlist(i);
+    //add_userlist(i);
     free(i);
 
     char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
@@ -411,7 +411,7 @@ int add_us(User user){
     set_name(id, name);
     free(name);
     char* mail = uget_mail(user);
-    add_usermail(mail);
+    //add_usermail(mail);
     set_mail(id, mail);
     free(mail);
     char** borrowings = uget_brw(user);
@@ -432,7 +432,7 @@ int add_us(User user){
 }
 
 void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, int type){
-    add_objlist(ID);
+    //add_objlist(ID);
     ID = object_path(ID);
     char*JSON_obj = "{\n    \"title\" : \"\",\n    \"author\" : \"\",\n    \"date\" : 0,\n    \"pagenb\" : 0,\n    \"borrower\" : \"\",\n    \"owner\": \"\",\n    \"type\" : \"\"\n}";
     chartojson(ID, JSON_obj);
