@@ -55,4 +55,4 @@ dkms.conf
 test
 test.c
 testmalloc.c
-testtime.c
+testuser.c

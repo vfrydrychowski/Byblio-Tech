@@ -78,7 +78,7 @@ char** uget_brw(User util){
     char** brw = util->brw;
 	int size = get_size(brw);
 
-    char** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    char** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size);
 
@@ -91,56 +91,38 @@ char** uget_brw(User util){
 }
 
 void uset_brw(char** brw, User util){
-	int size = get_size(brw);
-
-    char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
-    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_brw[0], "%d", size);
-
-    for(int j = 1; j<= size; j++){
-        nv_brw[j]=(char*)malloc(sizeof(char)*(IDSIZE));
-        strcpy(nv_brw[j],brw[j]);
-    }
-
-    free_table(brw);
-    util->brw = nv_brw;
+    /*char** tab= util->brw;
+    if ( tab != NULL){
+        free_table(tab);
+    }*/
+    util->brw = brw;
 }
 
 char** uget_possession(User util){
-    char** possession = util->possession;
-	int size = get_size(possession);
-
-    char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    char** pos= util->possession;
+	int size = get_size(pos);
+    char** nv_pos=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size);
 
     for(int j = 1; j<= size; j++){
         nv_pos[j]=(char*)malloc(sizeof(char)*(IDSIZE));
-        strcpy(nv_pos[j],possession[j]);
+        strcpy(nv_pos[j],pos[j]);
     }
 
 	return nv_pos;
 }
 
 void uset_possession(char** possession, User util){
-	int size = get_size(possession);
-
-    char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
-    *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_pos[0], "%d", size);
-
-    for(int j = 1; j<= size; j++){
-        nv_pos[j]=(char*)malloc(sizeof(char)*(IDSIZE));
-        strcpy(nv_pos[j],possession[j]);
-    }
-
-    free_table(possession);
-    util->possession = nv_pos;
+    /*char** tab= util->possession;
+    if ( tab != NULL){
+        free_table(tab);
+    }*/
+    util->possession = possession;
 }
 
-int crea_user(User user, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
-    time_t t = time(NULL);
-    uset_id(ctime(&t),user);
+int crea_user(User user,char* id, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
+    uset_id(id,user);
     uset_forename(forename,user);
     uset_name(name,user);
     uset_mail(mail, user);
@@ -155,8 +137,8 @@ int crea_user(User user, char* forename, char* name, char* mail, char** brw, int
 
 void suppr_us(char* id,User user){
 	if (!(strcmp(user->id, id))){
-        if(suppr_all_possession(id, user)== 0){
-            return_back_all(id,user);
+        if(suppr_all_possession(user)== 0){
+            return_back_all(user);
             suppr_json(id);
         }
     }
@@ -164,8 +146,8 @@ void suppr_us(char* id,User user){
 
 void ban(char* id,User user){
     if(uget_grade(user)>get_grade(id)){
-        if(suppr_all_possession(id,user)== 0){
-            return_back_all(id,user);
+        if(suppr_all_possession(user)== 0){
+            return_back_all(user);
             add_blackList(get_mail(id));
             suppr_json(id);
         }
@@ -208,7 +190,7 @@ int borrowing(User util, char* idObject){
     char** brw = uget_brw(util);
 	int size = get_size(brw);
 
-    char ** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size+2));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size+1);
 
@@ -216,26 +198,20 @@ int borrowing(User util, char* idObject){
         nv_brw[j]=(char*)malloc(sizeof(char)*(IDSIZE));
         strcpy(nv_brw[j],brw[j]);
     }
-
+    nv_brw[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_brw[size+1],idObject);
-
-    set_borrower(idObject,uget_id(util));
-    set_borrowlist(util->id, duplicate_table(nv_brw));
     uset_brw(nv_brw,util);
 
     free_table(brw);
 	return 0;
 }
 
-int return_back(char* id, char* idObject, User util){
+int return_back(char* idObject, User util){
     char** brw = uget_brw(util);
 	int size = get_size(brw);
     int p = -1;
-    int i = 0;
+    int i = 1;
 
-    char ** nv_brw=(char**)malloc(sizeof(char*)*(size-1));//TOFREE
-    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_brw[0], "%d", size-1);
 
     for(int j = 1; j<= size; j++){
         if (!(strcmp(brw[j],idObject))){
@@ -246,37 +222,35 @@ int return_back(char* id, char* idObject, User util){
     if (p==-1){
         return 1;
     }
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(nv_brw[0], "%d", size-1);
 
     for(int j = 1; j<= size; j++){
         if (p!=j){
-            nv_brw[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+            nv_brw[i]=(char*)malloc(sizeof(char)*(IDSIZE));
             strcpy(nv_brw[i],brw[j]);
+
             i++;
         }        
     } 
 
     uset_brw(duplicate_table(nv_brw), util);
-    set_borrower(idObject,id);    
+    set_borrower(idObject,util->id);    
     set_borrowlist(util->id, nv_brw);
 
     free_table(brw);
 	return 0;
 }
 
-int return_back_all(char* id, User util){
+int return_back_all(User util){
 	int size = 0;
-    char** brw = uget_brw(util);
-    char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    char ** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size);
 
-    for(int j = 1; j<= size; j++){
-        set_borrower(brw[j],NULL);
-    }
-
     uset_brw(duplicate_table(nv_brw), util);
-    set_borrowlist(id, nv_brw);
-    free_table(brw);
+    set_borrowlist(util->id, nv_brw);
 
     return 0;
 }
@@ -294,6 +268,7 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
         strcpy(nv_pos[j],pos[j]);
     }
 
+    nv_pos[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_pos[size+1],idObject);
 
     add_livre(idObject, name, pagenb, author, date, owner,kind);
@@ -303,15 +278,12 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
 	return 0;
 }
 
-int suppr_possession(char* id, char* idObject, User user){
+int suppr_possession(char* idObject, User user){
     char** pos = uget_possession(user);
 	int size = get_size(pos);
     int p = -1;
-    int i = 0;
+    int i = 1;
 
-    char ** nv_pos=(char**)malloc(sizeof(char*)*(size-1));//TOFREE
-    *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_pos[0], "%d", size-1);
 
     for(int j = 1; j<= size; j++){
         if (!(strcmp(pos[j],idObject))){
@@ -322,44 +294,41 @@ int suppr_possession(char* id, char* idObject, User user){
     if (p==-1){
         return 1;
     }
-    
+    char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
+    *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(nv_pos[0], "%d", size-1);
+
     for(int j = 1; j<= size; j++){
         if (p!=j){
-            nv_pos[j]=(char*)malloc(sizeof(char)*(IDSIZE));
+            nv_pos[i]=(char*)malloc(sizeof(char)*(IDSIZE));
             strcpy(nv_pos[i],pos[j]);
+
             i++;
         }        
     } 
 
     uset_possession(duplicate_table(nv_pos), user);
-    suppr_object(idObject,id);   
+    suppr_object(idObject,user->id);   
     set_possesion(user->id, nv_pos);
 
     free_table(pos);
 	return 0;
 }
 
-int suppr_all_possession(char* id, User user){
-    int size = 0;
-    char** pos = uget_brw(user);
+int suppr_all_possession(User user){
+    int size = 1;
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
-    sprintf(nv_pos[0], "%d", size);
-
-    for(int j = 1; j<= size; j++){
-        suppr_object(pos[j],id);
-    }
+    sprintf(nv_pos[0], "%d", size-1);
 
     uset_brw(duplicate_table(nv_pos), user);
-    set_borrowlist(id, nv_pos);
-    free_table(pos);
+    set_borrowlist(user->id, nv_pos);
 
     return 0;
 }
 
 int get_size(char** tableau){
-	// TODO
-	return 0;
+	return ((int) tableau[0][0]) - 48;
 }
 
 void encrypt(char* pwd,char* crypwd){
@@ -400,7 +369,31 @@ char** duplicate_table(char** tab){
 	return nv_tab;
 }
 
+void print_user(User user){
+    printf("id = %s\n",uget_id(user));
+    printf("forename = %s\n",uget_forename(user));
+    printf("name = %s\n",uget_name(user));
+    printf("grade = %d\n",uget_grade(user));
+    printf("cryptedPw = %s\n",uget_cryptedPwd(user));
 
+    char** tab = uget_brw(user);
+    int taille = get_size(tab);
+    printf("borrow : %d\n",taille);
+    for (int i = 1; i<= taille;i++){
+        printf("id %d = %s\n",i,tab[i]);
+    }
+    free_table(tab);
+
+    tab = uget_possession(user);
+    taille = get_size(tab);
+    printf("possession : %d\n",taille);
+    for (int i = 1; i<= taille;i++){
+        printf("id %d = %s\n",i,tab[i]);
+    }
+    free_table(tab);
+
+
+}
 
 
 

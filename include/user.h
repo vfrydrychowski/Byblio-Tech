@@ -22,7 +22,7 @@ void uset_grade(int grade, User util);
 void uset_brw(char** brw, User util);
 void uset_possession(char** possession, User util);
 
-int crea_user(User user, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
+int crea_user(User user, char* id, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
 
 	/*
 	check for existing usernames
@@ -47,15 +47,15 @@ int borrowing(User util, char* idObject);
 	/*
 	update status of the object and add it of the current user’s borrowing list  
 	*/
-int return_back(char* id, char* idObject, User util);
+int return_back(char* idObject, User util);
 	/*
 	update status of the object and remove it of the current user’s borrowing list  
 	*/
-int return_back_all(char* id, User util);
+int return_back_all(User util);
 	/*
 	update status of all objects and remove it of the current user’s borrowing list  
 	*/
-int suppr_all_possession(char* id,User user);
+int suppr_all_possession(User user);
 	/*
 	update status of the object and remove it of the current user’s borrowing list
 	*/
@@ -63,7 +63,7 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
 	/*
 	add idObject to the user’s possesion list 
 	*/
-int suppr_possession(char* id, char* idObject, User user);
+int suppr_possession(char* idObject, User user);
 	/*
 	remove idObject of the user’s possesion list 
 	*/
