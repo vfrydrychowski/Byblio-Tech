@@ -12,8 +12,22 @@ void upd_index(){
     //TODO
 }
 char* search_name(char* name){
-    //TODO
-    return "";
+    char** tab = get_gen_table("data/object/obj.json", "obj");
+    char* index = malloc(sizeof(char)*get_table_size(tab)*(IDSIZE*2+2));
+    strcpy(index, "");
+    char* title;
+    for(int i = 1; i<=get_table_size(tab); i++){
+        
+        /* printf("%s\n", tab[i]);
+        strcat(index, tab[i]);
+        strcat(index, " ");
+        title = get_title(tab[i]);
+        strcat(index, title);
+        strcat(index, "\n"); */
+    }
+    free(title);
+    free_table(tab);
+    return index;
 }
 char* search_author(char* author){
     //TODO

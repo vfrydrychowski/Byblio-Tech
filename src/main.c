@@ -12,5 +12,6 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
+    printf("%s\n", search_name("lol"));
     return 0;
 }
