@@ -12,7 +12,8 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    char** tab = search_title("Drizzt");
+    char** tab = search_title("la");
+    printf("%s\n", jsontochar("data/object/222222222.json"));
     for(int i = 0; i<= get_table_size(tab); i++){
         printf("%s\n", tab[i]);
     } 

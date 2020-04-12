@@ -23,11 +23,11 @@ char** search_title(char* name){
         }
     }
     
-    char** index = (char*)malloc(sizeof(char*)*(size+1)*2);
+    char** index = (char**)malloc(sizeof(char*)*(size+1)*2);
     index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     char* csize = (char*)malloc(sizeof(char)*5);
     sprintf(csize, "%d", size*2);
-    index[0] = csize;
+    strcpy(index[0], csize);
 
     size=1;
     for(int i = 1; i<=get_table_size(tab) && size<(get_table_size(index)); i++){
