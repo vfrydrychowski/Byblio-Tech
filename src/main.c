@@ -12,6 +12,9 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    printf("%s\n", search_name("lol"));
+    char** tab = search_title("Drizzt");
+    for(int i = 0; i<= get_table_size(tab); i++){
+        printf("%s\n", tab[i]);
+    } 
     return 0;
 }

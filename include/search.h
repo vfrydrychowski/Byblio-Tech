@@ -8,10 +8,11 @@ void upd_index();
 	/*
 	update an index file were books are listed ready to be sort
 	*/
-char* search_name(char* name);
-	/*
-	return the books infos fitting the passed name;
+/*
+	return a table whith book's id in odds and books titles in evens;
 	*/
+char** search_title(char* name);
+	
 char* search_author(char* author);
 	/*
 	return the books infos fitting the passed author;
