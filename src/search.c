@@ -23,9 +23,9 @@ char** search_title(char* name){
         }
     }
     
-    char** index = malloc(sizeof(char*)*(size+1)*2);
-    index[0] = malloc(sizeof(char)*IDSIZE);
-    char* csize = malloc(sizeof(char)*5);
+    char** index = (char*)malloc(sizeof(char*)*(size+1)*2);
+    index[0] = (char*)malloc(sizeof(char)*IDSIZE);
+    char* csize = (char*)malloc(sizeof(char)*5);
     sprintf(csize, "%d", size*2);
     index[0] = csize;
 
@@ -33,10 +33,10 @@ char** search_title(char* name){
     for(int i = 1; i<=get_table_size(tab) && size<(get_table_size(index)); i++){
         title = get_title(tab[i]);
         if (strstr(title, name) != NULL){
-            index[size] = malloc(sizeof(char)*IDSIZE);
+            index[size] = (char*)malloc(sizeof(char)*IDSIZE);
             strcpy(index[size], tab[i]);
             size++;
-            index[size] = malloc(sizeof(char)*NAMESIZE);
+            index[size] = (char*)malloc(sizeof(char)*NAMESIZE);
             strcpy(index[size], title);
             size++;
             
@@ -49,6 +49,8 @@ char** search_title(char* name){
         strcat(index, "\n"); */
     }
     free_table(tab);
+    free(csize);
+    free(title);
     return index;
 }
 char* search_author(char* author){
