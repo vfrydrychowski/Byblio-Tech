@@ -21,6 +21,7 @@ char** search_title(char* name){
         if (strstr(title, name) != NULL){
             size++;
         }
+        free(title);
     }
     
     char** index = (char**)malloc(sizeof(char*)*(size+1)*2);
@@ -28,7 +29,7 @@ char** search_title(char* name){
     char* csize = (char*)malloc(sizeof(char)*5);
     sprintf(csize, "%d", size*2);
     strcpy(index[0], csize);
-
+    //for each titles that match name, we put the title and the id in the table
     size=1;
     for(int i = 1; i<=get_table_size(tab) && size<(get_table_size(index)); i++){
         title = get_title(tab[i]);
@@ -39,8 +40,8 @@ char** search_title(char* name){
             index[size] = (char*)malloc(sizeof(char)*NAMESIZE);
             strcpy(index[size], title);
             size++;
-            
         }
+        free(title);
         /* printf("%s\n", tab[i]);
         strcat(index, tab[i]);
         strcat(index, " ");
@@ -50,12 +51,44 @@ char** search_title(char* name){
     }
     free_table(tab);
     free(csize);
-    free(title);
     return index;
 }
-char* search_author(char* author){
-    //TODO
-    return "";
+
+char** search_author(char* author){
+    char** tab = get_gen_table("data/object/obj.json", "obj");
+    //first loop to find the size of index
+    int size=0;
+    char* auth;
+    for(int i = 1; i<=get_table_size(tab); i++){
+        auth = get_author(tab[i]);
+        if (strstr(auth, author) != NULL){
+            size++;
+        }
+        free(auth);
+    }
+    
+    char** index = (char**)malloc(sizeof(char*)*(size+1)*2);
+    index[0] = (char*)malloc(sizeof(char)*IDSIZE);
+    char* csize = (char*)malloc(sizeof(char)*5);
+    sprintf(csize, "%d", size*2);
+    strcpy(index[0], csize);
+    //for each author that match name, we put the author and the id in the table
+    size=1;
+    for(int i = 1; i<=get_table_size(tab) && size<(get_table_size(index)); i++){
+        auth = get_author(tab[i]);
+        if (strstr(auth, author) != NULL){
+            index[size] = (char*)malloc(sizeof(char)*IDSIZE);
+            strcpy(index[size], tab[i]);
+            size++;
+            index[size] = (char*)malloc(sizeof(char)*NAMESIZE);
+            strcpy(index[size], auth);
+            size++; 
+        }
+        free(auth);
+    }
+    free_table(tab);
+    free(csize);
+    return index;
 }
 char* search_date(int date){
     //TODO

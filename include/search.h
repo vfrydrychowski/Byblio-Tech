@@ -9,14 +9,15 @@ void upd_index();
 	update an index file were books are listed ready to be sort
 	*/
 /*
-	return a table whith book's id in odds and books titles in evens;
-	*/
+	return a table whith books id in odd and books titles in even
+*/
 char** search_title(char* name);
 	
-char* search_author(char* author);
-	/*
-	return the books infos fitting the passed author;
-	*/
+/*
+	return a table whith books id in odd and books authors in even
+*/	
+char** search_author(char* author);
+	
 char* search_date(int date);
 	/*
 	return the books infos fitting the passed date;
