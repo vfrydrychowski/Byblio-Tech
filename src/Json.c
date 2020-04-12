@@ -569,15 +569,16 @@ char* jsontochar(char * file_path){
     int i;
     char* c;
     int size_file = findSize(jsptr);
-    c = (char*)malloc(sizeof(char)*size_file);//TOFREE
+    c = (char*)malloc(sizeof(char)*(size_file+1));//TOFREE
     if (c == NULL){
             perror("jsontochar c MALLOC ERROR");
             exit(1);
         }
     //fill c with the text in the json file
-    for (int j = 0;(i = getc(jsptr)) != EOF;j++){
+    for (int j = 0;(i = getc(jsptr)) != EOF && j<size_file;j++){
         c[j] = i;
     }
+    c[size_file] = '\0'; //ensure that the string has an ending
     fclose(jsptr);
     return c;
 }
