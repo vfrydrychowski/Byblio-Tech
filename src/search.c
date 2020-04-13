@@ -90,10 +90,44 @@ char** search_author(char* author){
     free(csize);
     return index;
 }
-char* search_date(int date){
-    //TODO
-    return "";
+
+char** search_date(char* date){
+    char** tab = get_gen_table("data/object/obj.json", "obj");
+    //first loop to find the size of index
+    int size=0;
+    char* d;
+    for(int i = 1; i<=get_table_size(tab); i++){
+        d = get_date(tab[i]);
+        if (strstr(d, date) != NULL){
+            size++;
+        }
+        free(d);
+    }
+    
+    char** index = (char**)malloc(sizeof(char*)*(size+1)*2);
+    index[0] = (char*)malloc(sizeof(char)*IDSIZE);
+    char* csize = (char*)malloc(sizeof(char)*5);
+    sprintf(csize, "%d", size*2);
+    strcpy(index[0], csize);
+    //for each author that match name, we put the author and the id in the table
+    size=1;
+    for(int i = 1; i<=get_table_size(tab) && size<(get_table_size(index)); i++){
+        d = get_date(tab[i]);
+        if (strstr(d, date) != NULL){
+            index[size] = (char*)malloc(sizeof(char)*IDSIZE);
+            strcpy(index[size], tab[i]);
+            size++;
+            index[size] = (char*)malloc(sizeof(char)*NAMESIZE);
+            strcpy(index[size], d);
+            size++; 
+        }
+        free(d);
+    }
+    free_table(tab);
+    free(csize);
+    return index;
 }
+
 void search(){
     //TODO
 }

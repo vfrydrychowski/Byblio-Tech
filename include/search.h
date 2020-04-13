@@ -18,10 +18,11 @@ char** search_title(char* name);
 */	
 char** search_author(char* author);
 	
-char* search_date(int date);
-	/*
-	return the books infos fitting the passed date;
-	*/
+/*
+	return a table whith books id in odd and books date in even
+*/
+char** search_date(char* date);
+	
 void search();
 	/*
 	start the search module
