@@ -3,13 +3,14 @@
 
 
 
-
-void upd_index();
-	/*
+/*
 	update an index file were books are listed ready to be sort
-	*/
+*/
+void upd_index();
+	
 /*
 	return a table whith books id in odd and books titles in even
+	to get the list of evey titles, name = ""
 */
 char** search_title(char* name);
 	

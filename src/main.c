@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define JSMN_HEADER
 #include "../include/Json.h"
@@ -12,10 +13,9 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    char** tab = search_date("20");
-    printf("%s\n", jsontochar("data/object/222222222.json"));
-    for(int i = 0; i<= get_table_size(tab); i++){
+    char** tab = search_title("");
+     for(int i = 0; i<= get_table_size(tab); i++){
         printf("%s\n", tab[i]);
-    } 
+    }  
     return 0;
 }
