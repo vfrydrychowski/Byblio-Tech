@@ -1,4 +1,6 @@
-#define __SEARCHH__
+#ifndef __SEARCHH__
+	#define __SEARCHH__
+
 
 
 
@@ -22,3 +24,4 @@ void search();
 	/*
 	start the search module
 	*/
+#endif

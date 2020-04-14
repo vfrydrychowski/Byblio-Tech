@@ -1,4 +1,10 @@
-#define __USERH__
+#ifndef __USERH__
+	#define __USERH__
+	#define IDSIZE 64
+	#define NAMESIZE 64
+	#define PWSIZE 64
+	#define MAILSIZE 64
+
 
 typedef struct user_s* User;
 
@@ -67,21 +73,16 @@ int suppr_possession(char* idObject, User user);
 	/*
 	remove idObject of the user’s possesion list 
 	*/
-int get_size(char** tableau);
-	/*
-	return the number of element in the tableau
-	*/
 
 void encrypt(char* pwd, char* crypwd);
+
 	/*
 	encrypt pwd and put it in crywd
 	*/
 
-void free_table(char** tab);
-	/*
-	free le tableau
-	*/
 char** duplicate_table(char** tab);
 	/*
 	dupilcate tab of ID using a malloc
 	*/
+
+#endif

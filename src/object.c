@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h> 
+#include <string.h>
+
+#define JSMN_HEADER
 #include "../include/user.h"
 #include "../include/object.h"
 #include "../include/Json.h"

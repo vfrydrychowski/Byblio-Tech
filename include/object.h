@@ -1,4 +1,5 @@
-#define __OBJECTH__
+#ifndef __OBJECTH__
+	#define __OBJECTH__
 
 
 int borrowing_object(char* idObject, char* idUser);
@@ -20,3 +21,4 @@ int suppr_object(char* idObject, char* idUser);
 		-remove the Json of object
 		-update possession of user
 	*/
+#endif

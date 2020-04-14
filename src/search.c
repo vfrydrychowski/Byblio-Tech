@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define JSMN_HEADER
 #include "../include/search.h"
 #include "../include/Json.h"
 #include "../include/SISO.h"

@@ -7,7 +7,8 @@ OBJ = $(SRC:.c=.o)
 EXEC = Byblio-Tech.exe
 
 all: $(EXEC)
-	mkdir -p lib
+	mkdir -p data/object
+	mkdir -p data/user
 
 $(EXEC): $(OBJ) $(INCLUDE)/*.h
 	$(GCC) $(CFLAGS) -o $(EXEC) $(OBJ) -I$(INCLUDE)

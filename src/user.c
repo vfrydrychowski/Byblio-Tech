@@ -1,16 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h> 
-#include <time.h>
+#include <string.h>
+#include <time.h> 
 #include "../include/user.h"
 #include "../include/object.h"
 #include "../include/SISO.h"
+#define JSMN_HEADER
 #include "../include/Json.h"
 
-#define IDSIZE 64
-#define NAMESIZE 64
-#define PWSIZE 64
-#define MAILSIZE 64
+
 
 typedef struct user_s {
 
@@ -76,7 +74,7 @@ void uset_grade(int grade, User util){
 
 char** uget_brw(User util){
     char** brw = util->brw;
-	int size = get_size(brw);
+	int size = get_table_size(brw);
 
     char** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -100,7 +98,7 @@ void uset_brw(char** brw, User util){
 
 char** uget_possession(User util){
     char** pos= util->possession;
-	int size = get_size(pos);
+	int size = get_table_size(pos);
     char** nv_pos=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size);
@@ -166,7 +164,7 @@ int login(char* id, char* pwd, User util){
         char* pointer = get_name(id);
         uset_forename(pointer,util);
         free(pointer);
-        pointer = get_surname(id);
+        pointer = get_forename(id);
         uset_name(pointer,util);
         free(pointer);
         pointer = get_mail(id);
@@ -188,7 +186,7 @@ int login(char* id, char* pwd, User util){
 
 int borrowing(User util, char* idObject){
     char** brw = uget_brw(util);
-	int size = get_size(brw);
+	int size = get_table_size(brw);
 
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size+2));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -208,7 +206,7 @@ int borrowing(User util, char* idObject){
 
 int return_back(char* idObject, User util){
     char** brw = uget_brw(util);
-	int size = get_size(brw);
+	int size = get_table_size(brw);
     int p = -1;
     int i = 1;
 
@@ -257,7 +255,7 @@ int return_back_all(User util){
 
 int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, int kind){
     char** pos = uget_possession(user);
-	int size = get_size(pos);
+	int size = get_table_size(pos);
 
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -280,7 +278,7 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
 
 int suppr_possession(char* idObject, User user){
     char** pos = uget_possession(user);
-	int size = get_size(pos);
+	int size = get_table_size(pos);
     int p = -1;
     int i = 1;
 
@@ -345,17 +343,8 @@ void encrypt(char* pwd,char* crypwd){
     } 
 }
 
-
-void free_table(char** tab){
-    int size = atoi(*tab);
-    for(int j = 0; j<= size; j++){
-        free(tab[j]);
-    }
-    free(tab);
-}
-
 char** duplicate_table(char** tab){
-	int size = get_size(tab);
+	int size = get_table_size(tab);
 
     char ** nv_tab=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_tab = (char*)malloc(sizeof(char)*(IDSIZE));
