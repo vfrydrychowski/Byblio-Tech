@@ -282,5 +282,19 @@ char** search_date(char* date){
 }
 
 void search(){
-    //TODO
+    int query = 0;
+    printf(" ----------------------------------------------------------------------\n");
+    printf("|             Welcome to the quantum search algorithme!!               |\n");
+    printf(" ----------------------------------------------------------------------\n");
+    printf("| Please define the type of algorithm in order to find your happiness: |\n");
+    printf("|                                                                      |\n");
+    printf("| Search by:                                                           |\n");
+    printf("| 1 : Title                                                            |\n");
+    printf("| 2 : Author                                                           |\n");
+    printf("| 3 : Date                                                             |\n");
+    printf("| 4 : Type                                                             |\n");
+    printf(" ----------------------------------------------------------------------\n");
+    printf("  Your query : ");
+    read_int(&query);
+    printf("\n%d\n", query);
 }
