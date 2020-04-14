@@ -13,10 +13,12 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    /* char** tab = search_date("");
-     for(int i = 0; i<= get_table_size(tab); i++){
-        printf("%s\n", tab[i]);
-    }   */
-    search();
+    char** tab = get_possession("j");
+    free_table(tab);
+    
+    printf("ok\n");
+
+    char** tab2 = get_borrowlist("j");
+    free_table(tab2);
     return 0;
 }
