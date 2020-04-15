@@ -203,6 +203,10 @@ char* get_title(char* idObject){
     return get_gen(idObject, "title");
 }
 
+char* get_pagenb(char* idObject){
+    idObject = object_path(idObject);
+    return get_gen(idObject, "pagenb");
+}
 
 char* get_author(char* idObject){
     idObject = object_path(idObject);
