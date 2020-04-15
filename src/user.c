@@ -136,10 +136,8 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
     uset_brw(duplicate_table(rand),user);
     uset_possession(rand,user);
 
-    printf("struc user create\n");
     add_userlist(id);
     add_usermail(mail);
-    printf("list maj\n");
     add_us(user);
 	return user;
 }
@@ -213,8 +211,8 @@ void logout(User user){
 }
 
 void free_user(User user){
-    free(user->brw);
-    free(user->possession);
+    free_table(user->brw);
+    free_table(user->possession);
 
     free(user);
 }
@@ -233,6 +231,9 @@ int borrowing(User util, char* idObject){
     }
     nv_brw[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_brw[size+1],idObject);
+
+    set_borrowlist(util->id,nv_brw);
+    set_borrower(idObject,util->id);
     uset_brw(nv_brw,util);
 
     free_table(brw);
@@ -268,8 +269,8 @@ int return_back(char* idObject, User util){
         }        
     } 
 
-    uset_brw(duplicate_table(nv_brw), util);
-    set_borrower(idObject,util->id);    
+    uset_brw(nv_brw, util);
+    set_borrower(idObject,"");    
     set_borrowlist(util->id, nv_brw);
 
     free_table(brw);
@@ -281,6 +282,12 @@ int return_back_all(User util){
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size);
+
+    char** brw = uget_brw(util);
+    size = get_table_size(brw);
+    for (int i = 1; i<=size; i++){
+        set_borrower(brw[i],"");
+    }
 
     uset_brw(duplicate_table(nv_brw), util);
     set_borrowlist(util->id, nv_brw);

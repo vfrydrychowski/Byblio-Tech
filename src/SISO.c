@@ -59,7 +59,7 @@ void read_string(char* string, int size_str){
 
 
 void print_user(char* id){
-    printf("id = %s\n",id);
+    printf("User = %s\n",id);
     char* arg = get_forename(id);
     printf("forename = %s\n",arg);
     free(arg);
@@ -79,7 +79,7 @@ void print_user(char* id){
     int taille = get_table_size(tab2);
     printf("possession : %d\n",taille);
     for (int i = 1; i<= taille;i++){
-        printf("%d = %s\n",i,tab2[i]);
+        printf("n%d = %s\n",i,tab2[i]);
     }
     free_table(tab2);
     
@@ -87,13 +87,15 @@ void print_user(char* id){
     taille = get_table_size(tab);
     printf("borrow : %d\n",taille);
     for (int i = 1; i<= taille;i++){
-        printf("%d = %s\n",i,tab[i]);
+        printf("n%d = %s\n",i,tab[i]);
     }
     free_table(tab);
+
+    printf("\n");
 }
 
 void print_object(char* id){
-    printf("id = %s\n",id);
+    printf("Object = %s\n",id);
     char* data = get_title(id);
     printf("tiltle : %s\n",data);
     free(data);
@@ -115,5 +117,7 @@ void print_object(char* id){
     data = get_type(id);
     printf("type : %s\n",data);
     free(data);
+
+    printf("\n");
 
 }

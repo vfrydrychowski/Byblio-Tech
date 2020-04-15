@@ -36,14 +36,17 @@ void print_User(User user){
 
 int main()
 {
+    /*char* path = user_path("007");
+    suppr_json(path);
+    free(path);
     printf("hello world\n");
     User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
     borrowing(current_user, "1");
-    //set_borrower("1","007");
     print_object("1");
-    print_User(current_user);
+    print_user("007");
     logout(current_user);
-    print_User(current_user);
-    //free_user(current_user);
-    return 0;
+    print_user("007");
+    free_user(current_user);
+    return 0;*/
+    set_borrower("1","007");
 }
