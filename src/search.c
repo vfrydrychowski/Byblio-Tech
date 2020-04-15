@@ -287,70 +287,116 @@ char** search_date(char* date){
 
 void search(){
     int query = -1;
+    int pos = -1;
     char* arg = (char*)malloc(sizeof(char)*NAMESIZE);
     strcpy(arg, "");
     char** index;
+    while (pos == -1){
+        printf(" ----------------------------------------------------------------------\n");
+        printf("|             Welcome to the quantum search algorithme!!               |\n");
+        printf(" ----------------------------------------------------------------------\n");
+        printf("| Please define the type of algorithm in order to find your happiness: |\n");
+        printf("|                                                                      |\n");
+        printf("| Search by:                                                 Quit : 0  |\n");
+        printf("| 1 : Title                                                            |\n");
+        printf("| 2 : Author                                                           |\n");
+        printf("| 3 : Date                                                             |\n");
+        printf("| 4 : Type                                                             |\n");
+        printf(" ----------------------------------------------------------------------\n");
+        pos = -2;
+        while (pos == -2){
+            printf("  Your query : ");
+            read_int(&query);
+            //printf("\n%d\n", query);
+            switch (query)
+            {
+                case 1:
+                    
+                    printf(" ----------------------------------------------------------------------\n");
+                    printf("|  Please enter the wanted title (to list them all just press enter)   |\n");
+                    printf(" ----------------------------------------------------------------------\n");
+                    printf("  title : ");
+                    read_string(arg, NAMESIZE);
+                    index = search_title(arg);
+                    pos = -3;
+                    while(pos == -3){
+                        //print the found list
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("|  Select a title                                            0 : back  |\n");
+                        printf(" ----------------------------------------------------------------------\n");
+                        
+                        for (int i = 1; i<get_table_size(index); i=i+2){
+                            printf("  %d : %s\n", i/2+1, index[i]);
+                        }
+                        printf("Selection : ");
+                        read_int(&query);
+                        if (query == 0) {
+                            pos = -1;
+                            cleanscr();
+                            printf("                         --------------\n");
+                            printf("                        | Back to menu |\n");
+                            printf("                         --------------\n");
+                            //cleanscr();
+                        }
+                        else if (query < get_table_size(index) && query > 0)
+                        {
+                            pos = -4;
+                            while(pos == -4){
+                                //print the selected object
+                                printf(" ----------------------------------------------------------------------\n");
+                                printf("|                                                            0 : back  |\n");
+                                printf(" ----------------------------------------------------------------------\n");
+                                print_object(index[query*2]);
+                                read_int(&pos);
+                                switch (pos)
+                                {
+                                case 0:
+                                    pos = -3;
+                                    break;
+                                
+                                default:
+                                    pos = -4;
+                                    break;
+                                }
+                            }
+                            
 
-    printf(" ----------------------------------------------------------------------\n");
-    printf("|             Welcome to the quantum search algorithme!!               |\n");
-    printf(" ----------------------------------------------------------------------\n");
-    printf("| Please define the type of algorithm in order to find your happiness: |\n");
-    printf("|                                                                      |\n");
-    printf("| Search by:                                                 Quit : 0  |\n");
-    printf("| 1 : Title                                                            |\n");
-    printf("| 2 : Author                                                           |\n");
-    printf("| 3 : Date                                                             |\n");
-    printf("| 4 : Type                                                             |\n");
-    printf(" ----------------------------------------------------------------------\n");
-    while (query == -1){
-        printf("  Your query : ");
-        read_int(&query);
-        //printf("\n%d\n", query);
-        switch (query)
-        {
-            case 1:
+                        }
+                        else{
+                            pos = -3;
+                        }
+                    }
+                    
+                    break;
+
+                case 2:
+                    printf(" ----------------------------------------------------------------------\n");
+                    printf("|  Please enter the wanted author (to list them all just press enter)  |\n");
+                    printf(" ----------------------------------------------------------------------\n");
+                    break;
                 
-                printf(" ----------------------------------------------------------------------\n");
-                printf("|  Please enter the wanted title (to list them all just press enter)   |\n");
-                printf(" ----------------------------------------------------------------------\n");
-                printf("  title :\n");
-                read_string(arg, NAMESIZE);
-                index = search_title(arg);
-                for (int i = 0; i<get_table_size(index); i++){
-                    printf("%s\n", index[i]);
-                }
-                
-                break;
+                case 3:
+                    printf(" ----------------------------------------------------------------------\n");
+                    printf("|  Please enter the wanted date (to list them all just press enter)    |\n");
+                    printf(" ----------------------------------------------------------------------\n");
+                    break;
 
-            case 2:
-                printf(" ----------------------------------------------------------------------\n");
-                printf("|  Please enter the wanted author (to list them all just press enter)  |\n");
-                printf(" ----------------------------------------------------------------------\n");
-                break;
-            
-            case 3:
-                printf(" ----------------------------------------------------------------------\n");
-                printf("|  Please enter the wanted date (to list them all just press enter)    |\n");
-                printf(" ----------------------------------------------------------------------\n");
-                break;
+                case 4:
+                    printf(" ----------------------------------------------------------------------\n");
+                    printf("|  Please enter the wanted type (to list them all just press enter)    |\n");
+                    printf(" ----------------------------------------------------------------------\n");
+                    break;
+                case 0:
+                    pos = 1;
+                    printf("                             Goodby\n");
+                    break;
 
-            case 4:
-                printf(" ----------------------------------------------------------------------\n");
-                printf("|  Please enter the wanted type (to list them all just press enter)    |\n");
-                printf(" ----------------------------------------------------------------------\n");
-                break;
-
-            case 0:
-                cleanscr();
-                printf("                         --------------\n");
-                printf("                        | Back to menu |\n");
-                printf("                         --------------\n");
-                //cleanscr();
-                break;
-            default:
-                query= -1;
-                break;
+                default:
+                    query= -2;
+                    break;
+            }
         }
     }
+    
     
 }
