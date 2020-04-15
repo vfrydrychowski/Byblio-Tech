@@ -64,8 +64,7 @@ int main()
     print_user("007");
     
 
-    print_object("21");
-    print_object("22");
+
     logout(current_user);
     print_User(current_user);
     free_user(current_user);

@@ -165,7 +165,7 @@ User login(char* id, char* pwd){
     char crypwd[PWSIZE];
     encrypt(pwd, crypwd);
 	if(strcmp (crypwd ,get_pwd (id) ) ){
-        return 1;
+        exit(1);
     }
     else
     {
@@ -391,6 +391,13 @@ int suppr_all_possession(User user){
     int size = get_table_size(pos);
 
     for(int j = 1; j<= size; j++){
+        char* borrower_id = get_borrower(pos[j]);
+        if(!(strcmp("", borrower_id))){
+        User borrower = charge_user(borrower_id);
+        return_back(pos[j], borrower);
+        free_user(borrower);
+        }
+        free(borrower_id);
         char* path = object_path(pos[j]);
         suppr_json(path);
         free(path); 
