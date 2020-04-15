@@ -60,6 +60,7 @@ int main()
     print_object("21");
     print_object("22");
     suppr_possession("2",current_user);
+    prinf("suppr ok\n");
     suppr_all_possession(current_user);
     print_user("007");
     
