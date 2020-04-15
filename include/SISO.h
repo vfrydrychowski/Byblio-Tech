@@ -18,6 +18,15 @@ int read_int(int* nb);
     assumed that string has already been allocate
     */
 void read_string(char* string, int size_str);
+
+/*
+    print data of the user who have this id
+    */
+void print_user(char* id);
     
+/*
+    print data of the object witch have this id
+    */
+void print_user(char* id);
 
 #endif

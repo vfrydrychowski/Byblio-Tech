@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
+
 #include "../include/SISO.h"
+#define JSMN_HEADER
+#include "../include/Json.h"
 
 void cleanbuff(){
     int c = 0;
@@ -52,3 +55,69 @@ void read_string(char* string, int size_str){
     }
     *enter = '\0';
 }
+
+
+void print_user(char* id){
+    printf("id = %s\n",id);
+    char* arg = get_forename(id);
+    printf("forename = %s\n",arg);
+    free(arg);
+    arg = get_name(id);
+    printf("name = %s\n",arg);
+    free(arg);
+    printf("grade = %d\n",arg);
+    arg = get_pwd(id);
+    printf("cryptedPw = %s\n",arg);
+    free(arg);
+    arg = get_mail(id);
+    printf("mail = %s\n",arg);
+    free(arg);
+
+    
+    char** tab2 = get_possession(id);
+    int taille = get_table_size(tab2);
+    printf("possession : %d\n",taille);
+    for (int i = 1; i<= taille;i++){
+        printf("%d = %s\n",i,tab2[i]);
+    }
+    free_table(tab2);
+    
+    char** tab = get_borrowlist(id);
+    printf("ok\n");
+    taille = get_table_size(tab);
+    printf("borrow : %d\n",taille);
+    for (int i = 1; i<= taille;i++){
+        printf("%d = %s\n",i,tab[i]);
+    }
+    free_table(tab);
+
+    printf("ok\n");
+
+
+
+}
+
+/*void print_object(char* id){
+    char* data = get_title(id);
+    printf("tiltle : %s\n",data);
+    free(data);
+    data = get_pagenb(id);
+    printf("number of pages : %s\n",data);
+    free(data);
+    data = get_author(id);
+    printf("author : %s\n",data);
+    free(data);
+    data = get_date(id);
+    printf("date : %s\n",data);
+    free(data);
+    data = get_borrower(id);
+    printf("borrower : %s\n",data);
+    free(data);
+    data = get_owner(id);
+    printf("owner : %s\n",data);
+    free(data);
+    data = get_type(id);
+    printf("type : %s\n",data);
+    free(data);
+
+}*/

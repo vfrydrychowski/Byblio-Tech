@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <time.h> 
+#include <time.h>
 #include "../include/user.h"
 #include "../include/object.h"
 #include "../include/SISO.h"
@@ -330,7 +330,7 @@ int suppr_possession(char* id, char* idObject, User user){
     } 
 
     uset_possession(duplicate_table(nv_pos), user);
-    suppr_object(idObject,id);   
+    suppr_json(idObject);   
     set_possesion(user->id, nv_pos);
 
     free_table(pos);
@@ -345,7 +345,7 @@ int suppr_all_possession(char* id, User user){
     sprintf(nv_pos[0], "%d", size);
 
     for(int j = 1; j<= size; j++){
-        suppr_object(pos[j],id);
+        suppr_json(pos[j]);
     }
 
     uset_brw(duplicate_table(nv_pos), user);
