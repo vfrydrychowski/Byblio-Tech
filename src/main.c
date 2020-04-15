@@ -17,6 +17,7 @@ int main(int argc, char const *argv[])
      for(int i = 0; i<= get_table_size(tab); i++){
         printf("%s\n", tab[i]);
     }   */
-    search();
+    //search();
+    printf("%s\n", get_pagenb("1"));
     return 0;
 }
