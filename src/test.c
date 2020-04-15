@@ -44,6 +44,6 @@ int main()
     print_User(current_user);
     logout(current_user);
     print_User(current_user);
-    free_user(current_user);
+    //free_user(current_user);
     return 0;
 }
