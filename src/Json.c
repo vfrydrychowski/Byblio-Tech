@@ -399,7 +399,6 @@ int add_us(User user){
     char* id = user_path(i);
     FILE*ptf = fopen(id,"r");
     if (ptf== NULL) {
-        fclose(ptf);
         return 1;
     }else fclose(ptf);
 
