@@ -15,7 +15,7 @@ char* user_path(char* iduser){
         perror("user_path MALLOC ERROR");
         exit(1);
     }
-    strcat(path,"data/user/");
+    strcpy(path,"data/user/");
     strcat(path, iduser);
     strcat(path, ".json");
     return path;
@@ -28,7 +28,7 @@ char* object_path(char* idObject){
         perror("object_path MALLOC ERROR");
         exit(1);
     }
-    strcat(path,"data/object/");
+    strcpy(path, "data/object/");
     strcat(path, idObject);
     strcat(path, ".json");
     return path;

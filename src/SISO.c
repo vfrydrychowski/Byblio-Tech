@@ -24,8 +24,8 @@ int read_int(int* nb){
         exit(1);
     }
 
+    read_string(temp,9);
     //ASCII check
-    read_string(temp,sizeof(char)*9);
     for(int i=0; i<strlen(temp); i++){
         if (((int)temp[i] < 48 || (int)temp[i] > 57) && (int)temp[i] != 45){
             bool = 0;
@@ -51,8 +51,10 @@ void read_string(char* string, int size_str){
     char* enter = NULL;
     enter = strchr(string, '\n');
     if (enter == NULL){
+        string[size_str] = '\0';
         cleanbuff();
     }
+<<<<<<< HEAD
     *enter = '\0';
 }
 
@@ -121,3 +123,10 @@ void print_user(char* id){
     free(data);
 
 }*/
+=======
+    else{
+        *enter = '\0';
+    }
+    
+}
+>>>>>>> fcd67c97d4de293b130c03a2bc1379a73c46e0f1
