@@ -27,6 +27,6 @@ void print_user(char* id);
 /*
     print data of the object witch have this id
     */
-void print_user(char* id);
+void print_object(char* id);
 
 #endif

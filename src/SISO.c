@@ -54,7 +54,6 @@ void read_string(char* string, int size_str){
         string[size_str] = '\0';
         cleanbuff();
     }
-<<<<<<< HEAD
     *enter = '\0';
 }
 
@@ -85,21 +84,16 @@ void print_user(char* id){
     free_table(tab2);
     
     char** tab = get_borrowlist(id);
-    printf("ok\n");
     taille = get_table_size(tab);
     printf("borrow : %d\n",taille);
     for (int i = 1; i<= taille;i++){
         printf("%d = %s\n",i,tab[i]);
     }
     free_table(tab);
-
-    printf("ok\n");
-
-
-
 }
 
-/*void print_object(char* id){
+void print_object(char* id){
+    printf("id = %s\n",id);
     char* data = get_title(id);
     printf("tiltle : %s\n",data);
     free(data);
@@ -122,11 +116,4 @@ void print_user(char* id){
     printf("type : %s\n",data);
     free(data);
 
-}*/
-=======
-    else{
-        *enter = '\0';
-    }
-    
 }
->>>>>>> fcd67c97d4de293b130c03a2bc1379a73c46e0f1
