@@ -74,7 +74,7 @@ void set_type(char* idObject, char* type);
 int add_us(User user);
 
 
-void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, int type);
+void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, char* type);
 /*
          create the json file with the infos passed
     */
