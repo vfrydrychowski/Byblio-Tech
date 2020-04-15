@@ -122,6 +122,7 @@ char** get_gen_table(char* ID, char* arg){
 }
 
 char *tab_to_string(char** tab){
+    if (get_table_size(tab) == 0) return "[]";
     char* str = (char*)malloc((sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
     if (str == NULL){
             perror("tab_to_string str MALLOC ERROR");
@@ -343,7 +344,7 @@ void set_mail(char* idUser, char* mail){
 
 void set_possesion(char* idUser, char** possesion){
     idUser = user_path(idUser);
-    set_gen_table(idUser, "possesion", possesion);
+    set_gen_table(idUser, "possession", possesion);
 }
 
 void set_borrowlist(char* idUser, char ** borrowlist){
@@ -398,42 +399,44 @@ int add_us(User user){
     char*i = uget_id(user);
     char* id = user_path(i);
     FILE*ptf = fopen(id,"r");
-    if (ptf== NULL) {
+    if (ptf!= NULL) {
+        //fclose(ptf);
         fclose(ptf);
         return 1;
-    }else fclose(ptf);
+    }
 
     //add_userlist(i);
-    free(i);
+    
 
-    char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowings\" : \"\",\n  \"possession\" : \"\",\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
+    char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowlist\" : [],\n  \"possession\" : [],\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
     chartojson(id, JSON_user);
+    free(id);
     char* forename = uget_forename(user);
-    set_forename(id, forename);
-    free(forename);
+    set_forename(i, forename);
+    //free(forename);
     char* name = uget_forename(user);
-    set_name(id, name);
-    free(name);
+    set_name(i, name);
+    //free(name);
     char* mail = uget_mail(user);
     //add_usermail(mail);
-    set_mail(id, mail);
-    free(mail);
+    set_mail(i, mail);
+    //free(mail);
     char** borrowings = uget_brw(user);
-    set_borrowlist(id, borrowings);
-    free_table(borrowings);
+    set_borrowlist(i, borrowings);
+    //free_table(borrowings);
     char** possession = uget_possession(user);
-    set_possesion(id, possession);
-    free_table(possession);
+    set_possesion(i, possession);
+    //free_table(possession);
     char* grade = malloc(sizeof(char)*2);
     sprintf(grade,"%d",uget_grade(user));
-    set_grade(id, grade);
-    free(grade);
+    set_grade(i, grade);
+    //free(grade);
     char* pwd = uget_cryptedPwd(user);
-    set_pwd(id, pwd);
-    free(pwd);
-    free(id);
+    set_pwd(i, pwd);
+    //free(pwd);
+    free(i);
     return 0;
-}
+} 
 
 void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, int type){
     //add_objlist(ID);
