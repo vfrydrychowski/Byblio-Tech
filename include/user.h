@@ -45,9 +45,13 @@ void ban(char* id,User user);
 	add the mail to the black list
 	suppr(id)
 	*/
-int login(char* id, char* pwd, User util);
+User login(char* id, char* pwd);
 	/*
 	check the user identity and fill util with infos in user’s json
+	*/
+User charge_user(char* id);
+	/*
+	create au user struc whith data of the correponding json
 	*/
 void logout(User user);
 	/*
@@ -73,7 +77,7 @@ int suppr_all_possession(User user);
 	/*
 	update status of the object and remove it of the current user’s borrowing list
 	*/
-int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, char* kind);
+int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* kind);
 	/*
 	add idObject to the user’s possesion list 
 	*/

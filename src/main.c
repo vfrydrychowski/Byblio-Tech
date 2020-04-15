@@ -10,30 +10,12 @@
 #include "../include/user.h"
 
 
-void print_User(User user){
-    printf("id = %s\n",uget_id(user));
-    printf("forename = %s\n",uget_forename(user));
-    printf("name = %s\n",uget_name(user));
-    printf("grade = %d\n",uget_grade(user));
-    printf("cryptedPw = %s\n",uget_cryptedPwd(user));
 
-    char** tab = uget_brw(user);
-    int taille = get_table_size(tab);
-    printf("borrow : %d\n",taille);
-    for (int i = 1; i<= taille;i++){
-        printf("id %d = %s\n",i,tab[i]);
-    }
-    free_table(tab);
-
-    tab = uget_possession(user);
-    taille = get_table_size(tab);
-    printf("possession : %d\n",taille);
-    for (int i = 1; i<= taille;i++){
-        printf("id %d = %s\n",i,tab[i]);
-    }
-    free_table(tab);
-
-
+int main(int argc, char const *argv[])
+{
+    printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
+    add_livre("0","2", 3, "4", 5, "6", "7");
+    return 0;
 }
 
 int main()

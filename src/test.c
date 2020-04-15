@@ -37,13 +37,13 @@ void print_User(User user){
 
 int main()
 {
-    /*/*char* path = user_path("007");
+    /*char* path = user_path("007");
     suppr_json(path);
-    free(path);
+    free(path);*/
     printf("hello world\n");
     User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
-    test des fonction borrow
-    borrowing(current_user, "1");
+    //test des fonction borrow
+    /*borrowing(current_user, "1");
     borrowing(current_user, "222222222");
     borrowing(current_user, "333333333");
     borrowing(current_user, "444444444");
@@ -52,17 +52,22 @@ int main()
     print_object("1");
     print_object("222222222");
     print_object("333333333");
-    print_object("444444444");
-    add_possession(current_user,"2","The name of the Wind", 549, "Patrick Rothfus", 2007,"","fantasy novel");
-    add_possession(current_user,"21","The Wise Man's Fear", 549, "Patrick Rothfus", 2011,"","fantasy novel");
-    add_possession(current_user,"22","The Music of Silence", 218, "Patrick Rothfus", 2014,"","fantasy novel");  
+    print_object("444444444");*/
+    add_possession(current_user,"2","The name of the Wind", 549, "Patrick Rothfus", 2007,"fantasy novel");
+    add_possession(current_user,"21","The Wise Man's Fear", 549, "Patrick Rothfus", 2011,"fantasy novel");
+    add_possession(current_user,"22","The Music of Silence", 218, "Patrick Rothfus", 2014,"fantasy novel");
     print_object("2");
     print_object("21");
     print_object("22");
+    suppr_possession("2",current_user);
+    suppr_all_possession(current_user);
     print_user("007");
+    
+
+    print_object("21");
+    print_object("22");
     logout(current_user);
     print_User(current_user);
-    free_user(current_user);*/
-    add_livre("23","The name of the Wind", 549, "Patrick Rothfus", 2007,"","fantasy novel");
+    free_user(current_user);
     return 0;
 }

@@ -161,7 +161,7 @@ void ban(char* id,User user){
     }
 }
 
-int login(char* id, char* pwd, User util){
+User login(char* id, char* pwd){
     char crypwd[PWSIZE];
     encrypt(pwd, crypwd);
 	if(strcmp (crypwd ,get_pwd (id) ) ){
@@ -169,6 +169,7 @@ int login(char* id, char* pwd, User util){
     }
     else
     {
+        User util = malloc(sizeof(struct user_s));
         uset_id(id,util);
         char* pointer = get_name(id);
         uset_forename(pointer,util);
@@ -189,8 +190,33 @@ int login(char* id, char* pwd, User util){
         pointer_tab = get_possession(id);
         uset_possession(get_possession(id),util);
         free(pointer_tab);
-        return 0;
+        return util;
     }
+}
+
+User charge_user(char* id){
+    User util = malloc(sizeof(struct user_s));
+    uset_id(id,util);
+    char* pointer = get_name(id);
+    uset_forename(pointer,util);
+    free(pointer);
+    pointer = get_forename(id);
+    uset_name(pointer,util);
+    free(pointer);
+    pointer = get_mail(id);
+    uset_mail(pointer,util);
+    free(pointer);
+    char**pointer_tab = get_borrowlist(id);     
+    uset_brw(get_borrowlist(id),util);
+    free(pointer_tab);
+    uset_grade(get_grade(id),util);
+    pointer = get_pwd(id);
+    uset_cryptedPwd(pointer,util);
+    free(pointer);
+    pointer_tab = get_possession(id);
+    uset_possession(get_possession(id),util);
+    free(pointer_tab);
+    return util;
 }
 
 void logout(User user){
@@ -295,7 +321,7 @@ int return_back_all(User util){
     return 0;
 }
 
-int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, char* kind){
+int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* kind){
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 
@@ -311,7 +337,7 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
     nv_pos[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_pos[size+1],idObject);
 
-    //add_livre(idObject, name, pagenb, author, date, owner,kind);
+    add_livre(idObject, name, pagenb, author, date, user->id,kind);
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
@@ -319,6 +345,9 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
 }
 
 int suppr_possession(char* idObject, User user){
+    if(strcmp("", get_borrower(idObject))){
+        return 2;
+    }
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
     int p = -1;
@@ -348,35 +377,36 @@ int suppr_possession(char* idObject, User user){
     } 
 
     uset_possession(duplicate_table(nv_pos), user);
-    suppr_json(idObject);   
+    char* path = object_path(idObject);
+    suppr_json(path);
+    free(path);  
     set_possesion(user->id, nv_pos);
 
     free_table(pos);
 	return 0;
 }
 
-int suppr_all_possession(User user){
-    int size = 1;
+int suppr_all_possession(User user){    
+    char ** pos = uget_possession(user);
+    int size = get_table_size(pos);
+
+    for(int j = 1; j<= size; j++){
+        char* path = object_path(pos[j]);
+        suppr_json(path);
+        free(path); 
+    }
+
+    size = 1;
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size-1);
     
     set_possesion(user->id,duplicate_table(nv_pos));
     uset_possession(nv_pos, user);
-    
-    char ** pos = uget_possession(user);
-    size = get_table_size(pos);
-
-    for(int j = 1; j<= size; j++){
-        suppr_json(pos[j]);
-    }
 
     return 0;
 }
 
-int get_size(char** tableau){
-	return ((int) tableau[0][0]) - 48;
-}
 
 void encrypt(char* pwd,char* crypwd){
     int p;

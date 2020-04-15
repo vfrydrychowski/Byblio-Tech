@@ -440,9 +440,9 @@ int add_us(User user){
 
 void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, char* type){
     //add_objlist(ID);
-    ID = object_path(ID);
+    char* path =object_path(ID);
     char*JSON_obj = "{\n    \"title\" : \"\",\n    \"author\" : \"\",\n    \"date\" : 0,\n    \"pagenb\" : 0,\n    \"borrower\" : \"\",\n    \"owner\": \"\",\n    \"type\" : \"\"\n}";
-    chartojson(ID, JSON_obj);
+    chartojson(path, JSON_obj);
     set_title(ID, title);
     set_author(ID, author);
     char* d = malloc(sizeof(char)*5);
@@ -450,9 +450,10 @@ void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* o
     set_date(ID, d);
     sprintf(d, "%d", pagenb);
     set_pagenb(ID, d);
-    set_borrower(ID, "NULL");
+    set_borrower(ID, "");
     set_owner(ID, owner);
     set_type(ID, type);
+    free(path);
     free(d);
 }
 
