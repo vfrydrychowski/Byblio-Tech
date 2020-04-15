@@ -54,7 +54,9 @@ void read_string(char* string, int size_str){
         string[size_str] = '\0';
         cleanbuff();
     }
-    *enter = '\0';
+    else{
+        *enter = '\0';
+    }
 }
 
 
