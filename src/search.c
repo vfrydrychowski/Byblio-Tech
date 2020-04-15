@@ -285,6 +285,55 @@ char** search_date(char* date){
     return sep_index;
 }
 
+void sub_searchM(int* pos, int* query, char** index){
+    while(*pos == -3){
+        //print the found list
+        printf(" ----------------------------------------------------------------------\n");
+        printf("|  Select one, to rule them all                              0 : back  |\n");
+        printf(" ----------------------------------------------------------------------\n");
+                        
+        for (int i = 1; i<get_table_size(index); i=i+2){
+            printf("  %d : %s\n", i/2+1, index[i]);
+        }
+        if (get_table_size(index) == 0){
+            printf("                           There is no such thing\n");
+        }
+        printf("Selection : ");
+        read_int(query);
+        if (*query == 0) {
+            *pos = -1;
+            cleanscr();
+            printf("                         --------------\n");
+            printf("                        | Back to menu |\n");
+            printf("                         --------------\n");
+            //cleanscr();
+        }
+        else if (*query < get_table_size(index) && *query > 0){
+            *pos = -4;
+            while(*pos == -4){
+                //print the selected object
+                printf(" ----------------------------------------------------------------------\n");
+                printf("|                                                            0 : back  |\n");
+                printf(" ----------------------------------------------------------------------\n");
+                print_object(index[*query*2]);
+                read_int(pos);
+                switch (*pos){
+                    case 0:
+                        *pos = -3;
+                        break;
+                                
+                    default:
+                        *pos = -4;
+                        break;
+                }
+            }
+        }
+        else{
+            *pos = -3;
+        }
+    }
+}
+
 void search(){
     int query = -1;
     int pos = -1;
@@ -319,54 +368,7 @@ void search(){
                     read_string(arg, NAMESIZE);
                     index = search_title(arg);
                     pos = -3;
-                    while(pos == -3){
-                        //print the found list
-                        printf(" ----------------------------------------------------------------------\n");
-                        printf("|  Select a title                                            0 : back  |\n");
-                        printf(" ----------------------------------------------------------------------\n");
-                        
-                        for (int i = 1; i<get_table_size(index); i=i+2){
-                            printf("  %d : %s\n", i/2+1, index[i]);
-                        }
-                        printf("Selection : ");
-                        read_int(&query);
-                        if (query == 0) {
-                            pos = -1;
-                            cleanscr();
-                            printf("                         --------------\n");
-                            printf("                        | Back to menu |\n");
-                            printf("                         --------------\n");
-                            //cleanscr();
-                        }
-                        else if (query < get_table_size(index) && query > 0)
-                        {
-                            pos = -4;
-                            while(pos == -4){
-                                //print the selected object
-                                printf(" ----------------------------------------------------------------------\n");
-                                printf("|                                                            0 : back  |\n");
-                                printf(" ----------------------------------------------------------------------\n");
-                                print_object(index[query*2]);
-                                read_int(&pos);
-                                switch (pos)
-                                {
-                                case 0:
-                                    pos = -3;
-                                    break;
-                                
-                                default:
-                                    pos = -4;
-                                    break;
-                                }
-                            }
-                            
-
-                        }
-                        else{
-                            pos = -3;
-                        }
-                    }
-                    
+                    sub_searchM(&pos, &query, index);
                     break;
 
                 case 2:
