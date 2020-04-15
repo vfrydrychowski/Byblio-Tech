@@ -7,6 +7,14 @@
 #define JSMN_HEADER
 #include "../include/Json.h"
 
+void cleanscr(){
+    #ifdef _WIN32
+        system("CLS");
+    #else
+        system("clear");
+    #endif
+}
+
 void cleanbuff(){
     int c = 0;
     while (c != '\n' && c != EOF){
