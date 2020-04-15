@@ -66,7 +66,7 @@ void print_user(char* id){
     arg = get_name(id);
     printf("name = %s\n",arg);
     free(arg);
-    printf("grade = %d\n",arg);
+    printf("grade = %d\n",get_grade(id));
     arg = get_pwd(id);
     printf("cryptedPw = %s\n",arg);
     free(arg);
