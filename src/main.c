@@ -10,15 +10,41 @@
 #include "../include/user.h"
 
 
-int main(int argc, char const *argv[])
-{
-    printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    char** tab = get_possession("j");
-    free_table(tab);
-    
-    printf("ok\n");
+void print_User(User user){
+    printf("id = %s\n",uget_id(user));
+    printf("forename = %s\n",uget_forename(user));
+    printf("name = %s\n",uget_name(user));
+    printf("grade = %d\n",uget_grade(user));
+    printf("cryptedPw = %s\n",uget_cryptedPwd(user));
 
-    char** tab2 = get_borrowlist("j");
-    free_table(tab2);
+    char** tab = uget_brw(user);
+    int taille = get_table_size(tab);
+    printf("borrow : %d\n",taille);
+    for (int i = 1; i<= taille;i++){
+        printf("id %d = %s\n",i,tab[i]);
+    }
+    free_table(tab);
+
+    tab = uget_possession(user);
+    taille = get_table_size(tab);
+    printf("possession : %d\n",taille);
+    for (int i = 1; i<= taille;i++){
+        printf("id %d = %s\n",i,tab[i]);
+    }
+    free_table(tab);
+
+
+}
+
+int main()
+{
+    printf("hello world\n");
+    User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
+    /*print_User(current_user);
+    logout(current_user);
+    print_User(current_user);
+    supr_userlist("007");
+    supr_usermail("jamesbond@gmail.com");
+    free_user(current_user); */ 
     return 0;
 }
