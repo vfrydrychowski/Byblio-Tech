@@ -365,32 +365,32 @@ void set_title(char* idObject, char* title){
 }
 
 void set_pagenb(char* idObject, char* pagenb){
-    idObject = user_path(idObject);
+    idObject = object_path(idObject);
     set_gen_string(idObject, "pagenb", pagenb);
 }
 
 void set_author(char* idObject, char* author){
-    idObject = user_path(idObject);
+    idObject = object_path(idObject);
     set_gen_string(idObject, "author", author);
 }
 
 void set_date(char* idObject, char* date){
-    idObject = user_path(idObject);
+    idObject = object_path(idObject);
     set_gen_string(idObject, "date", date);
 }
 
 void set_owner(char* idObject, char* owner){
-    idObject = user_path(idObject);
+    idObject = object_path(idObject);
     set_gen_string(idObject, "owner", owner);
 }
 
 void set_borrower(char* idObject, char* borrower){
-    idObject = user_path(idObject);
+    idObject = object_path(idObject);
     set_gen_string(idObject, "borrower", borrower);
 }
 
 void set_type(char* idObject, char* type){
-    idObject = user_path(idObject);
+    idObject = object_path(idObject);
     set_gen_string(idObject, "type", type);
 }
 
@@ -438,7 +438,7 @@ int add_us(User user){
     return 0;
 } 
 
-void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, int type){
+void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, char* type){
     //add_objlist(ID);
     ID = object_path(ID);
     char*JSON_obj = "{\n    \"title\" : \"\",\n    \"author\" : \"\",\n    \"date\" : 0,\n    \"pagenb\" : 0,\n    \"borrower\" : \"\",\n    \"owner\": \"\",\n    \"type\" : \"\"\n}";
@@ -452,8 +452,7 @@ void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* o
     set_pagenb(ID, d);
     set_borrower(ID, "NULL");
     set_owner(ID, owner);
-    sprintf(d, "%d", type);
-    set_type(ID, d);
+    set_type(ID, type);
     free(d);
 }
 

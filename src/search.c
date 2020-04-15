@@ -16,10 +16,12 @@ void upd_index(){
 /* qsort C-string comparison function */ 
 int cstring_cmp(const void *a, const void *b) 
 { 
-    const char **ia = (const char **)a;
-    const char **ib = (const char **)b;
-    if (strcmp(*ia, *ib) == 0) return cstring_cmp(*ia+1,*ib+1);
-    return strcmp(*ia, *ib);
+    char *ia = (char *)a;
+    char *ib = (char *)b;
+    if(*ia < *ib) return -1;
+    if(*ia > *ib) return 1;
+    if (*(ia + 1) != '\0' && *(ib + 1) != '\0') return cstring_cmp(ia+1, ib+1);
+    return 0;
 }
 
 char** search_title(char* name){
@@ -49,6 +51,7 @@ char** search_title(char* name){
     for(int i = 1; i<=get_table_size(tab); i++){
         title = get_title(tab[i]);
         if (strstr(title, name) != NULL || cstring_cmp(name, "")==0){
+            
             size++;
             //rezise index
             index = (char**)realloc(index, sizeof(char*)*(size+2));
@@ -66,25 +69,27 @@ char** search_title(char* name){
             strcpy(index[size], title);
             //adding a separator token
             strcat(index[size], "¤");
-            strcat(index[size], tab[i]);
+            strcat(index[size], tab[i]); 
         }
         free(title);
     }
+
     //sorting the index
-    qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
-    
+    if (get_table_size(index)>1){
+        qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
+    }
     
 
     //array initialazing
-    size = get_table_size(tab)*2;
+    size = get_table_size(index)*2;
     char** sep_index = malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
-    
+
     //separate name and id
     char* strToken;
-    for(int i = 1; i<=get_table_size(sep_index); i=i+2){
+    for(int i = 1; i<=(get_table_size(sep_index)); i=i+2){
         strToken = strtok(index[i/2+1], "¤");
         sep_index[i] = (char*)malloc(sizeof(char)*NAMESIZE);
         if (sep_index[i] == NULL){
@@ -98,9 +103,8 @@ char** search_title(char* name){
             exit(EXIT_FAILURE);
         }
         strToken = strtok(NULL, "¤");
-        strcpy(sep_index[i+1], strToken);
+        strcpy(sep_index[i+1], strToken); 
     }
-
     free_table(tab);
     free_table(index);
     free(csize);
@@ -311,7 +315,10 @@ void search(){
                 printf(" ----------------------------------------------------------------------\n");
                 printf("  title :\n");
                 read_string(arg, NAMESIZE);
-                //index = search_title(arg);
+                index = search_title(arg);
+                for (int i = 0; i<get_table_size(index); i++){
+                    printf("%s\n", index[i]);
+                }
                 
                 break;
 
