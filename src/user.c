@@ -140,7 +140,7 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
     add_userlist(id);
     add_usermail(mail);
     printf("list maj\n");
-    //add_us(user);
+    add_us(user);
 	return user;
 }
 
