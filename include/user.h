@@ -28,7 +28,7 @@ void uset_grade(int grade, User util);
 void uset_brw(char** brw, User util);
 void uset_possession(char** possession, User util);
 
-int crea_user(User user, char* id, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
+User crea_user(char* id, char* forename, char* name, char* mail, int grade, char* cryptedPw);
 
 	/*
 	check for existing usernames
@@ -48,6 +48,14 @@ void ban(char* id,User user);
 int login(char* id, char* pwd, User util);
 	/*
 	check the user identity and fill util with infos in user’s json
+	*/
+void logout(User user);
+	/*
+	drain the struct
+	*/
+void free_user(User user);
+	/*
+	free the struct of user
 	*/
 int borrowing(User util, char* idObject);
 	/*

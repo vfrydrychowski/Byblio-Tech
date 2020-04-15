@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <time.h> 
+#include <time.h>
 #include "../include/user.h"
 #include "../include/object.h"
 #include "../include/SISO.h"
@@ -119,18 +119,29 @@ void uset_possession(char** possession, User util){
     util->possession = possession;
 }
 
-int crea_user(User user,char* id, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession){
+User crea_user(char* id, char* forename, char* name, char* mail, int grade, char* cryptedPw){
+    User user = malloc(sizeof(struct user_s));
     uset_id(id,user);
     uset_forename(forename,user);
     uset_name(name,user);
     uset_mail(mail, user);
     uset_grade(grade,user);
     uset_cryptedPwd(cryptedPw,user);
-    uset_brw(brw,user);
-    uset_possession(possession,user);
 
-    add_us(user);
-	return 0;
+    
+    char** rand=(char**)malloc(sizeof(char*)*(1));//TOFREE
+    *rand = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(rand[0], "%d", 0);
+    
+    uset_brw(duplicate_table(rand),user);
+    uset_possession(rand,user);
+
+    printf("struc user create\n");
+    add_userlist(id);
+    add_usermail(mail);
+    printf("list maj\n");
+    //add_us(user);
+	return user;
 }
 
 void suppr_us(char* id,User user){
@@ -182,6 +193,30 @@ int login(char* id, char* pwd, User util){
         free(pointer_tab);
         return 0;
     }
+}
+
+void logout(User user){
+    uset_id("",user);
+    uset_forename("",user);
+    uset_name("",user);
+    uset_mail("",user);
+    uset_grade(0,user);
+    uset_cryptedPwd("",user);
+
+    int size = 0;
+    char** tab=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
+    *tab = (char*)malloc(sizeof(char)*(IDSIZE));
+    sprintf(tab[0], "%d", size);
+    
+    uset_brw(duplicate_table(tab),user);
+    uset_possession(tab,user);
+}
+
+void free_user(User user){
+    free(user->brw);
+    free(user->possession);
+
+    free(user);
 }
 
 int borrowing(User util, char* idObject){
@@ -306,7 +341,7 @@ int suppr_possession(char* idObject, User user){
     } 
 
     uset_possession(duplicate_table(nv_pos), user);
-    suppr_object(idObject,user->id);   
+    suppr_json(idObject);   
     set_possesion(user->id, nv_pos);
 
     free_table(pos);
@@ -318,9 +353,16 @@ int suppr_all_possession(User user){
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size-1);
+    
+    set_possesion(user->id,duplicate_table(nv_pos));
+    uset_possession(nv_pos, user);
+    
+    char ** pos = uget_possession(user);
+    size = get_table_size(pos);
 
-    uset_brw(duplicate_table(nv_pos), user);
-    set_borrowlist(user->id, nv_pos);
+    for(int j = 1; j<= size; j++){
+        suppr_json(pos[j]);
+    }
 
     return 0;
 }
@@ -356,32 +398,6 @@ char** duplicate_table(char** tab){
     }
 
 	return nv_tab;
-}
-
-void print_user(User user){
-    printf("id = %s\n",uget_id(user));
-    printf("forename = %s\n",uget_forename(user));
-    printf("name = %s\n",uget_name(user));
-    printf("grade = %d\n",uget_grade(user));
-    printf("cryptedPw = %s\n",uget_cryptedPwd(user));
-
-    char** tab = uget_brw(user);
-    int taille = get_size(tab);
-    printf("borrow : %d\n",taille);
-    for (int i = 1; i<= taille;i++){
-        printf("id %d = %s\n",i,tab[i]);
-    }
-    free_table(tab);
-
-    tab = uget_possession(user);
-    taille = get_size(tab);
-    printf("possession : %d\n",taille);
-    for (int i = 1; i<= taille;i++){
-        printf("id %d = %s\n",i,tab[i]);
-    }
-    free_table(tab);
-
-
 }
 
 
