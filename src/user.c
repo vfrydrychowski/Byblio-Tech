@@ -295,7 +295,7 @@ int return_back_all(User util){
     return 0;
 }
 
-int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, int kind){
+int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, char* kind){
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 
@@ -311,7 +311,7 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
     nv_pos[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_pos[size+1],idObject);
 
-    add_livre(idObject, name, pagenb, author, date, owner,kind);
+    //add_livre(idObject, name, pagenb, author, date, owner,kind);
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
