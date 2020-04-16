@@ -8,19 +8,13 @@
 #include "../include/SISO.h"
 
 
-void upd_index(){
-    //TODO
-}
-
-
 /* qsort C-string comparison function */ 
 int cstring_cmp(const void *a, const void *b) 
 { 
-    char** a2 = (char**)a;
-    char** b2 = (char**)b;
-    char* c1 = *a2;
-    char* c2 = *b2;
-    return strcmp(c1,c2);
+    char* a2 = (char*)a;
+    char* b2 = (char*)b;
+
+    return strcmp(a2,b2);
 }
 
 char** search_title(char* name){
@@ -50,7 +44,7 @@ char** search_title(char* name){
     for(int i = 1; i<=get_table_size(tab); i++){
         title = get_title(tab[i]);
         if (strstr(title, name) != NULL || cstring_cmp(name, "")==0){
-            
+
             size++;
             //rezise index
             index = (char**)realloc(index, sizeof(char*)*(size+2));
@@ -60,6 +54,7 @@ char** search_title(char* name){
             }
             sprintf(csize, "%d", size);
             strcpy(index[0], csize);
+            //put the title
             index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE +1));
             if (index[size] == NULL){
                 perror("malloc index[size] in search_title failed");
@@ -188,13 +183,13 @@ char** search_author(char* author){
         strToken = strtok(index[i/2+1], "¤");
         sep_index[i] = (char*)malloc(sizeof(char)*NAMESIZE);
         if (sep_index[i] == NULL){
-            perror("sep_index[i] in search_title failed");
+            perror("sep_index[i] in search failed");
             exit(EXIT_FAILURE);
         }
         strcpy(sep_index[i], strToken);
         sep_index[i+1] = (char*)malloc(sizeof(char)*IDSIZE);
         if (sep_index[i+1] == NULL){
-            perror("sep_index[i+1] in search_title failed");
+            perror("sep_index[i+1] in search failed");
             exit(EXIT_FAILURE);
         }
         strToken = strtok(NULL, "¤");
@@ -212,18 +207,18 @@ char** search_date(char* date){
     char** tab = get_gen_table("data/object/obj.json", "obj");
     char** index = (char**)malloc(sizeof(char*));
     if (index == NULL){
-        perror("malloc index in search_title failed");
+        perror("malloc index in search failed");
         exit(EXIT_FAILURE);
     }
     index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     if (index[0] == NULL){
-        perror("malloc index[0] in search_title failed");
+        perror("malloc index[0] in search failed");
         exit(EXIT_FAILURE);
     }
     int size=0;
     char* csize = (char*)malloc(sizeof(char)*5);
     if (csize == NULL){
-        perror("malloc csize in search_title failed");
+        perror("malloc csize in search failed");
         exit(EXIT_FAILURE);
     }
     sprintf(csize, "%d", size);
@@ -239,17 +234,17 @@ char** search_date(char* date){
             //rezise index
             index = (char**)realloc(index, sizeof(char*)*(size+2));
             if (index == NULL){
-                perror("realloc index in search_title failed");
+                perror("realloc index in search failed");
                 exit(EXIT_FAILURE);
             }
             sprintf(csize, "%d", size);
             strcpy(index[0], csize);
             index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE*2 +4));
             if (index[size] == NULL){
-                perror("malloc index[size] in search_title failed");
+                perror("malloc index[size] in search failed");
                 exit(EXIT_FAILURE);
             }
-            //we put the dat
+            //we put the date
             strcpy(index[size], d);
             //then the title in case of multiple books per date
             title = get_title(tab[i]);
@@ -282,13 +277,13 @@ char** search_date(char* date){
         strToken = strtok(index[i/2+1], "¤");
         sep_index[i] = (char*)malloc(sizeof(char)*NAMESIZE);
         if (sep_index[i] == NULL){
-            perror("sep_index[i] in search_title failed");
+            perror("sep_index[i] in search failed");
             exit(EXIT_FAILURE);
         }
         strcpy(sep_index[i], strToken);
         sep_index[i+1] = (char*)malloc(sizeof(char)*IDSIZE);
         if (sep_index[i+1] == NULL){
-            perror("sep_index[i+1] in search_title failed");
+            perror("sep_index[i+1] in search failed");
             exit(EXIT_FAILURE);
         }
         strToken = strtok(NULL, "¤");
@@ -305,24 +300,24 @@ char** search_type(char* type){
     char** tab = get_gen_table("data/object/obj.json", "obj");
     char** index = (char**)malloc(sizeof(char*));
     if (index == NULL){
-        perror("malloc index in search_title failed");
+        perror("malloc index in search failed");
         exit(EXIT_FAILURE);
     }
     index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     if (index[0] == NULL){
-        perror("malloc index[0] in search_title failed");
+        perror("malloc index[0] in search failed");
         exit(EXIT_FAILURE);
     }
     int size=0;
     char* csize = (char*)malloc(sizeof(char)*5);
     if (csize == NULL){
-        perror("malloc csize in search_title failed");
+        perror("malloc csize in search failed");
         exit(EXIT_FAILURE);
     }
     sprintf(csize, "%d", size);
     strcpy(index[0], csize);
 
-    //retrieving the book's type that contains name
+    //retrieving the book's type that contains type
     char* t;
     char* title;
     for(int i = 1; i<=get_table_size(tab); i++){
@@ -332,19 +327,19 @@ char** search_type(char* type){
             //rezise index
             index = (char**)realloc(index, sizeof(char*)*(size+2));
             if (index == NULL){
-                perror("realloc index in search_title failed");
+                perror("realloc index in search failed");
                 exit(EXIT_FAILURE);
             }
             sprintf(csize, "%d", size);
             strcpy(index[0], csize);
             index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE*2 +4));
             if (index[size] == NULL){
-                perror("malloc index[size] in search_title failed");
+                perror("malloc index[size] in search failed");
                 exit(EXIT_FAILURE);
             }
-            //we put the dat
+            //we put the type
             strcpy(index[size], t);
-            //then the title in case of multiple books per date
+            //then the title in case of multiple books per type
             title = get_title(tab[i]);
             strcat(index[size], " : ");
             strcat(index[size], title);
@@ -369,19 +364,19 @@ char** search_type(char* type){
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
     
-    //separate authors and id
+    //separate type and id
     char* strToken;
     for(int i = 1; i<=get_table_size(sep_index); i=i+2){
         strToken = strtok(index[i/2+1], "¤");
         sep_index[i] = (char*)malloc(sizeof(char)*NAMESIZE);
         if (sep_index[i] == NULL){
-            perror("sep_index[i] in search_title failed");
+            perror("sep_index[i] in search failed");
             exit(EXIT_FAILURE);
         }
         strcpy(sep_index[i], strToken);
         sep_index[i+1] = (char*)malloc(sizeof(char)*IDSIZE);
         if (sep_index[i+1] == NULL){
-            perror("sep_index[i+1] in search_title failed");
+            perror("sep_index[i+1] in search failed");
             exit(EXIT_FAILURE);
         }
         strToken = strtok(NULL, "¤");

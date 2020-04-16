@@ -2,12 +2,9 @@
 	#define __SEARCHH__
 
 
+/* qsort C-string comparison function */ 
+int cstring_cmp(const void *a, const void *b);
 
-/*
-	update an index file were books are listed ready to be sort
-*/
-void upd_index();
-	
 /*
 	return a table whith books id in odd and books titles in even
 	to get the list of evey titles, name = ""
@@ -23,9 +20,10 @@ char** search_author(char* author);
 	return a table whith books id in odd and books date in even
 */
 char** search_date(char* date);
-	
-void search();
-	/*
+
+/*
 	start the search module
-	*/
+*/	
+void search();
+	
 #endif
