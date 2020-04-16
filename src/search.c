@@ -512,7 +512,6 @@ void search(){
                     
                 case 0:
                     pos = 1;
-                    printf("                             Goodbye\n");
                     break;
 
                 default:

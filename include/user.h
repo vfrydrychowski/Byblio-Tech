@@ -45,7 +45,7 @@ void ban(char* id,User user);
 	add the mail to the black list
 	suppr(id)
 	*/
-int login(char* id, char* pwd, User util);
+int login(char* id, char* pwd, User *util);
 	/*
 	check the user identity and fill util with infos in user’s json
 	*/

@@ -170,8 +170,8 @@ void ban(char* id,User user){
     }
 }
 
-int login(char* id, char* pwd, User util){
-    char crypwd[PWSIZE];
+int login(char* id, char* pwd, User* util){
+    /* char crypwd[PWSIZE];
     encrypt(pwd, crypwd);
 	if(strcmp (crypwd ,get_pwd (id) ) ){
         return 1;
@@ -197,9 +197,9 @@ int login(char* id, char* pwd, User util){
         free(pointer);
         pointer_tab = get_possession(id);
         uset_possession(get_possession(id),util);
-        free(pointer_tab);
-        return 0;
-    }
+        free(pointer_tab); 
+    }*/
+    return 0;
 }
 
 int borrowing(User util, char* idObject){
