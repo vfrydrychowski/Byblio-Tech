@@ -210,7 +210,6 @@ char** search_author(char* author){
 }
 
 char** search_date(char* date){
-        //initialization of index
     char** tab = get_gen_table("data/object/obj.json", "obj");
     char** index = (char**)malloc(sizeof(char*));
     if (index == NULL){
@@ -233,6 +232,7 @@ char** search_date(char* date){
 
     //retrieving the book's date that contains name
     char* d;
+    char* title;
     for(int i = 1; i<=get_table_size(tab); i++){
         d = get_date(tab[i]);
         if (strstr(d, date) != NULL || cstring_cmp(date, "")==0){
@@ -245,21 +245,29 @@ char** search_date(char* date){
             }
             sprintf(csize, "%d", size);
             strcpy(index[0], csize);
-            index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE +1));
+            index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE*2 +4));
             if (index[size] == NULL){
                 perror("malloc index[size] in search_title failed");
                 exit(EXIT_FAILURE);
             }
+            //we put the dat
             strcpy(index[size], d);
-            //adding a separator token
+            //then the title in case of multiple books per date
+            title = get_title(tab[i]);
+            strcat(index[size], " : ");
+            strcat(index[size], title);
+            free(title);
+            //adding separator token
             strcat(index[size], "¤");
+            //adding the ID
             strcat(index[size], tab[i]);
         }
         free(d);
     }
     //sorting the index
-    qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
-    
+    if (get_table_size(index)>1){
+        qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
+    }
     
 
     //array initialazing
@@ -395,6 +403,10 @@ void search(){
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted date (to list them all just press enter)    |\n");
                     printf(" ----------------------------------------------------------------------\n");
+                    read_string(arg, NAMESIZE);
+                    index = search_date(arg);
+                    pos = -3;
+                    sub_searchM(&pos, &query, index);
                     break;
 
                 case 4:
