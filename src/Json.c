@@ -434,7 +434,7 @@ int add_us(User user){
     char* pwd = uget_cryptedPwd(user);
     set_pwd(i, pwd);
     //free(pwd);
-    free(i);
+    //free(i);
     return 0;
 } 
 
