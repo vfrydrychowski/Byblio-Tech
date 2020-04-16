@@ -7,6 +7,14 @@
 #define JSMN_HEADER
 #include "../include/Json.h"
 
+void cleanscr(){
+    #ifdef _WIN32
+        system("CLS");
+    #else
+        system("clear");
+    #endif
+}
+
 void cleanbuff(){
     int c = 0;
     while (c != '\n' && c != EOF){
@@ -31,7 +39,7 @@ int read_int(int* nb){
             bool = 0;
         }
     }
-    if (bool== 0) return 1;    
+    if (bool== 0 || temp[0] == '\0') return 1;    
 
     //int cast
     *nb = atoi(temp);
@@ -54,7 +62,9 @@ void read_string(char* string, int size_str){
         string[size_str] = '\0';
         cleanbuff();
     }
-    *enter = '\0';
+    else{
+        *enter = '\0';
+    }
 }
 
 

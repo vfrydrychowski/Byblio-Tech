@@ -1,6 +1,10 @@
 #ifndef __SISOH__
 #define __SISOH__
 
+/* 
+    clean the terminal screen    
+ */
+void cleanscr();
 
 /* 
     clean the buffer
