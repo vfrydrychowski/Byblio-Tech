@@ -147,9 +147,7 @@ int possession_free(User user){
     char** pos = uget_possession(user);
     int size = get_table_size(pos);
     for(int j = 1; j<= size; j++){
-        printf("%s\n",pos[j]);
         char* borrower_id = get_borrower(pos[j]);
-        printf("%s borrower .%s.\n",pos[j],borrower_id);
         if(strcmp("", borrower_id) != 0){
             result ++;
         }
@@ -161,14 +159,24 @@ int possession_free(User user){
 
 void suppr_us(char* id,User user){
 	if (!(strcmp(user->id, id))){
-        suppr_all_possession(user);
-        return_back_all(user);
-        supr_userlist(id);
-        supr_usermail(id);
-        add_blackList(get_mail(id));
-        char* path = user_path(id);
-        suppr_json(path);
-        free(path);
+        User ban = charge_user(id);
+        if (possession_free(ban)==0){
+            suppr_all_possession(ban);
+            printf("supr ok !n");
+            return_back_all(ban);
+            printf("return ok !n");
+            supr_userlist(id);
+            supr_usermail(id);
+            add_blackList(get_mail(id));
+            printf("list ok !n");
+            char* path = user_path(id);
+            suppr_json(path);
+            free(path);
+        }
+        else{
+            printf("some of your possession are borrowed\n");
+        }
+        free_user(ban);
     }
     else
     {
@@ -179,14 +187,16 @@ void suppr_us(char* id,User user){
 
 void ban(char* id,User user){
     if(uget_grade(user)>get_grade(id)){
-        suppr_all_possession(user);
-        return_back_all(user);
+        User ban = charge_user(id);
+        suppr_all_possession(ban);
+        return_back_all(ban);
         supr_userlist(id);
         supr_usermail(id);
         add_blackList(get_mail(id));
         char* path = user_path(id);
         suppr_json(path);
         free(path);
+        free_user(ban);
     }
     else
     {
@@ -254,20 +264,7 @@ User charge_user(char* id){
 }
 
 void logout(User user){
-    uset_id("",user);
-    uset_forename("",user);
-    uset_name("",user);
-    uset_mail("",user);
-    uset_grade(0,user);
-    uset_cryptedPwd("",user);
-
-    int size = 0;
-    char** tab=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
-    *tab = (char*)malloc(sizeof(char)*(IDSIZE));
-    sprintf(tab[0], "%d", size);
-    
-    uset_brw(duplicate_table(tab),user);
-    uset_possession(tab,user);
+    free_user(user);
 }
 
 void free_user(User user){
@@ -275,6 +272,17 @@ void free_user(User user){
     free_table(user->possession);
 
     free(user);
+}
+
+int exist_in_table(char* id,char** table){
+    int occurence = 0;
+    int size = get_table_size(table);
+    for(int i = 1; i <= size; i++){
+        if(strcmp(table[i],id) == 0){
+            occurence ++;
+        }
+    }
+    return occurence;
 }
 
 int borrowing(User util, char* idObject){
@@ -442,7 +450,7 @@ int suppr_all_possession(User user){
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size-1);
     
-    set_possesion(user->id,duplicate_table(nv_pos));
+    set_possesion(user->id,nv_pos);
     uset_possession(nv_pos, user);
 
     return 0;

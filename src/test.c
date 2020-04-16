@@ -39,54 +39,52 @@ int main()
 {
     /*char* path = user_path("007");
     suppr_json(path);
-    free(path);
+    free(path);*/
     printf("hello world\n");
     User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
+    scanf("dfefe");
+    char* name = get_name("007");
+    free(name);
     //test des fonction borrow
+    printf("ok\n");
     borrowing(current_user, "1");
-    borrowing(current_user, "222222222");
-    borrowing(current_user, "333333333");
+    printf("ok\n");
     borrowing(current_user, "444444444");
-    return_back("1",current_user);
-    return_back_all(current_user);
+    printf("ok\n");
     print_object("1");
-    print_object("222222222");
-    print_object("333333333");
     print_object("444444444");
     add_possession(current_user,"2","The name of the Wind", 549, "Patrick Rothfus", 2007,"fantasy novel");
     add_possession(current_user,"21","The Wise Man's Fear", 549, "Patrick Rothfus", 2011,"fantasy novel");
     add_possession(current_user,"22","The Music of Silence", 218, "Patrick Rothfus", 2014,"fantasy novel");
     set_borrower("21","j");
+    set_borrower("2","j");
+
 
     print_object("2");
     print_object("21");
     print_object("22");
 
-    char** pos = get_possession("007");
-    printf("nb pos %d\n",get_table_size(pos));
-    for(int j = 1; j<=2; j++){
-        printf("%d borrower %s\n",j,pos[j]);
-        char* borrower = get_borrower(pos[j]);
-        printf(".%s.\n",borrower);
-        free(borrower);
-    }
 
-    free_table(pos);
-    suppr_possession("2",current_user);
-    printf("suppr ok\n");
-    suppr_all_possession(current_user);
-    printf("suppr all ok\n");
     print_user("007");
+    suppr_all_possession(current_user);
+    return_back_all(current_user);
     
 
 
-    logout(current_user);*/
+    logout(current_user);
+    free_user(current_user);
 
-    User current_user = charge_user("j");
+    current_user = charge_user("j");
+    printf("grade %d\n",get_grade("j"));
     printf("%d\n",possession_free(current_user));
     print_User(current_user);
-    ban("007",current_user);
+    //ban("007",current_user);
     free_user(current_user);
+
+    char* path = user_path("007");
+    suppr_json(path);
+    free(path);
+
     
     return 0;
 }
