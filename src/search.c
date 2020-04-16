@@ -6,6 +6,7 @@
 #include "../include/search.h"
 #include "../include/Json.h"
 #include "../include/SISO.h"
+#include "../include/user.h"
 
 
 /* qsort C-string comparison function */ 
@@ -442,7 +443,7 @@ void sub_searchM(int* pos, int* query, char** index){
     }
 }
 
-void search(){
+void search(User us){
     int query = -1;
     int pos = -1;
     char* arg = (char*)malloc(sizeof(char)*NAMESIZE);
