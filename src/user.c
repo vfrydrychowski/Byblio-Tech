@@ -404,8 +404,9 @@ void return_back_all(User util){
     return 0;
 }
 
-void add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* kind){
-
+void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
+    time_t t = time(NULL);
+    char* idObject = ctime(&t);
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 

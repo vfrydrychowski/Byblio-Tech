@@ -109,7 +109,7 @@ void suppr_all_possession(User user);
 	/*
 	update status of the object and remove it of the current user’s borrowing list
 	*/
-void add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* kind);
+void add_possession(User user, char* name, int pagenb, char* author, int date, char* kind);
 	/*
 	add idObject to the user’s possesion list 
 	*/
