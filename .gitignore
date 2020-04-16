@@ -54,6 +54,7 @@ dkms.conf
 #test
 test
 test.c
+testSISO.c
 testmalloc.c
 testuser.c
 testSISO.c
