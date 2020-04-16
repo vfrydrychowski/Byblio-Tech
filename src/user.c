@@ -165,7 +165,7 @@ int crea_user(User* util, char* id, char* forename, char* name, char* mail, int 
     }
 }
 
-int possession_free(User user){
+int possession_borrow(User user){
     int result = 0;
     char** pos = uget_possession(user);
     int size = get_table_size(pos);
@@ -192,7 +192,7 @@ int exist_in_list(char* substring,char* listname){
 }
 
 int suppr_us(User user){
-    if (possession_free(user)==0){
+    if (possession_borrow(user)==0){
         suppr_all_possession(user);
         return_back_all(user);
         supr_userlist(user->id);
@@ -209,7 +209,7 @@ int suppr_us(User user){
 
 int ban(char* id,User user){
     User ban = charge_user(id);
-    if (exist_in_list(ban->mail,"u") == 0){
+    if (exist_in_list(ban->id,"u") == 0){
         if(uget_grade(user)>get_grade(id)){
             User ban = charge_user(id);
             suppr_all_possession(ban);
@@ -226,12 +226,12 @@ int ban(char* id,User user){
         }
         else
         {
-            return 1;
+            return 2;
         }
     }
     else
     {
-        return 2;
+        return 1;
     }
     
     free_user(ban);    
@@ -386,7 +386,7 @@ int return_back(char* idObject, User util){
 	return 0;
 }
 
-int return_back_all(User util){
+void return_back_all(User util){
 	int size = 0;
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
@@ -404,7 +404,8 @@ int return_back_all(User util){
     return 0;
 }
 
-int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* kind){
+void add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* kind){
+
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 
@@ -424,7 +425,6 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
-	return 0;
 }
 
 int suppr_possession(char* idObject, User user){
@@ -469,7 +469,7 @@ int suppr_possession(char* idObject, User user){
 	return 0;
 }
 
-int suppr_all_possession(User user){
+void suppr_all_possession(User user){
     char** pos = uget_possession(user);
     int size = get_table_size(pos);
     for(int j = 1; j<= size; j++){
@@ -493,8 +493,6 @@ int suppr_all_possession(User user){
     
     set_possesion(user->id,nv_pos);
     uset_possession(nv_pos, user);
-
-    return 0;
 }
 
 

@@ -40,7 +40,7 @@ int main()
     /*char* path = user_path("007");
     suppr_json(path);
     free(path);*/
-    printf("hello world\n");
+    /*printf("hello world\n");
     User current_user;
     int i = crea_user(&current_user,"007","james","bond","jamesbond@gmail.com",1,"motdepasse");
     printf("%d\n",i);
@@ -96,6 +96,10 @@ int main()
     suppr_json(path);
     free(path);*/
 
+    
+    time_t t = time(NULL);
+    char* temp = ctime(&t);
+    printf("%s", temp);
     
     return 0;
 }
