@@ -414,7 +414,7 @@ int add_us(User user){
     char* forename = uget_forename(user);
     set_forename(i, forename);
     //free(forename);
-    char* name = uget_forename(user);
+    char* name = uget_name(user);
     set_name(i, name);
     //free(name);
     char* mail = uget_mail(user);
@@ -434,7 +434,7 @@ int add_us(User user){
     char* pwd = uget_cryptedPwd(user);
     set_pwd(i, pwd);
     //free(pwd);
-    free(i);
+    //free(i);
     return 0;
 } 
 
