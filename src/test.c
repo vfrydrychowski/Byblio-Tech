@@ -74,7 +74,14 @@ int main()
     //return_back_all(current_user);
     i = login(&current_user,"007","do,");
     printf("%d\n",i);
-    
+    logout(current_user);
+
+    i = login(&current_user,"007","motdepasse");
+    printf("%d\n",i);
+
+    print_User(current_user);
+
+
     suppr_us(current_user);
 
     logout(current_user);

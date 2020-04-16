@@ -89,10 +89,6 @@ char** uget_brw(User util){
 }
 
 void uset_brw(char** brw, User util){
-    /*char** tab= util->brw;
-    if ( tab != NULL){
-        free_table(tab);
-    }*/
     util->brw = brw;
 }
 
@@ -112,10 +108,6 @@ char** uget_possession(User util){
 }
 
 void uset_possession(char** possession, User util){
-    /*char** tab= util->possession;
-    if ( tab != NULL){
-        free_table(tab);
-    }*/
     util->possession = possession;
 }
 
@@ -204,7 +196,7 @@ int suppr_us(User user){
         suppr_all_possession(user);
         return_back_all(user);
         supr_userlist(user->id);
-        supr_usermail(user->id);
+        supr_usermail(user->mail);
         char* path = user_path(user->id);
         suppr_json(path);
         free(path);
@@ -223,8 +215,10 @@ int ban(char* id,User user){
             suppr_all_possession(ban);
             return_back_all(ban);
             supr_userlist(id);
-            supr_usermail(id);
-            add_blackList(get_mail(id));
+            char* mail = get_mail(id);
+            supr_usermail(mail);
+            add_blackList(mail);
+            free(mail);
             char* path = user_path(id);
             suppr_json(path);
             free(path);
@@ -515,7 +509,8 @@ void encrypt(char* pwd,char* crypwd){
     for(int i = 0; i < strlen(pwd); i++){
         int p = pwd[i] -32;
         crypwd[i] = (char)((cle+p)%95+32);
-    } 
+    }
+    crypwd[strlen(pwd)] = '\0';
 }
 
 char** duplicate_table(char** tab){
