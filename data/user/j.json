@@ -3,7 +3,7 @@
   "name": "Doe",
   "mail": "johngoe@gmail.com",
   "borrowlist": ["111111111", "222222222", "333333333", "444444444"],
-  "possession" : ["111111111", "222222222"],
-  "grade" : 1,
+  "possession" : ["333333333", "222222222"],
+  "grade" : 4,
   "pwd" : "azertyuiop"
 }

@@ -36,6 +36,10 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
 	create a Json for new_user
 	free new_user
 	*/
+int possession_free(User user);
+	/*
+	return the number of possession witch has a borrower
+	*/
 void suppr_us(char* id,User user);
 	/*
 	remove the Json for this id and all his belongings

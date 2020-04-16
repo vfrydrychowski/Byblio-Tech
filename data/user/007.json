@@ -1,0 +1,9 @@
+{
+  "forename" : "james",
+  "name" : "james",
+  "mail" : "jamesbond@gmail.com",
+  "borrowlist" : ["1"],
+  "possession" : ["2", "21", "22"],
+  "grade" : 3,
+  "pwd" : "motdepasse"
+}

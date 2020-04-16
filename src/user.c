@@ -142,23 +142,57 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
 	return user;
 }
 
+int possession_free(User user){
+    int result = 0;
+    char** pos = uget_possession(user);
+    int size = get_table_size(pos);
+    for(int j = 1; j<= size; j++){
+        printf("%s\n",pos[j]);
+        char* borrower_id = get_borrower(pos[j]);
+        printf("%s borrower .%s.\n",pos[j],borrower_id);
+        if(strcmp("", borrower_id) != 0){
+            result ++;
+        }
+        free(borrower_id);
+    }
+    free_table(pos);
+    return result;
+}
+
 void suppr_us(char* id,User user){
 	if (!(strcmp(user->id, id))){
-        if(suppr_all_possession(user)== 0){
-            return_back_all(user);
-            suppr_json(id);
-        }
+        suppr_all_possession(user);
+        return_back_all(user);
+        supr_userlist(id);
+        supr_usermail(id);
+        add_blackList(get_mail(id));
+        char* path = user_path(id);
+        suppr_json(path);
+        free(path);
     }
+    else
+    {
+        printf("you can only suppr your own accout!\n");
+    }
+    
 }
 
 void ban(char* id,User user){
     if(uget_grade(user)>get_grade(id)){
-        if(suppr_all_possession(user)== 0){
-            return_back_all(user);
-            add_blackList(get_mail(id));
-            suppr_json(id);
-        }
+        suppr_all_possession(user);
+        return_back_all(user);
+        supr_userlist(id);
+        supr_usermail(id);
+        add_blackList(get_mail(id));
+        char* path = user_path(id);
+        suppr_json(path);
+        free(path);
     }
+    else
+    {
+        printf("grade insufficient\n");
+    }
+    
 }
 
 User login(char* id, char* pwd){
@@ -386,22 +420,22 @@ int suppr_possession(char* idObject, User user){
 	return 0;
 }
 
-int suppr_all_possession(User user){    
-    char ** pos = uget_possession(user);
+int suppr_all_possession(User user){
+    char** pos = uget_possession(user);
     int size = get_table_size(pos);
-
     for(int j = 1; j<= size; j++){
         char* borrower_id = get_borrower(pos[j]);
-        if(!(strcmp("", borrower_id))){
-        User borrower = charge_user(borrower_id);
-        return_back(pos[j], borrower);
-        free_user(borrower);
+        if(strcmp("", borrower_id) != 0){
+            User borrower = charge_user(borrower_id);
+            return_back(pos[j], borrower);
+            free_user(borrower);
         }
         free(borrower_id);
         char* path = object_path(pos[j]);
         suppr_json(path);
         free(path); 
     }
+    free_table(pos);
 
     size = 1;
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
