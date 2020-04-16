@@ -39,7 +39,7 @@ int read_int(int* nb){
             bool = 0;
         }
     }
-    if (bool== 0) return 1;    
+    if (bool== 0 || temp[0] == '\0') return 1;    
 
     //int cast
     *nb = atoi(temp);

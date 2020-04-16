@@ -409,6 +409,7 @@ void sub_searchM(int* pos, int* query, char** index){
             printf("                           There is no such thing\n");
         }
         printf("Selection : ");
+        *query = -3;
         read_int(query);
         if (*query == 0) {
             *pos = -1;
@@ -514,7 +515,7 @@ void search(){
                     
                 case 0:
                     pos = 1;
-                    printf("                             Goodby\n");
+                    printf("                             Goodbye\n");
                     break;
 
                 default:
