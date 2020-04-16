@@ -16,12 +16,11 @@ void upd_index(){
 /* qsort C-string comparison function */ 
 int cstring_cmp(const void *a, const void *b) 
 { 
-    char *ia = (char *)a;
-    char *ib = (char *)b;
-    if(*ia < *ib) return -1;
-    if(*ia > *ib) return 1;
-    if (*(ia + 1) != '\0' && *(ib + 1) != '\0') return cstring_cmp(ia+1, ib+1);
-    return 0;
+    char** a2 = (char**)a;
+    char** b2 = (char**)b;
+    char* c1 = *a2;
+    char* c2 = *b2;
+    return strcmp(c1,c2);
 }
 
 char** search_title(char* name){
