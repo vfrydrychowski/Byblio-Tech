@@ -43,13 +43,11 @@ int main()
     printf("hello world\n");
     User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
     char* name = get_name("007");
+    printf("id : %s\n",uget_id(current_user));
     free(name);
-    //test des fonction borrow
     printf("%s %s\n",uget_name(current_user),uget_forename(current_user));
-    /*borrowing(current_user, "1");
-    printf("ok\n");
+    borrowing(current_user, "1");
     borrowing(current_user, "444444444");
-    printf("ok\n");
     print_object("1");
     print_object("444444444");
     add_possession(current_user,"2","The name of the Wind", 549, "Patrick Rothfus", 2007,"fantasy novel");
@@ -58,13 +56,16 @@ int main()
     set_borrower("21","j");
     set_borrower("2","j");
 
+    printf("ok\n");
+
+    //test des fonction borrow
 
     print_object("2");
     print_object("21");
     print_object("22");
 
 
-    print_user("007");
+    //print_user("007");
     suppr_all_possession(current_user);
     return_back_all(current_user);
     
@@ -81,7 +82,7 @@ int main()
 
     char* path = user_path("007");
     suppr_json(path);
-    free(path);*/
+    free(path);
 
     
     return 0;

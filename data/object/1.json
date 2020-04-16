@@ -3,7 +3,7 @@
     "author" : "les nulls",
     "date" : 2000,
     "pagenb" : 25,
-    "borrower" : "007",
+    "borrower" : "",
     "owner" : "j",
     "type" : "education"
 }

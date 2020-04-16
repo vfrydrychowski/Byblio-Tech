@@ -119,9 +119,11 @@ void uset_possession(char** possession, User util){
     util->possession = possession;
 }
 
+
 User crea_user(char* id, char* forename, char* name, char* mail, int grade, char* cryptedPw){
     User user = malloc(sizeof(struct user_s));
     uset_id(id,user);
+    printf("id : %s\n",uget_id(user));
     uset_forename(forename,user);
     uset_name(name,user);
     uset_mail(mail, user);
@@ -132,13 +134,21 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
     char** rand=(char**)malloc(sizeof(char*)*(1));//TOFREE
     *rand = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(rand[0], "%d", 0);
+
+    printf("id* : %s\n",uget_id(user));
     
     uset_brw(duplicate_table(rand),user);
     uset_possession(rand,user);
 
+
+    printf("id* : %s\n",uget_id(user));
+
     add_userlist(id);
+    printf("id** : %s\n",uget_id(user));
     add_usermail(mail);
+    printf("id*** : %s\n",uget_id(user));
     add_us(user);
+    printf("id : %s\n",uget_id(user));
 	return user;
 }
 
