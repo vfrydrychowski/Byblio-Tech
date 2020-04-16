@@ -13,6 +13,6 @@
 int main(int argc, char const *argv[])
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    add_livre("0","2", 3, "4", 5, "6", "7");
+    printf("%d",get_grade("j"));
     return 0;
 }
