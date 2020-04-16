@@ -26,7 +26,7 @@ void Menu(){
         printf(" Choice : ");
         read_int(&x);
         switch(x){
-            case 1 :
+            case 1 ://login
                 pos = -2;
                 while(pos == -2){
                     cleanscr();
@@ -68,11 +68,11 @@ void Menu(){
                                 x = -1;
                                 read_int(&x);
                                 switch(x){
-                                    case 1:
+                                    case 1://search a book
                                             search(us);
                                     break;
 
-                                    case 2:
+                                    case 2://return a book
                                         pos=-4;
                                         while(pos == -4){
                                             cleanscr();
@@ -128,11 +128,11 @@ void Menu(){
                                         
                                     break;
 
-                                    case 3:
+                                    case 3://get back a book
 
                                     break;
 
-                                    case 4:
+                                    case 4://Settings
                                         pos = -3;
                                         while(pos == -3){
                                             cleanscr();
@@ -144,12 +144,82 @@ void Menu(){
                                             printf("|                        2 : Change password                           |\n");
                                             printf("|                                                                      |\n");
                                             printf("|                        3 : Close account                             |\n");
+                                            printf("|                                                                      |\n");
+                                            printf("|                        0 : Back                                      |\n");
                                             printf(" ----------------------------------------------------------------------\n");
+
+                                            x=-1;
+                                            switch(x){
+                                                case 1:
+                                                    //TODO change username
+                                                break;
+
+                                                case 2:
+                                                    //TODO change pwd
+                                                break;
+
+                                                case 3:
+                                                    pos =4 ;
+                                                    while(pos == -4){
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("|                          Are you sure ?                              |\n");
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿                                 |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⠛⢩⣴⣶⣶⣶⣌⠙⠫⠛⢋⣭⣤⣤⣤⣤⡙⣿⣿⣿⣿⣿⣿   All books that are currently  |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⡟⢡⣾⣿⠿⣛⣛⣛⣛⣛⡳⠆⢻⣿⣿⣿⠿⠿⠷⡌⠻⣿⣿⣿⣿   borrowed by another user      |\n");
+                                                        printf("|⣿⣿⣿⣿⠏⣰⣿⣿⣴⣿⣿⣿⡿⠟⠛⠛⠒⠄⢶⣶⣶⣾⡿⠶⠒⠲⠌⢻⣿⣿   will be lost.                 |\n");
+                                                        printf("|⣿⣿⠏⣡⢨⣝⡻⠿⣿⢛⣩⡵⠞⡫⠭⠭⣭⠭⠤⠈⠭⠒⣒⠩⠭⠭⣍⠒⠈⠛                                 |\n");
+                                                        printf("|⡿⢁⣾⣿⣸⣿⣿⣷⣬⡉⠁⠄⠁⠄⠄⠄⠄⠄⠄⠄⣶⠄⠄⠄⠄⠄⠄⠄⠄⢀                                 |\n");
+                                                        printf("|⢡⣾⣿⣿⣿⣿⣿⣿⣿⣧⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣿⣦⣤⣀⣀⣀⣀⠄⣤⣾     1 : Yes        0 : No       |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⡶⢇⣰⣿⣿⣟⠿⠿⠿⠿⠟⠁⣾⣿⣿                                 |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⡟⢛⡛⠿⠿⣿⣧⣶⣶⣿⣿⣿⣿⣿⣷⣼⣿⣿⣿⣧⠸⣿⣿                                 |\n");
+                                                        printf("|⠘⢿⣿⣿⣿⣿⣿⡇⢿⡿⠿⠦⣤⣈⣙⡛⠿⠿⠿⣿⣿⣿⣿⠿⠿⠟⠛⡀⢻⣿                                 |\n");
+                                                        printf("|⠄⠄⠉⠻⢿⣿⣿⣷⣬⣙⠳⠶⢶⣤⣍⣙⡛⠓⠒⠶⠶⠶⠶⠖⢒⣛⣛⠁⣾⣿                                 |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠈⠛⠛⠿⠿⣿⣷⣤⣤⣈⣉⣛⣛⣛⡛⠛⠛⠿⠿⠿⠟⢋⣼⣿⣿                                 |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠉⣻⣿⣿⣿⣿⡿⠿⠛⠃⠄⠙⠛⠿⢿⣿                                 |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢬⣭⣭⡶⠖⣢⣦⣀⠄⠄⠄⠄⢀⣤⣾⣿                                 |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣶⣶⣶⣾⣿⣿⣿⣿⣷⡄⠄⢠⣾⣿⣿⣿                                 |\n");
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("  Choice : ");
+
+                                                        x=-1;
+                                                        read_int(&x);
+                                                        switch(x){
+                                                            case 1:
+                                                                //TODO delete account
+                                                                pos = -1;
+                                                            break;
+
+                                                            case 2:
+                                                                pos = -3;
+                                                            break;
+
+                                                            default:
+                                                            break;
+
+                                                        }
+                                                    }
+                                                    
+                                                    
+
+                                                break;
+
+                                                case 5://Privilege
+
+                                                break;
+
+                                                case 0://back
+                                                    pos = -2;
+                                                break;
+
+                                                default:
+                                                break;
+                                            }
                                         }
                                         
                                     break;
 
-                                    case 0:
+                                    case 0://Back
                                         pos = -1;
                                     break;
 
@@ -186,11 +256,11 @@ void Menu(){
 
             break;
 
-            case 2 :
+            case 2 ://register
 
             break;
             
-            case 0 :
+            case 0 ://quit prgrm
                 printf("                             Goodbye\n");
                 pos = 0;
             break;
