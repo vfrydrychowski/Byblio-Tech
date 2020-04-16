@@ -163,8 +163,9 @@ char** search_author(char* author){
         free(auth);
     }
     //sorting the index
-    qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
-    
+    if (get_table_size(index)>1){
+        qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
+    }
     
 
     //array initialazing
@@ -375,6 +376,11 @@ void search(){
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted author (to list them all just press enter)  |\n");
                     printf(" ----------------------------------------------------------------------\n");
+                    printf("  Author : ");
+                    read_string(arg, NAMESIZE);
+                    index = search_author(arg);
+                    pos = -3;
+                    sub_searchM(&pos, &query, index);
                     break;
                 
                 case 3:
