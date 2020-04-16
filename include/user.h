@@ -28,7 +28,12 @@ void uset_grade(int grade, User util);
 void uset_brw(char** brw, User util);
 void uset_possession(char** possession, User util);
 
-User crea_user(char* id, char* forename, char* name, char* mail, int grade, char* cryptedPw);
+int exist_user(char* id);
+	/*
+	if the user existe return 0
+	else return 1
+	*/
+int crea_user(User* util, char* id, char* forename, char* name, char* mail, int grade, char* Pwd);
 
 	/*
 	check for existing usernames
@@ -40,16 +45,21 @@ int possession_free(User user);
 	/*
 	return the number of possession WITCH has a borrower
 	*/
-void suppr_us(User user);
+int exist_in_list(char* substring,char* listname);
+	/*
+	return 1 if there is an occurence of subtring in the list
+	else return 0
+	*/
+int suppr_us(User user);
 	/*
 	remove the Json for this id and all his belongings
 */
-void ban(char* id,User user);
+int ban(char* id,User user);
 	/*
 	add the mail to the black list
 	suppr(id)
 	*/
-User login(char* id, char* pwd);
+int login(User* user, char* id, char* pwd);
 	/*
 	check the user identity and fill util with infos in user’s json
 	*/

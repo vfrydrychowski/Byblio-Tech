@@ -41,7 +41,10 @@ int main()
     suppr_json(path);
     free(path);*/
     printf("hello world\n");
-    User current_user = crea_user("007","james","bond","jamesbond@gmail.com",1,"motdepasse");
+    User current_user;
+    int i = crea_user(&current_user,"007","james","bond","jamesbond@gmail.com",1,"motdepasse");
+    printf("%d\n",i);
+    print_User(current_user);
     char* name = get_name("007");
     printf("id : %s\n",uget_id(current_user));
     free(name);
@@ -69,11 +72,15 @@ int main()
     print_user("007");
     suppr_all_possession(current_user);
     //return_back_all(current_user);
+    i = login(&current_user,"007","do,");
+    printf("%d\n",i);
     
     suppr_us(current_user);
 
     logout(current_user);
 
+    i = login(&current_user,"007","do,");
+    printf("%d\n",i);
     current_user = charge_user("j");
     //ban("007",current_user);
     free_user(current_user);
