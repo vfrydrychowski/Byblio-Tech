@@ -41,7 +41,7 @@ int main()
     suppr_json(path);
     free(path);*/
     printf("hello world\n");
-    User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
+    User current_user = crea_user("007","james","bond","jamesbond@gmail.com",1,"motdepasse");
     char* name = get_name("007");
     printf("id : %s\n",uget_id(current_user));
     free(name);
@@ -53,6 +53,7 @@ int main()
     add_possession(current_user,"2","The name of the Wind", 549, "Patrick Rothfus", 2007,"fantasy novel");
     add_possession(current_user,"21","The Wise Man's Fear", 549, "Patrick Rothfus", 2011,"fantasy novel");
     add_possession(current_user,"22","The Music of Silence", 218, "Patrick Rothfus", 2014,"fantasy novel");
+    printf("ok\n");
     set_borrower("21","j");
     set_borrower("2","j");
 
@@ -65,24 +66,21 @@ int main()
     print_object("22");
 
 
-    //print_user("007");
+    print_user("007");
     suppr_all_possession(current_user);
-    return_back_all(current_user);
+    //return_back_all(current_user);
     
-
+    suppr_us(current_user);
 
     logout(current_user);
 
     current_user = charge_user("j");
-    printf("grade %d\n",get_grade("j"));
-    printf("%d\n",possession_free(current_user));
-    print_User(current_user);
     //ban("007",current_user);
     free_user(current_user);
 
-    char* path = user_path("007");
+    /*char* path = user_path("007");
     suppr_json(path);
-    free(path);
+    free(path);*/
 
     
     return 0;

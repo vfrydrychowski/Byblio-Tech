@@ -123,7 +123,6 @@ void uset_possession(char** possession, User util){
 User crea_user(char* id, char* forename, char* name, char* mail, int grade, char* cryptedPw){
     User user = malloc(sizeof(struct user_s));
     uset_id(id,user);
-    printf("id : %s\n",uget_id(user));
     uset_forename(forename,user);
     uset_name(name,user);
     uset_mail(mail, user);
@@ -135,20 +134,14 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
     *rand = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(rand[0], "%d", 0);
 
-    printf("id* : %s\n",uget_id(user));
     
     uset_brw(duplicate_table(rand),user);
     uset_possession(rand,user);
 
 
-    printf("id* : %s\n",uget_id(user));
-
     add_userlist(id);
-    printf("id** : %s\n",uget_id(user));
     add_usermail(mail);
-    printf("id*** : %s\n",uget_id(user));
     add_us(user);
-    printf("id : %s\n",uget_id(user));
 	return user;
 }
 
@@ -167,32 +160,31 @@ int possession_free(User user){
     return result;
 }
 
-void suppr_us(char* id,User user){
-	if (!(strcmp(user->id, id))){
-        User ban = charge_user(id);
-        if (possession_free(ban)==0){
-            suppr_all_possession(ban);
-            printf("supr ok !n");
-            return_back_all(ban);
-            printf("return ok !n");
-            supr_userlist(id);
-            supr_usermail(id);
-            add_blackList(get_mail(id));
-            printf("list ok !n");
-            char* path = user_path(id);
-            suppr_json(path);
-            free(path);
-        }
-        else{
-            printf("some of your possession are borrowed\n");
-        }
-        free_user(ban);
+int exist_in_banlist(char* mail){
+    char* path = user_path("blacklist");
+    if(strstr(jsontochar(path),mail)){
+        return 1;
     }
     else
     {
-        printf("you can only suppr your own accout!\n");
+        return 0;
     }
-    
+}
+
+void suppr_us(User user){
+    if (possession_free(user)==0){
+        suppr_all_possession(user);
+        return_back_all(user);
+        supr_userlist(user->id);
+        supr_usermail(user->id);
+        add_blackList(get_mail(user->id));
+        char* path = user_path(user->id);
+        suppr_json(path);
+        free(path);
+    }
+    else{
+        printf("some of your possession are borrowed\n");
+    }    
 }
 
 void ban(char* id,User user){
@@ -219,7 +211,7 @@ User login(char* id, char* pwd){
     char crypwd[PWSIZE];
     encrypt(pwd, crypwd);
 	if(strcmp (crypwd ,get_pwd (id) ) ){
-        exit(1);
+        return NULL;
     }
     else
     {
@@ -392,7 +384,9 @@ int add_possession(User user, char* idObject, char* name, int pagenb, char* auth
     add_livre(idObject, name, pagenb, author, date, user->id,kind);
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
+    printf("ok1\n");
     free_table(pos);
+    printf("ok2\n");
 	return 0;
 }
 

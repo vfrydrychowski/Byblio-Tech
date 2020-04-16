@@ -38,9 +38,9 @@ User crea_user(char* id, char* forename, char* name, char* mail, int grade, char
 	*/
 int possession_free(User user);
 	/*
-	return the number of possession witch has a borrower
+	return the number of possession WITCH has a borrower
 	*/
-void suppr_us(char* id,User user);
+void suppr_us(User user);
 	/*
 	remove the Json for this id and all his belongings
 */
