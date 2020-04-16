@@ -138,6 +138,7 @@ char** search_author(char* author){
 
     //retrieving the book's authors that contains name
     char* auth;
+    char* title;
     for(int i = 1; i<=get_table_size(tab); i++){
         auth = get_author(tab[i]);
         if (strstr(auth, author) != NULL || cstring_cmp(author, "")==0){
@@ -150,14 +151,21 @@ char** search_author(char* author){
             }
             sprintf(csize, "%d", size);
             strcpy(index[0], csize);
-            index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE +1));
+            index[size] = (char*)malloc(sizeof(char)*(IDSIZE + NAMESIZE*2 +4));
             if (index[size] == NULL){
                 perror("malloc index[size] in search_title failed");
                 exit(EXIT_FAILURE);
             }
+            //we put the author
             strcpy(index[size], auth);
-            //adding a separator token
+            //then the title in case of multiple books per author
+            title = get_title(tab[i]);
+            strcat(index[size], " : ");
+            strcat(index[size], title);
+            free(title);
+            //adding separator token
             strcat(index[size], "¤");
+            //adding the ID
             strcat(index[size], tab[i]);
         }
         free(auth);
