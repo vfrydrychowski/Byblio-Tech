@@ -192,7 +192,7 @@ char** get_borrowlist(char* idUser){
 
 int get_grade(char* idUser){
     idUser = user_path(idUser);
-    char*cpy = get_gen(idUser, "pwd");
+    char*cpy = get_gen(idUser, "grade");
     return atoi(cpy);
 }
 
