@@ -42,12 +42,11 @@ int main()
     free(path);*/
     printf("hello world\n");
     User current_user = crea_user("007","james","bond","jamesbond@gmail.com",4,"motdepasse");
-    scanf("dfefe");
     char* name = get_name("007");
     free(name);
     //test des fonction borrow
-    printf("ok\n");
-    borrowing(current_user, "1");
+    printf("%s %s\n",uget_name(current_user),uget_forename(current_user));
+    /*borrowing(current_user, "1");
     printf("ok\n");
     borrowing(current_user, "444444444");
     printf("ok\n");
@@ -72,7 +71,6 @@ int main()
 
 
     logout(current_user);
-    free_user(current_user);
 
     current_user = charge_user("j");
     printf("grade %d\n",get_grade("j"));
@@ -83,7 +81,7 @@ int main()
 
     char* path = user_path("007");
     suppr_json(path);
-    free(path);
+    free(path);*/
 
     
     return 0;
