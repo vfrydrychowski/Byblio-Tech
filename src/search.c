@@ -168,10 +168,10 @@ char** search_author(char* author){
     if (get_table_size(index)>1){
         qsort(index+1, get_table_size(index), sizeof(char*), cstring_cmp);
     }
-    
+
 
     //array initialazing
-    size = get_table_size(tab)*2;
+    size = get_table_size(index)*2;
     char** sep_index = malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
@@ -265,7 +265,7 @@ char** search_date(char* date){
     
 
     //array initialazing
-    size = get_table_size(tab)*2;
+    size = get_table_size(index)*2;
     char** sep_index = malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
@@ -295,6 +295,8 @@ char** search_date(char* date){
     free(csize);
     return sep_index;
 }
+
+
 
 char** search_type(char* type){
     char** tab = get_gen_table("data/object/obj.json", "obj");
@@ -358,7 +360,7 @@ char** search_type(char* type){
     
 
     //array initialazing
-    size = get_table_size(tab)*2;
+    size = get_table_size(index)*2;
     char** sep_index = malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
