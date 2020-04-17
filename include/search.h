@@ -24,6 +24,12 @@ char** search_author(char* author);
 */
 char** search_date(char* date);
 
+/*
+	return a table whith books id in odd and books types in even
+	to get the list of evey types, name = ""
+*/
+char** search_type(char* type);
+
 /* Sub module of search
 	print the ojects in index and handle the borrowing part of search */
 void sub_searchM(int* pos, int* query, char** index, User us);
