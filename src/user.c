@@ -238,7 +238,7 @@ int ban(char* id,User user){
 }
 
 int login(User* util,char* id, char* pwd){
-    if(exist_user(id) == 1){
+    if(exist_user(id) == 0){
         return 1;
     }
     char crypwd[PWSIZE];
@@ -246,7 +246,7 @@ int login(User* util,char* id, char* pwd){
     encrypt(pwd, crypwd);
 	if(strcmp (crypwd, pass) ){
         free(pass);
-        return 2;
+        return 1;
     }
     free(pass);
     *util = malloc(sizeof(struct user_s));
@@ -404,7 +404,9 @@ void return_back_all(User util){
 
 void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
     time_t t = time(NULL);
-    char* idObject = ctime(&t);
+    char* time = ctime(&t);
+    char* idObject ;
+    strncpy(idObject,time,24);
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 
@@ -421,6 +423,7 @@ void add_possession(User user,char* name, int pagenb, char* author, int date, ch
     strcpy(nv_pos[size+1],idObject);
 
     add_livre(idObject, name, pagenb, author, date, user->id,kind);
+    add_objlist(idObject);
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
@@ -461,7 +464,8 @@ int suppr_possession(char* idObject, User user){
     uset_possession(duplicate_table(nv_pos), user);
     char* path = object_path(idObject);
     suppr_json(path);
-    free(path);  
+    free(path); 
+    supr_objlist(idObject); 
     set_possesion(user->id, nv_pos);
 
     free_table(pos);
@@ -482,6 +486,7 @@ void suppr_all_possession(User user){
         char* path = object_path(pos[j]);
         suppr_json(path);
         free(path); 
+        supr_objlist(pos[j]);
     }
     free_table(pos);
 
@@ -521,8 +526,32 @@ int new_pwd(User user, char* pwd, char* nv_pwd){
     free(pass);
     encrypt(nv_pwd,crypwd);
     set_pwd(user->id, crypwd);
-    free(crypwd);
     return 0;
+}
+
+int new_username(User user,char* new_username){
+    if (exist_in_list(new_username,"u") == 0){
+        return 1;
+    }
+    supr_userlist(user->id);
+    add_userlist(new_username);
+    char* path = user_path(user->id);
+    suppr_json(path);
+    free(path);
+    uset_id(new_username, user);
+    add_us(user);
+    
+    char** possession = uget_possession(user);
+    char** borrow = uget_brw(user);
+    
+    int size = get_table_size(possession);
+    for (int i = 1; i <= size; i++){
+        set_owner(possession[i],new_username);
+    }
+    size = get_table_size(borrow);
+    for (int i = 1; i <= size; i++){
+        set_borrower(borrow[i],new_username);
+    }
 }
 
 char** duplicate_table(char** tab){
