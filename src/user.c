@@ -112,7 +112,8 @@ void uset_possession(char** possession, User util){
 }
 
 int exist_user(char* id){
-    char* path = user_path(id);
+    //search if this id has a json
+    char* path = user_path(id);//path : data/user/id.json
     FILE*ptf = fopen(path,"r");
     if (ptf== NULL){
         return 1;
@@ -126,13 +127,13 @@ int exist_user(char* id){
 }
 
 int crea_user(User* util, char* id, char* forename, char* name, char* mail, int grade, char* Pwd){
-    if(exist_in_list(mail,"blacklist") == 0){
+    if(exist_in_list(mail,"blacklist") == 0){//search if the mail is in blacklist
         return 1;
     }
-    if(exist_in_list(mail,"m") == 0){
+    if(exist_in_list(mail,"m") == 0){//search if an other user has already this mail
         return 2;
     }
-    if(exist_in_list(id,"u") == 0){
+    if(exist_in_list(id,"u") == 0){//search if an other users has alerady this id
         return 3;
     }
     else{
@@ -155,9 +156,10 @@ int crea_user(User* util, char* id, char* forename, char* name, char* mail, int 
         uset_brw(duplicate_table(rand),*util);
         uset_possession(rand,*util);
 
-
+        //update userlist and mail list
         add_userlist(id);
         add_usermail(mail);
+        //create the json for *util
         add_us(*util);
     	return 0;
     }
@@ -165,12 +167,12 @@ int crea_user(User* util, char* id, char* forename, char* name, char* mail, int 
 
 int possession_borrow(User user){
     int result = 0;
-    char** pos = uget_possession(user);
+    char** pos = uget_possession(user);//get the possession list
     int size = get_table_size(pos);
     for(int j = 1; j<= size; j++){
-        char* borrower_id = get_borrower(pos[j]);
+        char* borrower_id = get_borrower(pos[j]);//get the borrower of the item J
         if(strcmp("", borrower_id) != 0){
-            result ++;
+            result ++;//add 1 if there is a borrower
         }
         free(borrower_id);
     }
@@ -179,8 +181,8 @@ int possession_borrow(User user){
 }
 
 int exist_in_list(char* substring,char* listname){
-    char* path = user_path(listname);
-    if(strstr(jsontochar(path),substring) == NULL){
+    char* path = user_path(listname);//get the list path
+    if(strstr(jsontochar(path),substring) == NULL){//look for an occurence of substring in the list
         return 1;
     }
     else
@@ -190,11 +192,14 @@ int exist_in_list(char* substring,char* listname){
 }
 
 int suppr_us(User user){
-    if (possession_borrow(user)==0){
+    if (possession_borrow(user)==0){//check if a possession is borrow
+        //update possession and borrow
         suppr_all_possession(user);
         return_back_all(user);
+        //update list
         supr_userlist(user->id);
         supr_usermail(user->mail);
+        //suppr the json of user
         char* path = user_path(user->id);
         suppr_json(path);
         free(path);
@@ -207,16 +212,19 @@ int suppr_us(User user){
 
 int ban(char* id,User user){
     User ban = charge_user(id);
-    if (exist_in_list(ban->id,"u") == 0){
-        if(uget_grade(user)>get_grade(id)){
-            User ban = charge_user(id);
+    if (exist_in_list(ban->id,"u") == 0){//check if the user exist
+        if(uget_grade(user)>get_grade(id)){//check if the grade of user is high enough
+            User ban = charge_user(id);//charge the struct of the user to ban
+            //update of possession an borrow
             suppr_all_possession(ban);
             return_back_all(ban);
+            //utpdate the list
             supr_userlist(id);
             char* mail = get_mail(id);
             supr_usermail(mail);
             add_blackList(mail);
             free(mail);
+            //supr the json
             char* path = user_path(id);
             suppr_json(path);
             free(path);
@@ -236,18 +244,19 @@ int ban(char* id,User user){
 }
 
 int login(User* util,char* id, char* pwd){
-    if(exist_user(id) == 1){
+    if(exist_user(id) == 1){//check if the user exist
         return 1;
     }
     char crypwd[PWSIZE];
     char* pass = get_pwd (id);
     encrypt(pwd, crypwd);
-	if(strcmp (crypwd, pass) ){
+	if(strcmp (crypwd, pass) ){//check if the password is correct
         free(pass);
         return 2;
     }
     free(pass);
-    *util = malloc(sizeof(struct user_s));
+    *util = malloc(sizeof(struct user_s));//alloue le pointeur *util
+    //fill the struct with json's data
     uset_id(id,*util);
     char* pointer = get_name(id);
     uset_forename(pointer,*util);
@@ -272,7 +281,8 @@ int login(User* util,char* id, char* pwd){
 }
 
 User charge_user(char* id){
-    User util = malloc(sizeof(struct user_s));
+    User util = malloc(sizeof(struct user_s));//alloue le pointeur util
+    //fill the struct with json's data
     uset_id(id,util);
     char* pointer = get_name(id);
     uset_forename(pointer,util);
@@ -293,7 +303,7 @@ User charge_user(char* id){
     pointer_tab = get_possession(id);
     uset_possession(get_possession(id),util);
     free(pointer_tab);
-    return util;
+    return util;//retourne le pointeur
 }
 
 void logout(User user){
@@ -320,10 +330,11 @@ int exist_in_table(char* id,char** table){
 
 int borrowing(User util, char* idObject){
     char* current_borrower = get_borrower(idObject);
-    if(strcmp("",current_borrower) != 0){
+    if(strcmp("",current_borrower) != 0){//check if the object is already borrow
         return 1;
     }
     free(current_borrower);
+    //create a new table of borrow
     char** brw = uget_brw(util);
 	int size = get_table_size(brw);
 
@@ -338,6 +349,7 @@ int borrowing(User util, char* idObject){
     nv_brw[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_brw[size+1],idObject);
 
+    //update the struct the user json and the object json
     set_borrowlist(util->id,nv_brw);
     set_borrower(idObject,util->id);
     uset_brw(nv_brw,util);
@@ -352,16 +364,17 @@ int return_back(char* idObject, User util){
     int p = -1;
     int i = 1;
 
-
+    //check if the user has borrow this object
     for(int j = 1; j<= size; j++){
         if (!(strcmp(brw[j],idObject))){
             p = j;
         }
     }
-
     if (p==-1){
         return 1;
     }
+
+    //create the new table of borrow
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size-1);
@@ -375,6 +388,7 @@ int return_back(char* idObject, User util){
         }        
     } 
 
+    //update the struc the json of user an the json of object
     uset_brw(nv_brw, util);
     set_borrower(idObject,"");    
     set_borrowlist(util->id, nv_brw);
@@ -384,17 +398,20 @@ int return_back(char* idObject, User util){
 }
 
 void return_back_all(User util){
-	int size = 0;
+	//create the new table of borrow
+    int size = 0;
     char ** nv_brw=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_brw = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_brw[0], "%d", size);
 
+    //update object's json
     char** brw = uget_brw(util);
     size = get_table_size(brw);
     for (int i = 1; i<=size; i++){
         set_borrower(brw[i],"");
     }
 
+    //update the stuct and the user's json
     uset_brw(duplicate_table(nv_brw), util);
     set_borrowlist(util->id, nv_brw);
 
@@ -402,6 +419,7 @@ void return_back_all(User util){
 }
 
 void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
+    //create an idObject based on time
     time_t t = time(NULL);
     char* time = ctime(&t);
     char* idObject = malloc(sizeof(char)*IDSIZE);
@@ -409,6 +427,7 @@ void add_possession(User user,char* name, int pagenb, char* author, int date, ch
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 
+    //create the new table of possession
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size+1));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size+1);
@@ -421,14 +440,17 @@ void add_possession(User user,char* name, int pagenb, char* author, int date, ch
     nv_pos[size+1]=(char*)malloc(sizeof(char)*(IDSIZE));
     strcpy(nv_pos[size+1],idObject);
 
+    //create the json of the object and update the list of object
     add_livre(idObject, name, pagenb, author, date, user->id,kind);
     add_objlist(idObject);
+    //update the struct and the user's json
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
 }
 
 int suppr_possession(char* idObject, User user){
+    //check if the object has a borrower
     if(strcmp("", get_borrower(idObject)) != 0){
         return 1;
     }
@@ -437,7 +459,7 @@ int suppr_possession(char* idObject, User user){
     int p = -1;
     int i = 1;
 
-
+    //check if the user possess the object 
     for(int j = 1; j<= size; j++){
         if (!(strcmp(pos[j],idObject))){
             p = j;
@@ -447,6 +469,8 @@ int suppr_possession(char* idObject, User user){
     if (p==-1){
         return 2;
     }
+
+    //create the new table of possession
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size-1);
@@ -460,6 +484,7 @@ int suppr_possession(char* idObject, User user){
         }        
     } 
 
+    //update the struct, suppr the json of the object,update the object list and user's json
     uset_possession(duplicate_table(nv_pos), user);
     char* path = object_path(idObject);
     suppr_json(path);
@@ -474,14 +499,16 @@ int suppr_possession(char* idObject, User user){
 void suppr_all_possession(User user){
     char** pos = uget_possession(user);
     int size = get_table_size(pos);
+    //free all the possession of user
     for(int j = 1; j<= size; j++){
         char* borrower_id = get_borrower(pos[j]);
-        if(strcmp("", borrower_id) != 0){
+        if(strcmp("", borrower_id) != 0){//if a possession is borrow, get back the object
             User borrower = charge_user(borrower_id);
             return_back(pos[j], borrower);
             free_user(borrower);
         }
         free(borrower_id);
+        //suppr the json of the object and update the object list
         char* path = object_path(pos[j]);
         suppr_json(path);
         free(path); 
@@ -489,11 +516,13 @@ void suppr_all_possession(User user){
     }
     free_table(pos);
 
+    //create the new possession table
     size = 1;
     char ** nv_pos=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_pos = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_pos[0], "%d", size-1);
     
+    //update the struct and the user's json
     set_possesion(user->id,nv_pos);
     uset_possession(nv_pos, user);
 }
@@ -502,11 +531,13 @@ void suppr_all_possession(User user){
 void encrypt(char* pwd,char* crypwd){
     int p;
     int cle = 0;
+    //create the key
     for(int i = 0; i < strlen(pwd); i++){
         p = pwd[i] - 32;
         cle = cle + p;
     } 
     cle = cle%95;
+    //crypte the password
     for(int i = 0; i < strlen(pwd); i++){
         int p = pwd[i] -32;
         crypwd[i] = (char)((cle+p)%95+32);
@@ -518,18 +549,19 @@ int new_pwd(User user, char* pwd, char* nv_pwd){
     char crypwd[PWSIZE];
     char* pass = get_pwd(user->id);
     encrypt(pwd, crypwd);
-	if(strcmp (crypwd , pass ) ){
+	if(strcmp (crypwd , pass ) ){//check the password
         free(pass);
         return 1;
     }
     free(pass);
     encrypt(nv_pwd,crypwd);
+    //update the user's json
     set_pwd(user->id, crypwd);
     return 0;
 }
 
 int new_username(User user,char* new_username){
-    if (exist_in_list(new_username,"u") == 0){
+    if (exist_in_list(new_username,"u") == 0){//check if an other user has alredy this user name
         return 1;
     }
     supr_userlist(user->id);
@@ -554,9 +586,22 @@ int new_username(User user,char* new_username){
     return 0;
 }
 
+int change_grade(User user,char* id,int newgrade){
+    if (user->grade <= get_grade(id)){
+        return 1;
+    }
+    if (user->grade < newgrade){
+        return 2;
+    }
+    char* grade = malloc(sizeof(char)*5);
+    sprintf(grade, "%d", newgrade);
+    set_grade(id,grade);
+    free(grade);
+}
+
 char** duplicate_table(char** tab){
 	int size = get_table_size(tab);
-
+    //copie the table
     char ** nv_tab=(char**)malloc(sizeof(char*)*(size));//TOFREE
     *nv_tab = (char*)malloc(sizeof(char)*(IDSIZE));
     sprintf(nv_tab[0], "%d", size);
