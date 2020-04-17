@@ -247,7 +247,7 @@ int ban(char* id,User user){
 }
 
 int login(User* util,char* id, char* pwd){
-    if(exist_user(id) == 0){//check if the user exist
+    if(exist_user(id) == 1){//check if the user exist
         return 1;
     }
     char crypwd[PWSIZE];
@@ -586,6 +586,19 @@ int new_username(User user,char* new_username){
         set_borrower(borrow[i],new_username);
     }
     return 0;
+}
+
+int change_grade(User user,char* id,int newgrade){
+    if (user->grade <= get_grade(id)){
+        return 1;
+    }
+    if (user->grade < newgrade){
+        return 2;
+    }
+    char* grade = malloc(sizeof(char)*5);
+    sprintf(grade, "%d", newgrade);
+    set_grade(id,grade);
+    free(grade);
 }
 
 char** duplicate_table(char** tab){

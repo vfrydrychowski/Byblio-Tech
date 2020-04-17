@@ -138,6 +138,13 @@ int new_pwd(User user, char* pwd, char* nv_pwd);
 	*/
 int new_username(User user,char* new_username);
 	/*
+	change the grade of the user id
+	return 0 if everything goes well
+	return 1 if id has higher grade than user
+	return 2 if the newgrade is higher than user's grade
+	*/
+int change_grade(User user,char* id,int newgrade);
+	/*
 	dupilcate tab of ID using a malloc
 	*/
 char** duplicate_table(char** tab);
