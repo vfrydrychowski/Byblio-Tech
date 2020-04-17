@@ -438,6 +438,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
                                 printf(" ----------------------------------------------------------------------\n");
                                 printf("|         Already borrow, sorry, you may connect another day :)        |\n");
                                 printf(" ----------------------------------------------------------------------\n");
+                                *pos = -1;
                                 cleanbuff();
                             break;
 
@@ -488,7 +489,7 @@ void search(User us){
             printf("  Your query : ");
             read_int(&query);
             //printf("\n%d\n", query);
-            cleanscr();
+            //cleanscr();
             switch (query)
             {
                 case 1:

@@ -117,7 +117,7 @@ void Menu(){
                                                 pos = -3;
                                                 free_table(brlist);
                                             }
-                                            else if(x < get_table_size(brlist) && x > 0){
+                                            else if(x <= get_table_size(brlist) && x > 0){
                                                 pos = -5;
                                                 int curr = x; //current object
                                                 while(pos == -5){
@@ -154,7 +154,7 @@ void Menu(){
                                             printf(" ----------------------------------------------------------------------\n");
                                             printf("|                  Wich one do you wish to get back ?         0 : back |\n");
                                             printf(" ----------------------------------------------------------------------\n");
-                                            char** poss = uget_brw(us);//TOFREE
+                                            char** poss = uget_possession(us);//TOFREE
                                             
                                             for (int i = 1; i<= get_table_size(poss); i++){
                                                 title = get_title(poss[i]);
@@ -169,7 +169,7 @@ void Menu(){
                                             if(x==0){
                                                 pos = -3;
                                             }
-                                            else if(x < get_table_size(poss) && x > 0){
+                                            else if(x <= get_table_size(poss) && x > 0){
                                                 pos = -5;
                                                 int curr = x; //current object
                                                 while(pos == -5){
@@ -205,7 +205,7 @@ void Menu(){
                                                             printf("|                              Press any key                           |\n");
                                                             printf(" ----------------------------------------------------------------------\n");
                                                             cleanbuff();
-                                                            pos = -2;
+                                                            pos = -3;
                                                         break;
 
                                                         default:
@@ -402,7 +402,7 @@ void Menu(){
                                         printf("|                      Sucess, thank you :)           Press any : back |\n");
                                         printf(" ----------------------------------------------------------------------\n");
                                         cleanbuff();
-                                        pos = -2;
+                                        pos = -3;
 
                                     break;
 
@@ -530,9 +530,10 @@ int main()
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
     Menu();
-
+    
     //User us;
-    //printf("%d", login(&us, "Fryghost", "adminsdf"));
+    //printf("%d\n", login(&us, "Fryghost", "admin"));
+
     //crea_user(&us,"Fryghost", "Valentin", "Frydrychowski", "frydrychowskiv@gmail.com", 10, "admin123");
     return 0;
 }
