@@ -28,50 +28,96 @@ void uset_grade(int grade, User util);
 void uset_brw(char** brw, User util);
 void uset_possession(char** possession, User util);
 
-int crea_user(User user, char* forename, char* name, char* mail, char** brw, int grade, char* cryptedPw, char** possession);
+int exist_user(char* id);
+	/*
+	if the user exist return 0
+	else return 1
+	*/
+int crea_user(User* util, char* id, char* forename, char* name, char* mail, int grade, char* Pwd);
 
 	/*
-	check for existing usernames
-	create a User struct Named new_user
-	create a Json for new_user
-	free new_user
+	charge the User struct util and fill it with the arguments
+	create a Json for util
+	return 0 if everything goes well
+	return 1 if the mail is in the black list
+	return 2 if an other user has alreary this mail
+	return 3 if an other user has already this id
 	*/
-void suppr_us(char* id,User user);
+int possession_borrow(User user);
 	/*
-	remove the Json for this id and all his belongings
-*/
-void ban(char* id,User user);
+	return the number of possession witch has a borrower
+	*/
+int exist_in_list(char* substring,char* listname);
 	/*
+	return 1 if there is an occurence of subtring in the list
+	else return 0
+	*/
+int suppr_us(User user);
+	/*
+	suppr all object file of id possessions
+	return back all the borrowing of id
 	add the mail to the black list
-	suppr(id)
+	return 0 if all goes well
+	return 1 if one of the possession of user has been borrow
 	*/
-int login(char* id, char* pwd, User *util);
+int ban(char* id,User user);
 	/*
-	check the user identity and fill util with infos in user’s json
+	suppr all object file of id possessions
+	return back all the borrowing of id
+	add the mail to the black list
+	return 0 if all goes well
+	return 1 if the id do not exist
+	return 2 if user has higher or the same grade than id  
+	*/
+int login(User* user, char* id, char* pwd);
+	/*
+	check the user identity and fill util with infos in user’s json and return 0
+	return 1 if the user do not exist
+	return 2 if pwd (after being crypted) don't match the one in the json
+	*/
+User charge_user(char* id);
+	/*
+	create au user struc whith data of the correponding json
+	*/
+void logout(User user);
+	/*
+	free the struct user
+	*/
+void free_user(User user);
+	/*
+	free the struct user
+	*/
+int exist_in_table(char* chaine,char** table);
+	/*
+	return the number of occurence of chaine in table
 	*/
 int borrowing(User util, char* idObject);
 	/*
-	update status of the object and add it of the current user’s borrowing list  
+	update status of the object, add it of the current user’s borrowing list and return 0
+	return 1 if the object is already borrow
 	*/
-int return_back(char* id, char* idObject, User util);
+int return_back(char* idObject, User util);
 	/*
-	update status of the object and remove it of the current user’s borrowing list  
+	update status of the object, remove it of the current user’s borrowing list and return 0
+	return 1 if user hasn't borrow the object 
 	*/
-int return_back_all(char* id, User util);
+void return_back_all(User util);
 	/*
-	update status of all objects and remove it of the current user’s borrowing list  
+	update status of all objects, remove it of the current user’s borrowing list
 	*/
-int suppr_all_possession(char* id,User user);
+void suppr_all_possession(User user);
 	/*
 	update status of the object and remove it of the current user’s borrowing list
 	*/
-int add_possession(User user, char* idObject, char* name, int pagenb, char* author, int date, char* owner, int kind);
+void add_possession(User user, char* name, int pagenb, char* author, int date, char* kind);
 	/*
 	add idObject to the user’s possesion list 
 	*/
-int suppr_possession(char* id, char* idObject, User user);
+int suppr_possession(char* idObject, User user);
 	/*
-	remove idObject of the user’s possesion list 
+	remove idObject of the user’s possesion list and return 0 
+	if Object is borrow by an other user return 1
+	if the user don't possess the Object return 2
 	*/
 
 void encrypt(char* pwd, char* crypwd);

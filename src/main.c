@@ -278,7 +278,8 @@ void Menu(){
 }
 
 
-int main(int argc, char const *argv[])
+
+int main()
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
     Menu();
