@@ -205,7 +205,6 @@ void Menu(){
                                                             printf("|                              Press any key                           |\n");
                                                             printf(" ----------------------------------------------------------------------\n");
                                                             getchar();
-                                                            cleanbuff();
                                                             pos = -2;
                                                         break;
 
@@ -219,8 +218,8 @@ void Menu(){
                                     break;
 
                                     case 4://Settings
-                                        pos = -3;
-                                        while(pos == -3){
+                                        pos = -4;
+                                        while(pos == -4){
                                             cleanscr();
                                             printf(" ----------------------------------------------------------------------\n");
                                             printf("|                              Settings                                |\n");
@@ -238,12 +237,12 @@ void Menu(){
                                             read_int(&x);
                                             switch(x){
                                                 case 1://change username
-                                                    pos = -4;
-                                                    while(pos == -4){
+                                                    pos = -5;
+                                                    while(pos == -5){
                                                         cleanscr();
                                                         char* username = malloc(sizeof(char)*IDSIZE);//TOFREE
                                                         printf(" ----------------------------------------------------------------------\n");
-                                                        printf("       Your current username is : %s\n", uget_name(us));
+                                                        printf("       Your current username is : %s\n", uget_id(us));
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("  New user name : ");
                                                         read_string(username, IDSIZE);
@@ -252,7 +251,7 @@ void Menu(){
 
                                                             
                                                             case 0:
-                                                                pos=-3;
+                                                                pos=-4;
                                                             break;
 
                                                             case 1:
@@ -262,10 +261,42 @@ void Menu(){
                                                                 pos = retry(pos);
                                                             break;
                                                         }
+                                                        free(username);
                                                     }
                                                 break;
 
-                                                case 2://change pwd
+                                                case 2://change password
+                                                    pos = -5;
+                                                    while(pos == -5){
+                                                        cleanscr();
+                                                        char* pwd = malloc(sizeof(char)*PWSIZE);//TOFREE
+                                                        char* oldpwd = malloc(sizeof(char)*PWSIZE);//TOFREE
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("|                           Changing password                          |\n");
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("  Current password : ");
+                                                        read_string(oldpwd, IDSIZE);
+                                                        printf("  Current password : ");
+                                                        read_string(pwd, IDSIZE);
+
+                                                        switch(new_pwd(us, oldpwd, pwd)){
+                                                            case 0 :
+                                                                pos =-4;
+                                                            break;
+
+                                                            case 1:
+                                                                printf("                      ----------------\n");
+                                                                printf("                     | Wrong password |\n");
+                                                                printf("                      ----------------\n");
+                                                                pos = retry(pos);
+                                                            break;
+                                                        }
+
+
+                                                    }
+                                                    
+                                                    
+
                                                     
                                                 break;
 
@@ -316,7 +347,6 @@ void Menu(){
                                                                     printf(" ----------------------------------------------------------------------\n");
                                                                 pos = -1;
                                                                 getchar();
-                                                                cleanbuff();
                                                             break;
 
                                                             case 0:
@@ -358,7 +388,6 @@ void Menu(){
                                                     printf("|                      Sucess, thank you :)           Press any : back |\n");
                                                     printf(" ----------------------------------------------------------------------\n");
                                                     getchar();
-                                                    cleanbuff();
                                                     pos = -2;
 
                                                 break;
@@ -368,7 +397,7 @@ void Menu(){
                                                 break;
 
                                                 case 0://back
-                                                    pos = -2;
+                                                    pos = -3;
                                                 break;
 
                                                 default:
@@ -471,7 +500,6 @@ void Menu(){
                 free(mail);
                 free(forename);
                 getchar();
-                cleanbuff();
                 pos = -1;
             break;
             
@@ -497,9 +525,9 @@ void Menu(){
 int main()
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    //Menu();
-    User us;
-    printf("%d", login(&us, "Fryghost", "admin123"));
+    Menu();
+    //User us;
+    //printf("%d", login(&us, "Fryghost", "adminsdf"));
     //crea_user(&us,"Fryghost", "Valentin", "Frydrychowski", "frydrychowskiv@gmail.com", 10, "admin123");
     return 0;
 }

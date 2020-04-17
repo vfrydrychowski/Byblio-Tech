@@ -236,7 +236,7 @@ int ban(char* id,User user){
 }
 
 int login(User* util,char* id, char* pwd){
-    if(exist_user(id) == 0){
+    if(exist_user(id) == 1){
         return 1;
     }
     char crypwd[PWSIZE];
@@ -244,7 +244,7 @@ int login(User* util,char* id, char* pwd){
     encrypt(pwd, crypwd);
 	if(strcmp (crypwd, pass) ){
         free(pass);
-        return 1;
+        return 2;
     }
     free(pass);
     *util = malloc(sizeof(struct user_s));
