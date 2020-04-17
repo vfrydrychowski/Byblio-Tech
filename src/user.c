@@ -242,36 +242,35 @@ int login(User* util,char* id, char* pwd){
         return 1;
     }
     char crypwd[PWSIZE];
+    char* pass = get_pwd (id);
     encrypt(pwd, crypwd);
-	if(strcmp (crypwd ,get_pwd (id) ) ){
+	if(strcmp (crypwd, pass) ){
+        free(pass);
         return 2;
     }
-
-    else
-    {
-        *util = malloc(sizeof(struct user_s));
-        uset_id(id,*util);
-        char* pointer = get_name(id);
-        uset_forename(pointer,*util);
-        free(pointer);
-        pointer = get_forename(id);
-        uset_name(pointer,*util);
-        free(pointer);
-        pointer = get_mail(id);
-        uset_mail(pointer,*util);
-        free(pointer);
-        char**pointer_tab = get_borrowlist(id);     
-        uset_brw(get_borrowlist(id),*util);
-        free(pointer_tab);
-        uset_grade(get_grade(id),*util);
-        pointer = get_pwd(id);
-        uset_cryptedPwd(pointer,*util);
-        free(pointer);
-        pointer_tab = get_possession(id);
-        uset_possession(get_possession(id),*util);
-        free(pointer_tab);
-        return 0;
-    }
+    free(pass);
+    *util = malloc(sizeof(struct user_s));
+    uset_id(id,*util);
+    char* pointer = get_name(id);
+    uset_forename(pointer,*util);
+    free(pointer);
+    pointer = get_forename(id);
+    uset_name(pointer,*util);
+    free(pointer);
+    pointer = get_mail(id);
+    uset_mail(pointer,*util);
+    free(pointer);
+    char**pointer_tab = get_borrowlist(id);     
+    uset_brw(get_borrowlist(id),*util);
+    free(pointer_tab);
+    uset_grade(get_grade(id),*util);
+    pointer = get_pwd(id);
+    uset_cryptedPwd(pointer,*util);
+    free(pointer);
+    pointer_tab = get_possession(id);
+    uset_possession(get_possession(id),*util);
+    free(pointer_tab);
+    return 0;
 }
 
 User charge_user(char* id){
@@ -401,7 +400,6 @@ void return_back_all(User util){
     uset_brw(duplicate_table(nv_brw), util);
     set_borrowlist(util->id, nv_brw);
 
-    return 0;
 }
 
 void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
@@ -510,6 +508,21 @@ void encrypt(char* pwd,char* crypwd){
         crypwd[i] = (char)((cle+p)%95+32);
     }
     crypwd[strlen(pwd)] = '\0';
+}
+
+int new_pwd(User user, char* pwd, char* nv_pwd){
+    char crypwd[PWSIZE];
+    char* pass = get_pwd(user->id);
+    encrypt(pwd, crypwd);
+	if(strcmp (crypwd , pass ) ){
+        free(pass);
+        return 1;
+    }
+    free(pass);
+    encrypt(nv_pwd,crypwd);
+    set_pwd(user->id, crypwd);
+    free(crypwd);
+    return 0;
 }
 
 char** duplicate_table(char** tab){
