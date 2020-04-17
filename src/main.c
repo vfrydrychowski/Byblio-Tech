@@ -133,7 +133,7 @@ void Menu(){
                                                         break;
 
                                                         case 1:
-                                                            //returnback
+                                                            return_back(brlist[curr], us);
                                                             pos = -3;
                                                         break;
 
@@ -148,7 +148,74 @@ void Menu(){
                                     break;
 
                                     case 3://get back a book
+                                        cleanscr();
+                                            printf(" ----------------------------------------------------------------------\n");
+                                            printf("|                  Wich one do you wish to get back ?         0 : back |\n");
+                                            printf(" ----------------------------------------------------------------------\n");
+                                            char** poss = uget_brw(us);//TOFREE
+                                            char* title;
+                                            char* author;
+                                            for (int i = 1; i<= get_table_size(poss); i++){
+                                                title = get_title(poss[i]);
+                                                author = get_author(poss[i]);
+                                                printf("  %d, : %s   *   %s\n", i, title, author);
+                                                free(title);
+                                                free(author);
+                                            }
+                                            printf("  Choice : ");
+                                            x = -1;
+                                            read_int(&x);
+                                            if(x==0){
+                                                pos = -3;
+                                                free_table(poss);
+                                            }
+                                            else if(x < get_table_size(poss) && x > 0){
+                                                pos = -5;
+                                                int curr = x; //current object
+                                                while(pos == -5){
+                                                    cleanscr();
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("|                      Is it the one to ge back ?                      |\n");
+                                                    printf("|                 0 : no                      1 : yes                  |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");                    
+                                                    print_object(poss[curr]);
+                                                    printf("  Choice : ");
+                                                    read_int(&x);
+                                                    switch(x){
+                                                        case 0:
+                                                            pos = -4;
+                                                        break;
 
+                                                        case 1:
+                                                            switch(suppr_possession(poss[curr], us)){
+                                                                case 1:
+                                                                    printf(" ----------------------------------------------------------------------\n");
+                                                                    printf("|                  this books is  currently borrowed                   |\n");
+                                                
+                                                                break;
+
+                                                                case 0:
+                                                                    printf(" ----------------------------------------------------------------------\n");
+                                                                    printf("|                         Et voila, thanks !                           |\n");
+                                                                break;
+
+                                                                default:
+                                                                break;
+                                                            }
+                                                            printf("|                              Press any key                           |\n");
+                                                            printf(" ----------------------------------------------------------------------\n");
+                                                            getchar();
+                                                            cleanbuff();
+                                                            pos = -2;
+                                                        break;
+
+                                                        default:
+                                                        break;
+                                                    }
+
+                                                }
+                                            }
+                                        
                                     break;
 
                                     case 4://Settings
@@ -221,11 +288,11 @@ void Menu(){
                                                                     default:
                                                                     break;
                                                                 }
-                                                                        printf("|                              Press any key                           |\n");
-                                                                        printf(" ----------------------------------------------------------------------\n");
+                                                                    printf("|                              Press any key                           |\n");
+                                                                    printf(" ----------------------------------------------------------------------\n");
                                                                 pos = -1;
                                                                 getchar();
-                                                                cleanbuff;
+                                                                cleanbuff();
                                                             break;
 
                                                             case 0:
