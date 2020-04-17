@@ -271,7 +271,64 @@ void Menu(){
             break;
 
             case 2 ://register
+                cleanscr();
+                User u;
+                char* username = malloc(sizeof(char)*IDSIZE);
+                char* forename = malloc(sizeof(char)*NAMESIZE);
+                char* name = malloc(sizeof(char)*NAMESIZE);
+                char* mail = malloc(sizeof(char)*NAMESIZE);
+                int grade = 0;
+                char* pwd = malloc(sizeof(char)*PWSIZE);
+                printf(" ----------------------------------------------------------------------\n");
+                printf("|                      Please enter your infos                         |\n");
+                printf(" ----------------------------------------------------------------------\n");
+                printf(" Username : ");
+                read_string(username, IDSIZE);
+                printf(" Forename : ");
+                read_string(forename, NAMESIZE);
+                printf(" Name : ");
+                read_string(name, NAMESIZE);
+                printf(" Mail : ");
+                read_string(mail, NAMESIZE);
+                printf(" Password : ");
+                read_string(name, NAMESIZE);
+                cleanscr();
+                switch(crea_user(&u, username, forename, name, mail, grade, pwd)){
+                    case 1 ://Blacklisted
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("|                      Sorry your are blaklisted      press any : back |\n");
+                        printf(" ----------------------------------------------------------------------\n");
+                    break;
 
+                    case 2://mail taken
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("|                   Sorry your mail is taken          press any : back |\n");
+                        printf(" ----------------------------------------------------------------------\n");
+                    break;
+
+                    case 3://id taken
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("|                   Sorry your username is taken      press any : back |\n");
+                        printf(" ----------------------------------------------------------------------\n");
+                    break;
+                    
+                    case 0://sucessfull
+                            printf(" ----------------------------------------------------------------------\n");
+                            printf("|                      Gongratulation !               press any : back |\n");
+                            printf("|                 Account sucessfully created                          |\n");
+                            printf(" ----------------------------------------------------------------------\n");
+                    break;
+
+                    default:
+                    break; 
+                }
+                free(username);
+                free(name);
+                free(pwd);
+                free(mail);
+                free(forename);
+                getchar();
+                pos = -1;
             break;
             
             case 0 ://quit prgrm
