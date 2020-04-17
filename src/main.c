@@ -86,6 +86,8 @@ void Menu(){
                                 printf("  Choice : ");
                                 x = -1;
                                 read_int(&x);
+                                char* title;
+                                char* author;
                                 switch(x){
                                     case 1://search a book
                                             search(us);
@@ -153,8 +155,7 @@ void Menu(){
                                             printf("|                  Wich one do you wish to get back ?         0 : back |\n");
                                             printf(" ----------------------------------------------------------------------\n");
                                             char** poss = uget_brw(us);//TOFREE
-                                            char* title;
-                                            char* author;
+                                            
                                             for (int i = 1; i<= get_table_size(poss); i++){
                                                 title = get_title(poss[i]);
                                                 author = get_author(poss[i]);
@@ -363,38 +364,7 @@ void Menu(){
 
                                                 break;
 
-                                                case 5://lend us a book
-                                                    cleanscr();
-                                                    char* title = malloc(sizeof(char*)*NAMESIZE);//TOFREE
-                                                    char* author = malloc(sizeof(char*)*NAMESIZE);//TOFREE
-                                                    char* kind = malloc(sizeof(char*)*NAMESIZE);//TOFREE
-                                                    int nbpage;
-                                                    int date;
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    printf("|                      Please enter the book's infos                   |\n");
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    printf(" Title : ");
-                                                    read_string(title, NAMESIZE);
-                                                    printf(" Author : ");
-                                                    read_string(author, NAMESIZE);
-                                                    printf(" Kind : ");
-                                                    read_string(kind, NAMESIZE);
-                                                    printf(" Date : ");
-                                                    read_int(&date);
-                                                    printf(" Number of pages : ");
-                                                    read_int(&nbpage);
-                                                    add_possession(us, title, nbpage, author, date, kind);
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    printf("|                      Sucess, thank you :)           Press any : back |\n");
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    cleanbuff();
-                                                    pos = -2;
-
-                                                break;
-
-                                                case 666://Privilege
-
-                                                break;
+                                                
 
                                                 case 0://back
                                                     pos = -3;
@@ -406,6 +376,40 @@ void Menu(){
                                         }
                                         
                                     break;
+
+                                    case 5://lend us a book
+                                        cleanscr();
+                                        title = malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                        author = malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                        char* kind = malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                        int nbpage;
+                                        int date;
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        printf("|                      Please enter the book's infos                   |\n");
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        printf(" Title : ");
+                                        read_string(title, NAMESIZE);
+                                        printf(" Author : ");
+                                        read_string(author, NAMESIZE);
+                                        printf(" Kind : ");
+                                        read_string(kind, NAMESIZE);
+                                        printf(" Date : ");
+                                        read_int(&date);
+                                        printf(" Number of pages : ");
+                                        read_int(&nbpage);
+                                        add_possession(us, title, nbpage, author, date, kind);
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        printf("|                      Sucess, thank you :)           Press any : back |\n");
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        cleanbuff();
+                                        pos = -2;
+
+                                    break;
+
+                                    case 666://Privilege
+
+                                    break;
+
 
                                     case 0://Back
                                         pos = -1;
