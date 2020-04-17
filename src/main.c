@@ -9,7 +9,7 @@
 #include "../include/SISO.h"
 #include "../include/user.h"
 
-int retry(){
+int retry(int pos){
     printf("                          retry?\n");
     printf("                1 : yes                 0 : no\n");
     printf("  :  ");
@@ -17,11 +17,11 @@ int retry(){
     read_int(&x);
     switch(x){
         case 1:
-            return -2;
+            return pos;
         break;
 
         default :
-            return -1;
+            return pos+1;
         break;
     } 
 }
@@ -237,12 +237,36 @@ void Menu(){
                                             x=-1;
                                             read_int(&x);
                                             switch(x){
-                                                case 1:
-                                                    //TODO change username
+                                                case 1://change username
+                                                    pos = -4;
+                                                    while(pos == -4){
+                                                        cleanscr();
+                                                        char* username = malloc(sizeof(char)*IDSIZE);//TOFREE
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("       Your current username is : %s\n", uget_name(us));
+                                                        printf(" ----------------------------------------------------------------------\n");
+                                                        printf("  New user name : ");
+                                                        read_string(username, IDSIZE);
+                                                        switch(new_username(us, username)){
+                                                            
+
+                                                            
+                                                            case 0:
+                                                                pos=-3;
+                                                            break;
+
+                                                            case 1:
+                                                                printf(" ----------------------------------------------------------------------\n");
+                                                                printf("|                   Sorry this username is taken      press any : back |\n");
+                                                                printf(" ----------------------------------------------------------------------\n");
+                                                                pos = retry(pos);
+                                                            break;
+                                                        }
+                                                    }
                                                 break;
 
-                                                case 2:
-                                                    //TODO change pwd
+                                                case 2://change pwd
+                                                    
                                                 break;
 
                                                 case 3:
@@ -371,18 +395,20 @@ void Menu(){
                             printf("                      --------------\n");
                             printf("                     | No such user |\n");
                             printf("                      --------------\n");
-                            pos = retry();
+                            pos = retry(pos);
                         break;
 
                         case 2:
                             printf("                      ----------------\n");
                             printf("                     | Wrong password |\n");
                             printf("                      ----------------\n");
-                            pos = retry();
+                            pos = retry(pos);
                         default:
                             pos = -1;
                         break;
                     }
+                    free(username);
+                    free(pwd);
                 }
 
             break;
@@ -471,8 +497,9 @@ void Menu(){
 int main()
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
-    Menu();
-    //User us;
+    //Menu();
+    User us;
+    printf("%d", login(&us, "Fryghost", "admin123"));
     //crea_user(&us,"Fryghost", "Valentin", "Frydrychowski", "frydrychowskiv@gmail.com", 10, "admin123");
     return 0;
 }

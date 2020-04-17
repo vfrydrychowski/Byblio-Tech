@@ -404,7 +404,7 @@ void return_back_all(User util){
 void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
     time_t t = time(NULL);
     char* time = ctime(&t);
-    char* idObject ;
+    char* idObject = malloc(sizeof(char)*IDSIZE);
     strncpy(idObject,time,24);
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
@@ -551,6 +551,7 @@ int new_username(User user,char* new_username){
     for (int i = 1; i <= size; i++){
         set_borrower(borrow[i],new_username);
     }
+    return 0;
 }
 
 char** duplicate_table(char** tab){
