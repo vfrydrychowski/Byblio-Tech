@@ -27,7 +27,7 @@ int retry(int pos){
 }
 
 void Menu(){
-    int x = 0;
+    int x = -1;
     int pos = -1;
     while(pos == -1){
         cleanscr();
@@ -41,6 +41,7 @@ void Menu(){
         printf("|                         0 : Quit                                     |\n");
         printf(" ----------------------------------------------------------------------\n");
         printf(" Choice : ");
+        x=-1;
         read_int(&x);
         switch(x){
             case 1 ://login
@@ -436,6 +437,8 @@ void Menu(){
                             printf("                     | Wrong password |\n");
                             printf("                      ----------------\n");
                             pos = retry(pos);
+                            break;
+
                         default:
                             pos = -1;
                         break;
@@ -467,7 +470,7 @@ void Menu(){
                 printf(" Mail : ");
                 read_string(mail, NAMESIZE);
                 printf(" Password : ");
-                read_string(name, NAMESIZE);
+                read_string(pwd, NAMESIZE);
                 cleanscr();
                 switch(crea_user(&u, username, forename, name, mail, grade, pwd)){
                     case 1 ://Blacklisted
