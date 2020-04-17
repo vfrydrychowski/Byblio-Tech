@@ -74,9 +74,11 @@ void Menu(){
                                 printf("|                                                                      |\n");
                                 printf("|                        4 : settings                                  |\n");
                                 printf("|                                                                      |\n");
+                                printf("|                        5 : Lend us a book                            |\n");
+                                printf("|                                                                      |\n");
                                 //only admins can see this option
                                 if (uget_grade(us)>=5){
-                                    printf("|          ( ☉̅ 益 ☉̅ )     5 : *Privileges*     ( ☉̅ 益 ☉̅ )               |\n");
+                                    printf("|        ( ☉̅ 益 ☉̅ )     666 : *Privileges*     ( ☉̅ 益 ☉̅ )               |\n");
                                     printf("|                                                                      |\n");
                                 }
                                 printf("|                        0 : back and logout                           |\n");
@@ -222,7 +224,29 @@ void Menu(){
 
                                                 break;
 
-                                                case 5://Privilege
+                                                case 5://lend us a book
+                                                    cleanscr();
+                                                    char* title = malloc(sizeof(char*)*NAMESIZE);
+                                                    char* author = malloc(sizeof(char*)*NAMESIZE);
+                                                    char* kind = malloc(sizeof(char*)*NAMESIZE);
+                                                   /*  printf(" ----------------------------------------------------------------------\n");
+                                                    printf("|                      Please enter the book's infos                         |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf(" Username : ");
+                                                    read_string(username, IDSIZE);
+                                                    printf(" Forename : ");
+                                                    read_string(forename, NAMESIZE);
+                                                    printf(" Name : ");
+                                                    read_string(name, NAMESIZE);
+                                                    printf(" Mail : ");
+                                                    read_string(mail, NAMESIZE);
+                                                    printf(" Password : ");
+                                                    read_string(name, NAMESIZE);
+                                                    cleanscr();  */
+
+                                                break;
+
+                                                case 666://Privilege
 
                                                 break;
 
