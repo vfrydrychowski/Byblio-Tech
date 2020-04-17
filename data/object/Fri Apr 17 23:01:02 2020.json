@@ -3,8 +3,7 @@
     "author" : "Astier Alexandre",
     "date" : 2005,
     "pagenb" : 6969,
-    "borrower" : "007",
-    "owner" : "j",
+    "borrower" : "JOJO",
+    "owner": "admin",
     "type" : "comedy"
-
 }

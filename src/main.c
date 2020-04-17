@@ -27,7 +27,7 @@ int retry(int pos){
 }
 
 void Menu(){
-    int x = 0;
+    int x = -1;
     int pos = -1;
     while(pos == -1){
         cleanscr();
@@ -41,6 +41,7 @@ void Menu(){
         printf("|                         0 : Quit                                     |\n");
         printf(" ----------------------------------------------------------------------\n");
         printf(" Choice : ");
+        x=-1;
         read_int(&x);
         switch(x){
             case 1 ://login
@@ -48,8 +49,8 @@ void Menu(){
                 while(pos == -2){
                     cleanscr();
                     User us;
-                    char* pwd = malloc(sizeof(char)*PWSIZE);//TOFREE
-                    char* username= malloc(sizeof(char)*NAMESIZE);//TOFREE
+                    char* pwd = (char*)malloc(sizeof(char)*PWSIZE);//TOFREE
+                    char* username= (char*)malloc(sizeof(char)*NAMESIZE);//TOFREE
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|                      Please enter your infos                         |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -86,6 +87,8 @@ void Menu(){
                                 printf("  Choice : ");
                                 x = -1;
                                 read_int(&x);
+                                char* title;
+                                char* author;
                                 switch(x){
                                     case 1://search a book
                                             search(us);
@@ -115,7 +118,7 @@ void Menu(){
                                                 pos = -3;
                                                 free_table(brlist);
                                             }
-                                            else if(x < get_table_size(brlist) && x > 0){
+                                            else if(x <= get_table_size(brlist) && x > 0){
                                                 pos = -5;
                                                 int curr = x; //current object
                                                 while(pos == -5){
@@ -152,9 +155,8 @@ void Menu(){
                                             printf(" ----------------------------------------------------------------------\n");
                                             printf("|                  Wich one do you wish to get back ?         0 : back |\n");
                                             printf(" ----------------------------------------------------------------------\n");
-                                            char** poss = uget_brw(us);//TOFREE
-                                            char* title;
-                                            char* author;
+                                            char** poss = uget_possession(us);//TOFREE
+                                            
                                             for (int i = 1; i<= get_table_size(poss); i++){
                                                 title = get_title(poss[i]);
                                                 author = get_author(poss[i]);
@@ -168,7 +170,7 @@ void Menu(){
                                             if(x==0){
                                                 pos = -3;
                                             }
-                                            else if(x < get_table_size(poss) && x > 0){
+                                            else if(x <= get_table_size(poss) && x > 0){
                                                 pos = -5;
                                                 int curr = x; //current object
                                                 while(pos == -5){
@@ -204,7 +206,7 @@ void Menu(){
                                                             printf("|                              Press any key                           |\n");
                                                             printf(" ----------------------------------------------------------------------\n");
                                                             cleanbuff();
-                                                            pos = -2;
+                                                            pos = -3;
                                                         break;
 
                                                         default:
@@ -240,7 +242,7 @@ void Menu(){
                                                     pos = -5;
                                                     while(pos == -5){
                                                         cleanscr();
-                                                        char* username = malloc(sizeof(char)*IDSIZE);//TOFREE
+                                                        char* username = (char*)malloc(sizeof(char)*IDSIZE);//TOFREE
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("       Your current username is : %s\n", uget_id(us));
                                                         printf(" ----------------------------------------------------------------------\n");
@@ -261,7 +263,7 @@ void Menu(){
                                                                 pos = retry(pos);
                                                             break;
                                                         }
-                                                        free(username);
+                                                        //free(username)
                                                     }
                                                 break;
 
@@ -269,8 +271,8 @@ void Menu(){
                                                     pos = -5;
                                                     while(pos == -5){
                                                         cleanscr();
-                                                        char* pwd = malloc(sizeof(char)*PWSIZE);//TOFREE
-                                                        char* oldpwd = malloc(sizeof(char)*PWSIZE);//TOFREE
+                                                        char* pwd = (char*)malloc(sizeof(char)*PWSIZE);//TOFREE
+                                                        char* oldpwd = (char*)malloc(sizeof(char)*PWSIZE);//TOFREE
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("|                           Changing password                          |\n");
                                                         printf(" ----------------------------------------------------------------------\n");
@@ -363,38 +365,7 @@ void Menu(){
 
                                                 break;
 
-                                                case 5://lend us a book
-                                                    cleanscr();
-                                                    char* title = malloc(sizeof(char*)*NAMESIZE);//TOFREE
-                                                    char* author = malloc(sizeof(char*)*NAMESIZE);//TOFREE
-                                                    char* kind = malloc(sizeof(char*)*NAMESIZE);//TOFREE
-                                                    int nbpage;
-                                                    int date;
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    printf("|                      Please enter the book's infos                   |\n");
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    printf(" Title : ");
-                                                    read_string(title, NAMESIZE);
-                                                    printf(" Author : ");
-                                                    read_string(author, NAMESIZE);
-                                                    printf(" Kind : ");
-                                                    read_string(kind, NAMESIZE);
-                                                    printf(" Date : ");
-                                                    read_int(&date);
-                                                    printf(" Number of pages : ");
-                                                    read_int(&nbpage);
-                                                    add_possession(us, title, nbpage, author, date, kind);
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    printf("|                      Sucess, thank you :)           Press any : back |\n");
-                                                    printf(" ----------------------------------------------------------------------\n");
-                                                    cleanbuff();
-                                                    pos = -2;
-
-                                                break;
-
-                                                case 666://Privilege
-
-                                                break;
+                                                
 
                                                 case 0://back
                                                     pos = -3;
@@ -406,6 +377,154 @@ void Menu(){
                                         }
                                         
                                     break;
+
+                                    case 5://lend us a book
+                                        cleanscr();
+                                        title = (char*)malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                        author = (char*)malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                        char* kind = (char*)malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                        int nbpage;
+                                        int date;
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        printf("|                      Please enter the book's infos                   |\n");
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        printf(" Title : ");
+                                        read_string(title, NAMESIZE);
+                                        printf(" Author : ");
+                                        read_string(author, NAMESIZE);
+                                        printf(" Kind : ");
+                                        read_string(kind, NAMESIZE);
+                                        printf(" Date : ");
+                                        read_int(&date);
+                                        printf(" Number of pages : ");
+                                        read_int(&nbpage);
+                                        add_possession(us, title, nbpage, author, date, kind);
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        printf("|                      Sucess, thank you :)           Press any : back |\n");
+                                        printf(" ----------------------------------------------------------------------\n");
+                                        cleanbuff();
+                                        pos = -3;
+
+                                    break;
+
+                                    case 666://Privilege
+                                        pos = -4;
+                                        while(pos==-4){
+                                            cleanscr();
+                                            printf(" ----------------------------------------------------------------------\n");
+                                            printf("|                       Admin menu, be wise please            back : 0 |\n");
+                                            printf(" ----------------------------------------------------------------------\n");
+                                            printf("|                         1 : Force supp user                          |\n");
+                                            printf("|                                                                      |\n");
+                                            printf("|                         2 : Ban user                                 |\n");
+                                            printf("|                                                                      |\n");
+                                            printf("|                         3 : Set user grade                           |\n");
+                                            printf(" ----------------------------------------------------------------------\n");
+                                            printf(" Choice : ");
+                                            x=-1;
+                                            read_int(&x);
+                                            switch(x){
+                                                case 0://back
+                                                    pos = -3;
+                                                break;
+
+                                                case 1://Force suppr user
+                                                    username = (char*)malloc(sizeof(char)*IDSIZE);
+                                                    char*mail;
+                                                    cleanscr();
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("|                       Enter the user's username             back : 0 |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("  username : ");
+                                                    read_string(username, IDSIZE);
+                                                    if (exist_user(username)==0) mail = get_mail(username);
+                                                    switch(ban(username, us)){
+                                                        case 0://supr user
+                                                            printf("              pouffff, no more %s\n", username);
+                                                            supr_blackList(mail);
+                                                        break;
+
+                                                        case 1://id do not exist
+                                                            printf("                User does not exist !!\n");
+                                                        break;
+
+                                                        case 2:
+                                                            printf("                You are not above the law, you gangsta\n");
+                                                        break;
+
+                                                        default:
+                                                        break;
+                                                    }
+                                                    cleanbuff();
+                                                    //free(username);
+                                                    free(mail);
+
+                                                break;
+
+                                                case 2://Ban user
+                                                    username = (char*)malloc(sizeof(char)*IDSIZE);
+                                                    cleanscr();
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("|                       Enter the user's username             back : 0 |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("  username : ");
+                                                    read_string(username, IDSIZE);
+                                                    switch(ban(username, us)){
+                                                        case 0://supr user
+                                                            printf("              pouffff, no more %s\n", username);
+                                                        break;
+
+                                                        case 1://id do not exist
+                                                            printf("                User does not exist !!\n");
+                                                        break;
+
+                                                        case 2://try to ban a superior
+                                                            printf("                You ain't above the law, you gangsta\n");
+                                                        break;
+
+                                                        default:
+                                                        break;
+                                                    }
+                                                    cleanbuff();
+                                                    //free(username);
+
+
+                                                break;
+
+                                                case 3://set grade
+                                                    username = (char*)malloc(sizeof(char)*IDSIZE);
+                                                    cleanscr();
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("|                          Promotion menu                     back : 0 |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("  username : ");
+                                                    read_string(username, IDSIZE);                                                   
+                                                    if(exist_user(username)!=0){
+                                                        printf("                User does not exist !!\n");
+                                                    }
+                                                    else{
+                                                        x = get_grade(username);//if read_int got an error, the user stay with his grade 
+                                                        read_int(&x);
+                                                        printf("  Current grade of %s is : %d\n", username, get_grade(username));
+                                                        switch(change_grade(us, username, x)){
+                                                            case 0://change grade
+                                                                printf("              The grade of %s is now : %d\n", username, x);
+                                                            break;
+                                                            default://invalide grade
+                                                                printf("                You ain't above the law, you gangsta\n");
+                                                            break;
+                                                        }
+                                                    }
+                                                    
+                                                    cleanbuff();
+                                                break;
+
+                                                default:
+                                                break;
+                                            }
+                                        }
+                                    break;
+
 
                                     case 0://Back
                                         pos = -1;
@@ -432,6 +551,8 @@ void Menu(){
                             printf("                     | Wrong password |\n");
                             printf("                      ----------------\n");
                             pos = retry(pos);
+                            break;
+
                         default:
                             pos = -1;
                         break;
@@ -445,12 +566,12 @@ void Menu(){
             case 2 ://register
                 cleanscr();
                 User u;
-                char* username = malloc(sizeof(char)*IDSIZE);
-                char* forename = malloc(sizeof(char)*NAMESIZE);
-                char* name = malloc(sizeof(char)*NAMESIZE);
-                char* mail = malloc(sizeof(char)*NAMESIZE);
+                char* username = (char*)malloc(sizeof(char)*IDSIZE);
+                char* forename = (char*)malloc(sizeof(char)*NAMESIZE);
+                char* name = (char*)malloc(sizeof(char)*NAMESIZE);
+                char* mail = (char*)malloc(sizeof(char)*NAMESIZE);
                 int grade = 0;
-                char* pwd = malloc(sizeof(char)*PWSIZE);
+                char* pwd = (char*)malloc(sizeof(char)*PWSIZE);
                 printf(" ----------------------------------------------------------------------\n");
                 printf("|                      Please enter your infos                         |\n");
                 printf(" ----------------------------------------------------------------------\n");
@@ -463,7 +584,7 @@ void Menu(){
                 printf(" Mail : ");
                 read_string(mail, NAMESIZE);
                 printf(" Password : ");
-                read_string(name, NAMESIZE);
+                read_string(pwd, NAMESIZE);
                 cleanscr();
                 switch(crea_user(&u, username, forename, name, mail, grade, pwd)){
                     case 1 ://Blacklisted
@@ -524,11 +645,7 @@ void Menu(){
 
 int main()
 {
-    printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
+    //printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
     Menu();
-
-    //User us;
-    //printf("%d", login(&us, "Fryghost", "adminsdf"));
-    //crea_user(&us,"Fryghost", "Valentin", "Frydrychowski", "frydrychowskiv@gmail.com", 10, "admin123");
     return 0;
 }

@@ -65,6 +65,13 @@ void read_string(char* string, int size_str){
     else{
         *enter = '\0';
     }
+    //replace " caractère by ' to secure json files
+    enter =strstr(string, "\"");
+    while (enter != NULL){
+        *enter = '\'';
+        enter = strstr(string, "\"");
+    }
+
 }
 
 

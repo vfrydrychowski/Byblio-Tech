@@ -1,0 +1,9 @@
+{
+    "title" : "Coder en C pour les nulls",
+    "author" : "les nulls",
+    "date" : 2005,
+    "pagenb" : 666,
+    "borrower" : "admin",
+    "owner": "admin",
+    "type" : "education"
+}

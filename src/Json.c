@@ -37,6 +37,7 @@ char* object_path(char* idObject){
 //generic getters for json file
 //TOFREE
 char *get_gen(char* ID, char* arg){
+    //jsmn initialisation
     jsmn_parser p;
     jsmntok_t t[128];
     jsmn_init(&p);
@@ -55,13 +56,14 @@ char *get_gen(char* ID, char* arg){
 
     
     int i =0;
-    while (jsoneq(JSON_STRING, &t[i], arg)!=0 && i<=r){
+    while (jsoneq(JSON_STRING, &t[i], arg)!=0 && i<=r){//we find the token were is arg
         i++;
     }
-    if(i>r){
+    if(i>r){//no occurence of string named arg
         printf("no keys found\n");
         exit(3);
     }
+    //we take the string named arg
     char* dup = strndup(JSON_STRING + t[i+1].start, t[i+1].end - t[i+1].start);//TOFREE
     free(JSON_STRING);
     return dup;
@@ -122,18 +124,23 @@ char** get_gen_table(char* ID, char* arg){
 }
 
 char *tab_to_string(char** tab){
+    //if tab is empty
     if (get_table_size(tab) == 0) return "[]";
+
     char* str = (char*)malloc((sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
     if (str == NULL){
             perror("tab_to_string str MALLOC ERROR");
             exit(1);
         }
+    //array construction
     strcpy(str,"[\"");
     int sizetab = atoi(tab[0]);
+    //we fill the array with tabs elements 
     for (int i =1; i <= sizetab; i++){
         strcat(str, tab[i]);
         strcat(str, "\", \"");
     }
+    //we take all str but the third last characters
     char*temp = strndup(str, strlen(str)-3);
     free(str);
     str = (char*)realloc(temp, (sizeof(char)*IDSIZE+4)*(atoi(tab[0])+1));
@@ -141,12 +148,14 @@ char *tab_to_string(char** tab){
             perror("tab_to_string str MALLOC ERROR");
             exit(1);
         }
+    //we add the last table braket
     strcat(str, "]");
     return str;
 }
 
 void free_table(char** tab){
     int size = atoi(*tab);
+    //for each char pointer in tab
     for(int j = 0; j<= size; j++){
         free(tab[j]);
     }
@@ -240,6 +249,7 @@ char* get_type(char* idObject){
 
 
 void set_gen_string(char*ID, char* arg, char* str){
+    //jsmn initialisation
     jsmn_parser p;
     jsmntok_t t[128];
     jsmn_init(&p);
@@ -400,48 +410,40 @@ int add_us(User user){
     char* id = user_path(i);
     FILE*ptf = fopen(id,"r");
     if (ptf!= NULL) {
-        //fclose(ptf);
         fclose(ptf);
         return 1;
     }
-
-    //add_userlist(i);
     
-
+    //raw json user
     char* JSON_user = "{\n  \"forename\" : \"\",\n  \"name\" : \"\",\n  \"mail\" : \"\",\n  \"borrowlist\" : [],\n  \"possession\" : [],\n  \"grade\" : 0,\n  \"pwd\" : \"\"\n}";
+    //we fill the raw json
     chartojson(id, JSON_user);
     free(id);
     char* forename = uget_forename(user);
     set_forename(i, forename);
-    //free(forename);
     char* name = uget_name(user);
     set_name(i, name);
-    //free(name);
     char* mail = uget_mail(user);
-    //add_usermail(mail);
     set_mail(i, mail);
-    //free(mail);
     char** borrowings = uget_brw(user);
     set_borrowlist(i, borrowings);
-    //free_table(borrowings);
     char** possession = uget_possession(user);
     set_possesion(i, possession);
-    //free_table(possession);
     char* grade = malloc(sizeof(char)*2);
     sprintf(grade,"%d",uget_grade(user));
     set_grade(i, grade);
-    //free(grade);
     char* pwd = uget_cryptedPwd(user);
     set_pwd(i, pwd);
-    //free(pwd);
-    //free(i);
+    free(possession);
+    free(borrowings);
     return 0;
 } 
 
 void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, char* type){
-    //add_objlist(ID);
     char* path =object_path(ID);
+    //raw json object
     char*JSON_obj = "{\n    \"title\" : \"\",\n    \"author\" : \"\",\n    \"date\" : 0,\n    \"pagenb\" : 0,\n    \"borrower\" : \"\",\n    \"owner\": \"\",\n    \"type\" : \"\"\n}";
+    //we fill the raw json whith the infos
     chartojson(path, JSON_obj);
     set_title(ID, title);
     set_author(ID, author);
@@ -458,9 +460,11 @@ void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* o
 }
 
 int suppr_json(char*path){
+    //existence check of the file
     FILE*ptf = fopen(path,"r");
     if (ptf== NULL) return 1;
     fclose(ptf);
+
     remove(path);
     return 0;
 }
@@ -484,14 +488,19 @@ void add_usermail(char*mail){
 
 int add_List(char* path, char* arg){
     char* list=jsontochar(path);
+    //if arg is already in the list
     if (strstr(list, arg) != NULL) return 1;
+
+    //we take all the list but the three last characters
     char* n_list = strndup(list, strlen(list) - 3);
     n_list = realloc(n_list, sizeof(char)*(strlen(list)+strlen(arg)+5));
     if (n_list == NULL){
         perror("add_List n_list MALLOC ERROR");
         exit(1);
     }
+    //we complete the list with arg
     strcat(strcat(strcat(n_list, ", \""), arg), "\"]\n}");
+    //we overwrite the file
     chartojson(path, n_list);
     free(n_list);
     free(list);
@@ -519,7 +528,11 @@ int supr_List(char* path, char* arg){
     char* list = jsontochar(path);
     char* n_list;
     char* argpt = strstr(list, arg);
+
+    //if arg is not in the list
     if (argpt == NULL) return 1;
+
+    //if arg is the sole element in the list
     if (argpt[-2] == '[' && argpt[1 + strlen(arg)] == ']') {
         n_list = "{\n    \"user\" : []\n}";
         chartojson(path, n_list);
@@ -528,17 +541,21 @@ int supr_List(char* path, char* arg){
     }
     else {
         int i = 0;
+        //while i is not at the position of the begining of arg
         while (list + i != argpt) i++;
         int j = 3;
         int g = 1;
-        if (argpt[-2] == '['){
+        if (argpt[-2] == '['){ //if arg is a the beginig of the list
             j = 1;
             g = 3;
         }
+        //we take the entire list execept arg
         n_list = strndup(list, i-j);
         n_list = realloc(n_list, sizeof(char)*strlen(list));
         strcat(n_list, argpt + strlen(arg)+g);
+        //overwriting the file
         chartojson(path, n_list);
+        
         free(n_list);
         free(list);
     }

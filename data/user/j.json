@@ -1,9 +1,0 @@
-{
-  "forename": "john",
-  "name": "Doe",
-  "mail": "johngoe@gmail.com",
-  "borrowlist": [],
-  "possession" : ["1", "444444444"],
-  "grade" : 5,
-  "pwd" : "azertyuiop"
-}

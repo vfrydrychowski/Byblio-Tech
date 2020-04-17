@@ -18,14 +18,20 @@ int cstring_cmp(const void *a, const void *b)
     return strcmp(a2,b2);
 }
 
+
+/*
+	return a table whith books id in odd and books titles in even
+	to get the list of evey titles, name = ""
+*/
 char** search_title(char* name){
     //initialization of index
-    char** tab = get_gen_table("data/object/obj.json", "obj");
+    char** tab = get_gen_table("data/object/obj.json", "obj"); //fill the array with all object ID
     char** index = (char**)malloc(sizeof(char*));
     if (index == NULL){
         perror("malloc index in search_title failed");
         exit(EXIT_FAILURE);
     }
+    //size init of index
     index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     if (index[0] == NULL){
         perror("malloc index[0] in search_title failed");
@@ -77,7 +83,7 @@ char** search_title(char* name){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -173,7 +179,7 @@ char** search_author(char* author){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -225,7 +231,7 @@ char** search_date(char* date){
     sprintf(csize, "%d", size);
     strcpy(index[0], csize);
 
-    //retrieving the book's date that contains name
+    //retrieving the book's dates that contains d    te
     char* d;
     char* title;
     for(int i = 1; i<=get_table_size(tab); i++){
@@ -267,7 +273,7 @@ char** search_date(char* date){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -362,7 +368,7 @@ char** search_type(char* type){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -418,7 +424,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
             printf("                         --------------\n");
             //cleanscr();
         }
-        else if (*query < get_table_size(index) && *query > 0){
+        else if (*query <= get_table_size(index) && *query > 0){ //if the chosen number is a book
             *pos = -4;
             while(*pos == -4){
                 //print the selected object
@@ -434,14 +440,15 @@ void sub_searchM(int* pos, int* query, char** index, User us){
                     
                     case 1://try to borrow
                         switch(borrowing(us, index[*query*2])){
-                            case 1:
+                            case 1://already borrowed
                                 printf(" ----------------------------------------------------------------------\n");
                                 printf("|         Already borrow, sorry, you may connect another day :)        |\n");
                                 printf(" ----------------------------------------------------------------------\n");
+                                *pos = -1;
                                 cleanbuff();
                             break;
 
-                            case 0:
+                            case 0://back
                                 *pos = -3;
                             break;
 
@@ -451,7 +458,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
 
                     break;
 
-                    default:
+                    default://go to books selection
                         *pos = -4;
                     break;
                 }
@@ -469,6 +476,7 @@ void search(User us){
     char* arg = (char*)malloc(sizeof(char)*NAMESIZE);
     strcpy(arg, "");
     char** index;
+    //home's search
     while (pos == -1){
         cleanscr();
         printf(" ----------------------------------------------------------------------\n");
@@ -481,15 +489,15 @@ void search(User us){
         printf("| 2 : Author                                                           |\n");
         printf("| 3 : Date                                                             |\n");
         printf("| 4 : Type                                                             |\n");
+        printf("| 5 : ID                                                               |\n");
         printf(" ----------------------------------------------------------------------\n");
         pos = -2;
         while (pos == -2){
             printf("  Your query : ");
             read_int(&query);
-            //printf("\n%d\n", query);
             switch (query)
             {
-                case 1:
+                case 1://search by title
                     
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted title (to list them all just press enter)   |\n");
@@ -501,7 +509,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
 
-                case 2:
+                case 2://search by author
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted author (to list them all just press enter)  |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -512,7 +520,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
                 
-                case 3:
+                case 3://search by date
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted date (to list them all just press enter)    |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -522,7 +530,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
 
-                case 4:
+                case 4://search by type
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted type (to list them all just press enter)    |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -531,17 +539,78 @@ void search(User us){
                     pos = -3;
                     sub_searchM(&pos, &query, index, us);
                     break;
+
+                case 5://search by id
+                    pos = -3;
+                    char* id = (char*)malloc(sizeof(char)*IDSIZE);
+                    char* objlist;
+                    while(pos == -3){
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("|                     Please enter the wanted ID                       |\n");
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("  ID : ");
+                        read_string(id, IDSIZE);
+                        objlist = jsontochar("data/object/obj.json");//TOFREE
+                        if (strstr(objlist, id) == NULL){//si l'objet n'existe pas
+                            printf("                       This ID does not exist          ");
+                            pos = -2;
+                            cleanbuff();
+                        }
+                        else{
+                            pos = -4;
+                            while(pos == -4){
+                                //print the selected object
+                                printf(" ----------------------------------------------------------------------\n");
+                                printf("|   1 : borrow                                               0 : back  |\n");
+                                printf(" ----------------------------------------------------------------------\n");
+                                print_object(id);
+                                read_int(&pos);
+                                switch (pos){
+                                    case 0:
+                                        pos = -1;
+                                    break;
+                                    
+                                    case 1://try to borrow
+                                        switch(borrowing(us, id)){
+                                            case 1:
+                                                printf(" ----------------------------------------------------------------------\n");
+                                                printf("|         Already borrow, sorry, you may connect another day :)        |\n");
+                                                printf(" ----------------------------------------------------------------------\n");
+                                                cleanbuff();
+                                                pos=-1;
+                                            break;
+
+                                            case 0:
+                                                pos = -1;
+                                            break;
+
+                                            default:
+                                            break;
+                                        }
+
+                                    break;
+
+                                    default:
+                                        pos = -4;
+                                    break;
+                                }
+                            }
+                        }
+                    free(objlist);
+                    }
                     
-                case 0:
+                break;
+
+                case 0://back
                     pos = 1;
                     break;
 
-                default:
+                default://ask a nex query
                     query= -2;
                     break;
             }
         }
     }
-    
+    free(arg);
     
 }

@@ -73,20 +73,19 @@ void set_type(char* idObject, char* type);
 //add user file, return 1 if user already exist 
 int add_us(User user);
 
-
+/*
+ create the json file with the infos passed
+*/
 void add_livre(char*ID, char* title, int pagenb, char* author, int date, char* owner, char* type);
-/*
-         create the json file with the infos passed
-    */
 
+/*
+     delete the json file name by the passed ID
+*/
 int suppr_json(char*path);
-/*
-         delete the json file name by the passed ID
-    */
 
 /*
-         add the given mail to the black list
-    */
+     add the given mail to the black list
+*/
 void add_blackList(char*mail);
 
 /* add obj to the obj list */
@@ -118,6 +117,7 @@ int supr_List(char* path, char* arg);
 //compare the given string with the name of the given token
 int jsoneq(const char *json, jsmntok_t *tok, const char *s);
 
+//find the size of file 
 int findSize(FILE *fp);
 
 
