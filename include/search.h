@@ -14,19 +14,19 @@ char** search_title(char* name);
 	
 /*
 	return a table whith books id in odd and books authors in even
-	to get the list of evey authors, name = ""
+	to get the list of evey authors, author = ""
 */	
 char** search_author(char* author);
 	
 /*
 	return a table whith books id in odd and books date in even
-	to get the list of evey dates, name = ""
+	to get the list of evey dates, date = ""
 */
 char** search_date(char* date);
 
 /*
 	return a table whith books id in odd and books types in even
-	to get the list of evey types, name = ""
+	to get the list of evey types, type = ""
 */
 char** search_type(char* type);
 
