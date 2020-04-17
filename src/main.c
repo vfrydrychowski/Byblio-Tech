@@ -185,9 +185,9 @@ void Menu(){
                                                         printf("|                          Are you sure ?                              |\n");
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿                                        |\n");
-                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⠛⢩⣴⣶⣶⣶⣌⠙⠫⠛⢋⣭⣤⣤⣤⣤⡙⣿⣿⣿⣿⣿⣿   All books that are currently         |\n");
-                                                        printf("|⣿⣿⣿⣿⣿⡟⢡⣾⣿⠿⣛⣛⣛⣛⣛⡳⠆⢻⣿⣿⣿⠿⠿⠷⡌⠻⣿⣿⣿⣿   borrowed by another user             |\n");
-                                                        printf("|⣿⣿⣿⣿⠏⣰⣿⣿⣴⣿⣿⣿⡿⠟⠛⠛⠒⠄⢶⣶⣶⣾⡿⠶⠒⠲⠌⢻⣿⣿   will be lost.                        |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⠛⢩⣴⣶⣶⣶⣌⠙⠫⠛⢋⣭⣤⣤⣤⣤⡙⣿⣿⣿⣿⣿⣿   Think wisely and consider            |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⡟⢡⣾⣿⠿⣛⣛⣛⣛⣛⡳⠆⢻⣿⣿⣿⠿⠿⠷⡌⠻⣿⣿⣿⣿   staying with us                      |\n");
+                                                        printf("|⣿⣿⣿⣿⠏⣰⣿⣿⣴⣿⣿⣿⡿⠟⠛⠛⠒⠄⢶⣶⣶⣾⡿⠶⠒⠲⠌⢻⣿⣿                                        |\n");
                                                         printf("|⣿⣿⠏⣡⢨⣝⡻⠿⣿⢛⣩⡵⠞⡫⠭⠭⣭⠭⠤⠈⠭⠒⣒⠩⠭⠭⣍⠒⠈⠛                                        |\n");
                                                         printf("|⡿⢁⣾⣿⣸⣿⣿⣷⣬⡉⠁⠄⠁⠄⠄⠄⠄⠄⠄⠄⣶⠄⠄⠄⠄⠄⠄⠄⠄⢀                                        |\n");
                                                         printf("|⢡⣾⣿⣿⣿⣿⣿⣿⣿⣧⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣿⣦⣤⣀⣀⣀⣀⠄⣤⣾     1 : Yes        0 : No              |\n");
@@ -206,8 +206,26 @@ void Menu(){
                                                         read_int(&x);
                                                         switch(x){
                                                             case 1:
-                                                                //TODO delete account
+                                                                switch(suppr_us(us)){
+                                                                    case 1:
+                                                                        printf(" ----------------------------------------------------------------------\n");
+                                                                        printf("|             Some of your belongings are currently borrowed           |\n");
+                                                                        printf("|            please get them back before deleting your account         |\n");
+                                                                    break;
+
+                                                                    case 0:
+                                                                        printf(" ----------------------------------------------------------------------\n");
+                                                                        printf("|            Farewell my friends, may your future be bright            |\n");
+                                                                    break;
+
+                                                                    default:
+                                                                    break;
+                                                                }
+                                                                        printf("|                              Press any key                           |\n");
+                                                                        printf(" ----------------------------------------------------------------------\n");
                                                                 pos = -1;
+                                                                getchar();
+                                                                cleanbuff;
                                                             break;
 
                                                             case 0:
@@ -226,23 +244,31 @@ void Menu(){
 
                                                 case 5://lend us a book
                                                     cleanscr();
-                                                    char* title = malloc(sizeof(char*)*NAMESIZE);
-                                                    char* author = malloc(sizeof(char*)*NAMESIZE);
-                                                    char* kind = malloc(sizeof(char*)*NAMESIZE);
-                                                   /*  printf(" ----------------------------------------------------------------------\n");
-                                                    printf("|                      Please enter the book's infos                         |\n");
+                                                    char* title = malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                                    char* author = malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                                    char* kind = malloc(sizeof(char*)*NAMESIZE);//TOFREE
+                                                    int nbpage;
+                                                    int date;
                                                     printf(" ----------------------------------------------------------------------\n");
-                                                    printf(" Username : ");
-                                                    read_string(username, IDSIZE);
-                                                    printf(" Forename : ");
-                                                    read_string(forename, NAMESIZE);
-                                                    printf(" Name : ");
-                                                    read_string(name, NAMESIZE);
-                                                    printf(" Mail : ");
-                                                    read_string(mail, NAMESIZE);
-                                                    printf(" Password : ");
-                                                    read_string(name, NAMESIZE);
-                                                    cleanscr();  */
+                                                    printf("|                      Please enter the book's infos                   |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf(" Title : ");
+                                                    read_string(title, NAMESIZE);
+                                                    printf(" Author : ");
+                                                    read_string(author, NAMESIZE);
+                                                    printf(" Kind : ");
+                                                    read_string(kind, NAMESIZE);
+                                                    printf(" Date : ");
+                                                    read_int(&date);
+                                                    printf(" Number of pages : ");
+                                                    read_int(&nbpage);
+                                                    add_possession(us, title, nbpage, author, date, kind);
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    printf("|                      Sucess, thank you :)           Press any : back |\n");
+                                                    printf(" ----------------------------------------------------------------------\n");
+                                                    getchar();
+                                                    cleanbuff();
+                                                    pos = -2;
 
                                                 break;
 
@@ -352,6 +378,7 @@ void Menu(){
                 free(mail);
                 free(forename);
                 getchar();
+                cleanbuff();
                 pos = -1;
             break;
             
