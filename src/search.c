@@ -18,14 +18,20 @@ int cstring_cmp(const void *a, const void *b)
     return strcmp(a2,b2);
 }
 
+
+/*
+	return a table whith books id in odd and books titles in even
+	to get the list of evey titles, name = ""
+*/
 char** search_title(char* name){
     //initialization of index
-    char** tab = get_gen_table("data/object/obj.json", "obj");
+    char** tab = get_gen_table("data/object/obj.json", "obj"); //fill the array with all object ID
     char** index = (char**)malloc(sizeof(char*));
     if (index == NULL){
         perror("malloc index in search_title failed");
         exit(EXIT_FAILURE);
     }
+    //size init of index
     index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     if (index[0] == NULL){
         perror("malloc index[0] in search_title failed");
@@ -225,7 +231,7 @@ char** search_date(char* date){
     sprintf(csize, "%d", size);
     strcpy(index[0], csize);
 
-    //retrieving the book's date that contains name
+    //retrieving the book's dates that contains d    te
     char* d;
     char* title;
     for(int i = 1; i<=get_table_size(tab); i++){
@@ -418,7 +424,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
             printf("                         --------------\n");
             //cleanscr();
         }
-        else if (*query < get_table_size(index) && *query > 0){
+        else if (*query <= get_table_size(index) && *query > 0){ //if the chosen number is a book
             *pos = -4;
             while(*pos == -4){
                 //print the selected object
@@ -434,7 +440,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
                     
                     case 1://try to borrow
                         switch(borrowing(us, index[*query*2])){
-                            case 1:
+                            case 1://already borrowed
                                 printf(" ----------------------------------------------------------------------\n");
                                 printf("|         Already borrow, sorry, you may connect another day :)        |\n");
                                 printf(" ----------------------------------------------------------------------\n");
@@ -442,7 +448,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
                                 cleanbuff();
                             break;
 
-                            case 0:
+                            case 0://back
                                 *pos = -3;
                             break;
 
@@ -452,7 +458,7 @@ void sub_searchM(int* pos, int* query, char** index, User us){
 
                     break;
 
-                    default:
+                    default://go to books selection
                         *pos = -4;
                     break;
                 }
@@ -470,6 +476,7 @@ void search(User us){
     char* arg = (char*)malloc(sizeof(char)*NAMESIZE);
     strcpy(arg, "");
     char** index;
+    //home's search
     while (pos == -1){
         cleanscr();
         printf(" ----------------------------------------------------------------------\n");
@@ -488,11 +495,9 @@ void search(User us){
         while (pos == -2){
             printf("  Your query : ");
             read_int(&query);
-            //printf("\n%d\n", query);
-            //cleanscr();
             switch (query)
             {
-                case 1:
+                case 1://search by title
                     
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted title (to list them all just press enter)   |\n");
@@ -504,7 +509,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
 
-                case 2:
+                case 2://search by author
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted author (to list them all just press enter)  |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -515,7 +520,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
                 
-                case 3:
+                case 3://search by date
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted date (to list them all just press enter)    |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -525,7 +530,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
 
-                case 4:
+                case 4://search by type
                     printf(" ----------------------------------------------------------------------\n");
                     printf("|  Please enter the wanted type (to list them all just press enter)    |\n");
                     printf(" ----------------------------------------------------------------------\n");
@@ -535,7 +540,7 @@ void search(User us){
                     sub_searchM(&pos, &query, index, us);
                     break;
 
-                case 5:
+                case 5://search by id
                     pos = -3;
                     char* id = (char*)malloc(sizeof(char)*IDSIZE);
                     char* objlist;
@@ -546,7 +551,7 @@ void search(User us){
                         printf("  ID : ");
                         read_string(id, IDSIZE);
                         objlist = jsontochar("data/object/obj.json");//TOFREE
-                        if (strstr(objlist, id) == NULL){
+                        if (strstr(objlist, id) == NULL){//si l'objet n'existe pas
                             printf("                       This ID does not exist          ");
                             pos = -2;
                             cleanbuff();
@@ -591,16 +596,16 @@ void search(User us){
                                 }
                             }
                         }
-
+                    free(objlist);
                     }
                     
                 break;
 
-                case 0:
+                case 0://back
                     pos = 1;
                     break;
 
-                default:
+                default://ask a nex query
                     query= -2;
                     break;
             }
