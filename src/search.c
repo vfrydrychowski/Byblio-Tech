@@ -77,7 +77,7 @@ char** search_title(char* name){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -173,7 +173,7 @@ char** search_author(char* author){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -267,7 +267,7 @@ char** search_date(char* date){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);
@@ -362,7 +362,7 @@ char** search_type(char* type){
 
     //array initialazing
     size = get_table_size(index)*2;
-    char** sep_index = malloc(sizeof(char*)*(size+1));
+    char** sep_index = (char**)malloc(sizeof(char*)*(size+1));
     sprintf(csize, "%d", size);
     sep_index[0] = (char*)malloc(sizeof(char)*IDSIZE);
     strcpy(sep_index[0], csize);

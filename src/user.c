@@ -211,8 +211,7 @@ int suppr_us(User user){
 }
 
 int ban(char* id,User user){
-    User ban = charge_user(id);
-    if (exist_in_list(ban->id,"u") == 0){//check if the user exist
+    if (exist_in_list(id,"u") == 0){//check if the user exist
         if(uget_grade(user)>get_grade(id)){//check if the grade of user is high enough
             User ban = charge_user(id);//charge the struct of the user to ban
             //update of possession an borrow
@@ -228,6 +227,7 @@ int ban(char* id,User user){
             char* path = user_path(id);
             suppr_json(path);
             free(path);
+            free_user(ban);
             return 0;
         }
         else
@@ -240,7 +240,7 @@ int ban(char* id,User user){
         return 1;
     }
     
-    free_user(ban);    
+        
 }
 
 int login(User* util,char* id, char* pwd){
