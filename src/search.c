@@ -481,12 +481,14 @@ void search(User us){
         printf("| 2 : Author                                                           |\n");
         printf("| 3 : Date                                                             |\n");
         printf("| 4 : Type                                                             |\n");
+        printf("| 5 : ID                                                               |\n");
         printf(" ----------------------------------------------------------------------\n");
         pos = -2;
         while (pos == -2){
             printf("  Your query : ");
             read_int(&query);
             //printf("\n%d\n", query);
+            cleanscr();
             switch (query)
             {
                 case 1:
@@ -531,7 +533,68 @@ void search(User us){
                     pos = -3;
                     sub_searchM(&pos, &query, index, us);
                     break;
+
+                case 5:
+                    pos = -3;
+                    char* id = (char*)malloc(sizeof(char)*IDSIZE);
+                    char* objlist;
+                    while(pos == -3){
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("|                     Please enter the wanted ID                       |\n");
+                        printf(" ----------------------------------------------------------------------\n");
+                        printf("  ID : ");
+                        read_string(id, IDSIZE);
+                        objlist = jsontochar("data/object/obj.json");//TOFREE
+                        if (strstr(objlist, id) == NULL){
+                            printf("                       This ID does not exist          ");
+                            pos = -2;
+                            cleanbuff();
+                        }
+                        else{
+                            pos = -4;
+                            while(pos == -4){
+                                //print the selected object
+                                printf(" ----------------------------------------------------------------------\n");
+                                printf("|   1 : borrow                                               0 : back  |\n");
+                                printf(" ----------------------------------------------------------------------\n");
+                                print_object(id);
+                                read_int(&pos);
+                                switch (pos){
+                                    case 0:
+                                        pos = -1;
+                                    break;
+                                    
+                                    case 1://try to borrow
+                                        switch(borrowing(us, id)){
+                                            case 1:
+                                                printf(" ----------------------------------------------------------------------\n");
+                                                printf("|         Already borrow, sorry, you may connect another day :)        |\n");
+                                                printf(" ----------------------------------------------------------------------\n");
+                                                cleanbuff();
+                                                pos=-1;
+                                            break;
+
+                                            case 0:
+                                                pos = -1;
+                                            break;
+
+                                            default:
+                                            break;
+                                        }
+
+                                    break;
+
+                                    default:
+                                        pos = -4;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
                     
+                break;
+
                 case 0:
                     pos = 1;
                     break;
@@ -542,6 +605,6 @@ void search(User us){
             }
         }
     }
-    
+    free(arg);
     
 }

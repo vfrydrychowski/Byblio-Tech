@@ -597,6 +597,7 @@ int change_grade(User user,char* id,int newgrade){
     sprintf(grade, "%d", newgrade);
     set_grade(id,grade);
     free(grade);
+    return 0;
 }
 
 char** duplicate_table(char** tab){
