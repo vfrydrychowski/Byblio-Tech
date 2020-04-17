@@ -236,40 +236,39 @@ int ban(char* id,User user){
 }
 
 int login(User* util,char* id, char* pwd){
-    if(exist_user(id) == 1){
+    if(exist_user(id) == 0){
         return 1;
     }
     char crypwd[PWSIZE];
+    char* pass = get_pwd (id);
     encrypt(pwd, crypwd);
-	if(strcmp (crypwd ,get_pwd (id) ) ){
-        return 2;
+	if(strcmp (crypwd, pass) ){
+        free(pass);
+        return 1;
     }
-
-    else
-    {
-        *util = malloc(sizeof(struct user_s));
-        uset_id(id,*util);
-        char* pointer = get_name(id);
-        uset_forename(pointer,*util);
-        free(pointer);
-        pointer = get_forename(id);
-        uset_name(pointer,*util);
-        free(pointer);
-        pointer = get_mail(id);
-        uset_mail(pointer,*util);
-        free(pointer);
-        char**pointer_tab = get_borrowlist(id);     
-        uset_brw(get_borrowlist(id),*util);
-        free(pointer_tab);
-        uset_grade(get_grade(id),*util);
-        pointer = get_pwd(id);
-        uset_cryptedPwd(pointer,*util);
-        free(pointer);
-        pointer_tab = get_possession(id);
-        uset_possession(get_possession(id),*util);
-        free(pointer_tab);
-        return 0;
-    }
+    free(pass);
+    *util = malloc(sizeof(struct user_s));
+    uset_id(id,*util);
+    char* pointer = get_name(id);
+    uset_forename(pointer,*util);
+    free(pointer);
+    pointer = get_forename(id);
+    uset_name(pointer,*util);
+    free(pointer);
+    pointer = get_mail(id);
+    uset_mail(pointer,*util);
+    free(pointer);
+    char**pointer_tab = get_borrowlist(id);     
+    uset_brw(get_borrowlist(id),*util);
+    free(pointer_tab);
+    uset_grade(get_grade(id),*util);
+    pointer = get_pwd(id);
+    uset_cryptedPwd(pointer,*util);
+    free(pointer);
+    pointer_tab = get_possession(id);
+    uset_possession(get_possession(id),*util);
+    free(pointer_tab);
+    return 0;
 }
 
 User charge_user(char* id){
@@ -404,7 +403,9 @@ void return_back_all(User util){
 
 void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
     time_t t = time(NULL);
-    char* idObject = ctime(&t);
+    char* time = ctime(&t);
+    char* idObject ;
+    strncpy(idObject,time,24);
     char** pos = uget_possession(user);
 	int size = get_table_size(pos);
 
@@ -421,6 +422,7 @@ void add_possession(User user,char* name, int pagenb, char* author, int date, ch
     strcpy(nv_pos[size+1],idObject);
 
     add_livre(idObject, name, pagenb, author, date, user->id,kind);
+    add_objlist(idObject);
     set_possesion(user->id, duplicate_table(nv_pos));
     uset_possession(nv_pos,user);
     free_table(pos);
@@ -461,7 +463,8 @@ int suppr_possession(char* idObject, User user){
     uset_possession(duplicate_table(nv_pos), user);
     char* path = object_path(idObject);
     suppr_json(path);
-    free(path);  
+    free(path); 
+    supr_objlist(idObject); 
     set_possesion(user->id, nv_pos);
 
     free_table(pos);
@@ -482,6 +485,7 @@ void suppr_all_possession(User user){
         char* path = object_path(pos[j]);
         suppr_json(path);
         free(path); 
+        supr_objlist(pos[j]);
     }
     free_table(pos);
 
@@ -508,6 +512,45 @@ void encrypt(char* pwd,char* crypwd){
         crypwd[i] = (char)((cle+p)%95+32);
     }
     crypwd[strlen(pwd)] = '\0';
+}
+
+int new_pwd(User user, char* pwd, char* nv_pwd){
+    char crypwd[PWSIZE];
+    char* pass = get_pwd(user->id);
+    encrypt(pwd, crypwd);
+	if(strcmp (crypwd , pass ) ){
+        free(pass);
+        return 1;
+    }
+    free(pass);
+    encrypt(nv_pwd,crypwd);
+    set_pwd(user->id, crypwd);
+    return 0;
+}
+
+int new_username(User user,char* new_username){
+    if (exist_in_list(new_username,"u") == 0){
+        return 1;
+    }
+    supr_userlist(user->id);
+    add_userlist(new_username);
+    char* path = user_path(user->id);
+    suppr_json(path);
+    free(path);
+    uset_id(new_username, user);
+    add_us(user);
+    
+    char** possession = uget_possession(user);
+    char** borrow = uget_brw(user);
+    
+    int size = get_table_size(possession);
+    for (int i = 1; i <= size; i++){
+        set_owner(possession[i],new_username);
+    }
+    size = get_table_size(borrow);
+    for (int i = 1; i <= size; i++){
+        set_borrower(borrow[i],new_username);
+    }
 }
 
 char** duplicate_table(char** tab){
