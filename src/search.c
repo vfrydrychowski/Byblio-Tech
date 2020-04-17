@@ -6,6 +6,7 @@
 #include "../include/search.h"
 #include "../include/Json.h"
 #include "../include/SISO.h"
+#include "../include/user.h"
 
 
 /* qsort C-string comparison function */ 
@@ -392,8 +393,9 @@ char** search_type(char* type){
 }
 
 
-void sub_searchM(int* pos, int* query, char** index){
+void sub_searchM(int* pos, int* query, char** index, User us){
     while(*pos == -3){
+        cleanscr();
         //print the found list
         printf(" ----------------------------------------------------------------------\n");
         printf("|  Select one, to rule them all                              0 : back  |\n");
@@ -421,18 +423,37 @@ void sub_searchM(int* pos, int* query, char** index){
             while(*pos == -4){
                 //print the selected object
                 printf(" ----------------------------------------------------------------------\n");
-                printf("|                                                            0 : back  |\n");
+                printf("|   1 : borrow                                               0 : back  |\n");
                 printf(" ----------------------------------------------------------------------\n");
                 print_object(index[*query*2]);
                 read_int(pos);
                 switch (*pos){
                     case 0:
                         *pos = -3;
-                        break;
-                                
+                    break;
+                    
+                    case 1://try to borrow
+                        switch(borrowing(us, index[*query*2])){
+                            case 1:
+                                printf(" ----------------------------------------------------------------------\n");
+                                printf("|         Already borrow, sorry, you may connect another day :)        |\n");
+                                printf(" ----------------------------------------------------------------------\n");
+                                cleanbuff();
+                            break;
+
+                            case 0:
+                                *pos = -3;
+                            break;
+
+                            default:
+                            break;
+                        }
+
+                    break;
+
                     default:
                         *pos = -4;
-                        break;
+                    break;
                 }
             }
         }
@@ -442,13 +463,14 @@ void sub_searchM(int* pos, int* query, char** index){
     }
 }
 
-void search(){
+void search(User us){
     int query = -1;
     int pos = -1;
     char* arg = (char*)malloc(sizeof(char)*NAMESIZE);
     strcpy(arg, "");
     char** index;
     while (pos == -1){
+        cleanscr();
         printf(" ----------------------------------------------------------------------\n");
         printf("|             Welcome to the quantum search algorithme!!               |\n");
         printf(" ----------------------------------------------------------------------\n");
@@ -476,7 +498,7 @@ void search(){
                     read_string(arg, NAMESIZE);
                     index = search_title(arg);
                     pos = -3;
-                    sub_searchM(&pos, &query, index);
+                    sub_searchM(&pos, &query, index, us);
                     break;
 
                 case 2:
@@ -487,7 +509,7 @@ void search(){
                     read_string(arg, NAMESIZE);
                     index = search_author(arg);
                     pos = -3;
-                    sub_searchM(&pos, &query, index);
+                    sub_searchM(&pos, &query, index, us);
                     break;
                 
                 case 3:
@@ -497,7 +519,7 @@ void search(){
                     read_string(arg, NAMESIZE);
                     index = search_date(arg);
                     pos = -3;
-                    sub_searchM(&pos, &query, index);
+                    sub_searchM(&pos, &query, index, us);
                     break;
 
                 case 4:
@@ -507,12 +529,11 @@ void search(){
                     read_string(arg, NAMESIZE);
                     index = search_type(arg);
                     pos = -3;
-                    sub_searchM(&pos, &query, index);
+                    sub_searchM(&pos, &query, index, us);
                     break;
                     
                 case 0:
                     pos = 1;
-                    printf("                             Goodbye\n");
                     break;
 
                 default:

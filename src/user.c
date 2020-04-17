@@ -137,9 +137,7 @@ int crea_user(User* util, char* id, char* forename, char* name, char* mail, int 
         return 3;
     }
     else{
-        printf("ok\n");
         *util= malloc(sizeof(struct user_s));//alloue le pointeur *util
-        printf("ok\n");
         //fill the struct
         uset_id(id,*util);
         uset_forename(forename,*util);
@@ -418,6 +416,7 @@ void return_back_all(User util){
     uset_brw(duplicate_table(nv_brw), util);
     set_borrowlist(util->id, nv_brw);
 
+
 }
 
 void add_possession(User user,char* name, int pagenb, char* author, int date, char* kind){
@@ -599,6 +598,7 @@ int change_grade(User user,char* id,int newgrade){
     sprintf(grade, "%d", newgrade);
     set_grade(id,grade);
     free(grade);
+    return 0;
 }
 
 char** duplicate_table(char** tab){

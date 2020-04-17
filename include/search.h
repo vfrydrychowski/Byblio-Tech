@@ -1,5 +1,6 @@
 #ifndef __SEARCHH__
 	#define __SEARCHH__
+	#include "../include/user.h"
 
 
 /* qsort C-string comparison function */ 
@@ -24,6 +25,6 @@ char** search_date(char* date);
 /*
 	start the search module
 */	
-void search();
+void search(User us);
 	
 #endif
