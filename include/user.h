@@ -49,8 +49,8 @@ int possession_borrow(User user);
 	*/
 int exist_in_list(char* substring,char* listname);
 	/*
-	return 1 if there is an occurence of subtring in the list
-	else return 0
+	return 0 if there is an occurence of subtring in the list
+	else return 1
 	*/
 int suppr_us(User user);
 	/*
@@ -121,11 +121,21 @@ int suppr_possession(char* idObject, User user);
 	*/
 
 void encrypt(char* pwd, char* crypwd);
-
 	/*
 	encrypt pwd and put it in crywd
 	*/
+int new_pwd(User user, char* pwd, char* nv_pwd);
+	/*
+	change the crypted password in the user's json
+	return 0 if everything goes well
+	return 1 if pwd do not match whith the password in the json
+	*/
+int new_username(User user,char* new_username);
+	/*
 
+	return 0 if everything goes well
+	return 1 if an other user as already new_usermane as id
+	*/
 char** duplicate_table(char** tab);
 	/*
 	dupilcate tab of ID using a malloc

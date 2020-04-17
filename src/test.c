@@ -37,6 +37,22 @@ void print_User(User user){
 
 int main()
 {
+    User current_user;
+    /*int i = crea_user(&current_user,"007","james","bond","jamesbong@gmail.com",1,"motdepasse");
+    //printf("%d\n",i);
+    //print_User(current_user);
+    //logout(current_user);  */ 
+    int i = login(&current_user,"007","motdepasse");
+    suppr_all_possession(current_user);
+    /*printf("%d\n",i);
+    add_possession(current_user, "The name of the Wind", 549, "Patrick Rothfus", 2007,"fantasy novel");
+    scanf("%d",&i);
+    add_possession(current_user, "The Wise Man's Fear", 549, "Patrick Rothfus", 2011,"fantasy novel");
+    scanf("%d",&i);
+    add_possession(current_user, "The Music of Silence", 218, "Patrick Rothfus", 2014,"fantasy novel");
+    //i = new_username(current_user,"007");
+    printf("%d\n",i);
+    print_User(current_user);*/
     /*char* path = user_path("007");
     suppr_json(path);
     free(path);*/
