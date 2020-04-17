@@ -9,6 +9,23 @@
 #include "../include/SISO.h"
 #include "../include/user.h"
 
+int retry(){
+    printf("                          retry?\n");
+    printf("                1 : yes                 0 : no\n");
+    printf("  :  ");
+    int x=0;
+    read_int(&x);
+    switch(x){
+        case 1:
+            return -2;
+        break;
+
+        default :
+            return -1;
+        break;
+    } 
+}
+
 void Menu(){
     int x = 0;
     int pos = -1;
@@ -41,7 +58,7 @@ void Menu(){
                     printf("\n  Password : ");
                     read_string(pwd, PWSIZE);
                     printf("\n");
-                    switch (login(username, pwd, &us)){
+                    switch (login(&us, username, pwd)){
                         case 0:
                             pos = -3;
                             while(pos==-3){
@@ -147,8 +164,9 @@ void Menu(){
                                             printf("|                                                                      |\n");
                                             printf("|                        0 : Back                                      |\n");
                                             printf(" ----------------------------------------------------------------------\n");
-
+                                            printf("Choice : ");
                                             x=-1;
+                                            read_int(&x);
                                             switch(x){
                                                 case 1:
                                                     //TODO change username
@@ -159,26 +177,26 @@ void Menu(){
                                                 break;
 
                                                 case 3:
-                                                    pos =4 ;
+                                                    pos = -4 ;
                                                     while(pos == -4){
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("|                          Are you sure ?                              |\n");
                                                         printf(" ----------------------------------------------------------------------\n");
-                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿                                 |\n");
-                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⠛⢩⣴⣶⣶⣶⣌⠙⠫⠛⢋⣭⣤⣤⣤⣤⡙⣿⣿⣿⣿⣿⣿   All books that are currently  |\n");
-                                                        printf("|⣿⣿⣿⣿⣿⡟⢡⣾⣿⠿⣛⣛⣛⣛⣛⡳⠆⢻⣿⣿⣿⠿⠿⠷⡌⠻⣿⣿⣿⣿   borrowed by another user      |\n");
-                                                        printf("|⣿⣿⣿⣿⠏⣰⣿⣿⣴⣿⣿⣿⡿⠟⠛⠛⠒⠄⢶⣶⣶⣾⡿⠶⠒⠲⠌⢻⣿⣿   will be lost.                 |\n");
-                                                        printf("|⣿⣿⠏⣡⢨⣝⡻⠿⣿⢛⣩⡵⠞⡫⠭⠭⣭⠭⠤⠈⠭⠒⣒⠩⠭⠭⣍⠒⠈⠛                                 |\n");
-                                                        printf("|⡿⢁⣾⣿⣸⣿⣿⣷⣬⡉⠁⠄⠁⠄⠄⠄⠄⠄⠄⠄⣶⠄⠄⠄⠄⠄⠄⠄⠄⢀                                 |\n");
-                                                        printf("|⢡⣾⣿⣿⣿⣿⣿⣿⣿⣧⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣿⣦⣤⣀⣀⣀⣀⠄⣤⣾     1 : Yes        0 : No       |\n");
-                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⡶⢇⣰⣿⣿⣟⠿⠿⠿⠿⠟⠁⣾⣿⣿                                 |\n");
-                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⡟⢛⡛⠿⠿⣿⣧⣶⣶⣿⣿⣿⣿⣿⣷⣼⣿⣿⣿⣧⠸⣿⣿                                 |\n");
-                                                        printf("|⠘⢿⣿⣿⣿⣿⣿⡇⢿⡿⠿⠦⣤⣈⣙⡛⠿⠿⠿⣿⣿⣿⣿⠿⠿⠟⠛⡀⢻⣿                                 |\n");
-                                                        printf("|⠄⠄⠉⠻⢿⣿⣿⣷⣬⣙⠳⠶⢶⣤⣍⣙⡛⠓⠒⠶⠶⠶⠶⠖⢒⣛⣛⠁⣾⣿                                 |\n");
-                                                        printf("|⠄⠄⠄⠄⠄⠈⠛⠛⠿⠿⣿⣷⣤⣤⣈⣉⣛⣛⣛⡛⠛⠛⠿⠿⠿⠟⢋⣼⣿⣿                                 |\n");
-                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠉⣻⣿⣿⣿⣿⡿⠿⠛⠃⠄⠙⠛⠿⢿⣿                                 |\n");
-                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢬⣭⣭⡶⠖⣢⣦⣀⠄⠄⠄⠄⢀⣤⣾⣿                                 |\n");
-                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣶⣶⣶⣾⣿⣿⣿⣿⣷⡄⠄⢠⣾⣿⣿⣿                                 |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿                                        |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⠛⢩⣴⣶⣶⣶⣌⠙⠫⠛⢋⣭⣤⣤⣤⣤⡙⣿⣿⣿⣿⣿⣿   All books that are currently         |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⡟⢡⣾⣿⠿⣛⣛⣛⣛⣛⡳⠆⢻⣿⣿⣿⠿⠿⠷⡌⠻⣿⣿⣿⣿   borrowed by another user             |\n");
+                                                        printf("|⣿⣿⣿⣿⠏⣰⣿⣿⣴⣿⣿⣿⡿⠟⠛⠛⠒⠄⢶⣶⣶⣾⡿⠶⠒⠲⠌⢻⣿⣿   will be lost.                        |\n");
+                                                        printf("|⣿⣿⠏⣡⢨⣝⡻⠿⣿⢛⣩⡵⠞⡫⠭⠭⣭⠭⠤⠈⠭⠒⣒⠩⠭⠭⣍⠒⠈⠛                                        |\n");
+                                                        printf("|⡿⢁⣾⣿⣸⣿⣿⣷⣬⡉⠁⠄⠁⠄⠄⠄⠄⠄⠄⠄⣶⠄⠄⠄⠄⠄⠄⠄⠄⢀                                        |\n");
+                                                        printf("|⢡⣾⣿⣿⣿⣿⣿⣿⣿⣧⡀⠄⠄⠄⠄⠄⠄⠄⢀⣠⣿⣦⣤⣀⣀⣀⣀⠄⣤⣾     1 : Yes        0 : No              |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⡶⢇⣰⣿⣿⣟⠿⠿⠿⠿⠟⠁⣾⣿⣿                                        |\n");
+                                                        printf("|⣿⣿⣿⣿⣿⣿⣿⡟⢛⡛⠿⠿⣿⣧⣶⣶⣿⣿⣿⣿⣿⣷⣼⣿⣿⣿⣧⠸⣿⣿                                        |\n");
+                                                        printf("|⠘⢿⣿⣿⣿⣿⣿⡇⢿⡿⠿⠦⣤⣈⣙⡛⠿⠿⠿⣿⣿⣿⣿⠿⠿⠟⠛⡀⢻⣿                                        |\n");
+                                                        printf("|⠄⠄⠉⠻⢿⣿⣿⣷⣬⣙⠳⠶⢶⣤⣍⣙⡛⠓⠒⠶⠶⠶⠶⠖⢒⣛⣛⠁⣾⣿                                        |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠈⠛⠛⠿⠿⣿⣷⣤⣤⣈⣉⣛⣛⣛⡛⠛⠛⠿⠿⠿⠟⢋⣼⣿⣿                                        |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠉⣻⣿⣿⣿⣿⡿⠿⠛⠃⠄⠙⠛⠿⢿⣿                                        |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢬⣭⣭⡶⠖⣢⣦⣀⠄⠄⠄⠄⢀⣤⣾⣿                                        |\n");
+                                                        printf("|⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣶⣶⣶⣾⣿⣿⣿⣿⣷⡄⠄⢠⣾⣿⣿⣿                                        |\n");
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("  Choice : ");
 
@@ -190,7 +208,7 @@ void Menu(){
                                                                 pos = -1;
                                                             break;
 
-                                                            case 2:
+                                                            case 0:
                                                                 pos = -3;
                                                             break;
 
@@ -231,25 +249,21 @@ void Menu(){
 
 
                         break;
+                        //error processing
+                        case 1:
+                            printf("                      --------------\n");
+                            printf("                     | No such user |\n");
+                            printf("                      --------------\n");
+                            pos = retry();
+                        break;
 
+                        case 2:
+                            printf("                      ----------------\n");
+                            printf("                     | Wrong password |\n");
+                            printf("                      ----------------\n");
+                            pos = retry();
                         default:
                             pos = -1;
-                            //error processing
-                            /* printf("                          retry?\n");
-                            printf("                1 : yes                 0 : no\n");
-                            printf("  : ");
-                            x=0;
-                            read_int(&x);
-                            switch(x){
-                                case 1:
-                                    pos = -2;
-                                    break;
-
-                                default :
-                                    pos = -1;
-                                    break;
-                            } */
-
                         break;
                     }
                 }
@@ -283,5 +297,7 @@ int main()
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
     Menu();
+    //User us;
+    //crea_user(&us,"Fryghost", "Valentin", "Frydrychowski", "frydrychowskiv@gmail.com", 10, "admin123");
     return 0;
 }
