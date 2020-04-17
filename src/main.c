@@ -167,7 +167,6 @@ void Menu(){
                                             read_int(&x);
                                             if(x==0){
                                                 pos = -3;
-                                                free_table(poss);
                                             }
                                             else if(x < get_table_size(poss) && x > 0){
                                                 pos = -5;
@@ -204,7 +203,7 @@ void Menu(){
                                                             }
                                                             printf("|                              Press any key                           |\n");
                                                             printf(" ----------------------------------------------------------------------\n");
-                                                            getchar();
+                                                            cleanbuff();
                                                             pos = -2;
                                                         break;
 
@@ -214,6 +213,7 @@ void Menu(){
 
                                                 }
                                             }
+                                            free_table(poss);
                                         
                                     break;
 
@@ -346,7 +346,7 @@ void Menu(){
                                                                     printf("|                              Press any key                           |\n");
                                                                     printf(" ----------------------------------------------------------------------\n");
                                                                 pos = -1;
-                                                                getchar();
+                                                                cleanbuff();
                                                             break;
 
                                                             case 0:
@@ -387,7 +387,7 @@ void Menu(){
                                                     printf(" ----------------------------------------------------------------------\n");
                                                     printf("|                      Sucess, thank you :)           Press any : back |\n");
                                                     printf(" ----------------------------------------------------------------------\n");
-                                                    getchar();
+                                                    cleanbuff();
                                                     pos = -2;
 
                                                 break;
@@ -499,7 +499,7 @@ void Menu(){
                 free(pwd);
                 free(mail);
                 free(forename);
-                getchar();
+                cleanbuff();
                 pos = -1;
             break;
             
@@ -526,6 +526,7 @@ int main()
 {
     printf("rose are red\nviolets are blue\nthis main is on the edge\nof a new and wonderfull youth\n");
     Menu();
+
     //User us;
     //printf("%d", login(&us, "Fryghost", "adminsdf"));
     //crea_user(&us,"Fryghost", "Valentin", "Frydrychowski", "frydrychowskiv@gmail.com", 10, "admin123");
