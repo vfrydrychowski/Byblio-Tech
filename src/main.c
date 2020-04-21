@@ -107,7 +107,7 @@ void Menu(){
                                             for (int i = 1; i<= get_table_size(brlist); i++){
                                                 title = get_title(brlist[i]);
                                                 author = get_author(brlist[i]);
-                                                printf("  %d, : %s   *   %s\n", i, title, author);
+                                                printf("  %d : %s   *   %s\n", i, title, author);
                                                 free(title);
                                                 free(author);
                                             }
