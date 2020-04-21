@@ -246,6 +246,7 @@ void Menu(){
                                                         printf(" ----------------------------------------------------------------------\n");
                                                         printf("       Your current username is : %s\n", uget_id(us));
                                                         printf(" ----------------------------------------------------------------------\n");
+                                                        print_user(uget_id(us));
                                                         printf("  New user name : ");
                                                         read_string(username, IDSIZE);
                                                         switch(new_username(us, username)){

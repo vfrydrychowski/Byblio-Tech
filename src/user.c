@@ -259,10 +259,10 @@ int login(User* util,char* id, char* pwd){
     *util = malloc(sizeof(struct user_s));//alloue le pointeur *util
     //fill the struct with json's data
     uset_id(id,*util);
-    char* pointer = get_name(id);
+    char* pointer = get_forename(id);
     uset_forename(pointer,*util);
     free(pointer);
-    pointer = get_forename(id);
+    pointer = get_name(id);
     uset_name(pointer,*util);
     free(pointer);
     pointer = get_mail(id);
