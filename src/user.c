@@ -541,7 +541,7 @@ void encrypt(char* pwd,char* crypwd){
     //crypte the password
     for(int i = 0; i < strlen(pwd); i++){
         int p = pwd[i] -32;
-        crypwd[i] = (char)((cle+p)%95+32);
+        crypwd[i] = (char)((cle*(i+1)+p)%95+32);
     }
     crypwd[strlen(pwd)] = '\0';
 }
